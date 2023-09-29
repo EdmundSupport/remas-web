@@ -1,0 +1,9 @@
+1:N, uuid, session_type_uuid, session_type, session
+1:N, uuid, user_uuid, user, session
+1:N, uuid, role_uuid, role, user
+N:N, uuid, uuid, role, privilege, permission
+N:N, uuid, uuid, role, module, permission
+N:N, uuid, uuid, privilege, module, permission
+1:N, uuid, role_uuid, role, permission
+1:N, uuid, privilege_uuid, privilege, permission
+1:N, uuid, module_uuid, module, permission
