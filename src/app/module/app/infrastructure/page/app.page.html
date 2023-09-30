@@ -1,0 +1,10 @@
+<p>
+<div *ngIf="authService.onLogInLoading$ | async; else content">
+  <mat-spinner></mat-spinner>
+  <div class="spinner"></div>
+</div>
+<ng-template #content>
+  <div>
+    <button mat-raised-button color="primary" (click)="onVerify()">Verificar Token</button>
+  </div>
+</ng-template>

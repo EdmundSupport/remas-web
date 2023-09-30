@@ -1,0 +1,36 @@
+<mat-grid-list cols="2" rowHeight="1:1">
+  <mat-grid-tile>
+    <div>
+      <p>
+        <h1>
+          Inicio de Sesion
+        </h1>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre de usuario</mat-label>
+          <input [(ngModel)]="logIn.userName" matInput placeholder="Nombre de usuario">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Contraseña</mat-label>
+          <input [(ngModel)]="logIn.userPassword" matInput placeholder="Contraseña">
+        </mat-form-field>
+      </p>
+      <p>
+        <div *ngIf="authService.onLogInLoading$ | async; else content">
+          <mat-spinner></mat-spinner>
+          <div class="spinner"></div>
+        </div>
+        <ng-template #content>
+          <div>
+            <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button>
+          </div>
+        </ng-template>
+      <p>
+        <button mat-button color="accent" routerLink="auth">Registrarme</button>
+      </p>  
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
+</mat-grid-list>
