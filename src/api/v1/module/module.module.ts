@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
-import { ExpirenmentModule } from ".";
+import { AAAModule } from "./aaa";
 @Module({
     imports: [
-        ExpirenmentModule,
+        AAAModule,
     ],
     exports: [
-        ExpirenmentModule,
+        AAAModule,
     ],
 })
 export class ModuleModule { }

@@ -1,4 +1,4 @@
-import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module } from "src/datasource/remas/shared";
+import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module } from "src/api/v1/datasource/remas/shared";
 import { AaaConnectionHelper } from "../helper";
 
 export const aaaConnectionProvider = [

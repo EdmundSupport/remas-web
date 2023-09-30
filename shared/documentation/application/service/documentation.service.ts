@@ -18,7 +18,7 @@ export class DocumentationService {
                     type: 'http', // I`ve attempted type: 'apiKey' too
                     in: 'Header'
                 },
-                'access-token', // This name here is important for matching up with @ApiBearerAuth() in your controller!
+                'token-access', // This name here is important for matching up with @ApiBearerAuth() in your controller!
             )
             .build();
 

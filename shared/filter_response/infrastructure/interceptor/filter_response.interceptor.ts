@@ -2,11 +2,11 @@ import { ExceptionFilter, Catch, ArgumentsHost, HttpException, ExecutionContext,
 import { Request, Response } from 'express';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { FilterResponseHelper } from 'shared/filter_response/application/helper/filter_response.helper';
+import { ConsoleColorEnum } from 'shared/log';
 import { LogHelper } from 'shared/log/application/helper/log.helper';
 
 export class FilterResponseInterceptor implements NestInterceptor {
     catch(exception: HttpException, host: ArgumentsHost) {
-        console.log("🚀 ~ file: filter_response.interceptor.ts:9 ~ FilterResponseInterceptor ~ exception:")
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
@@ -28,6 +28,8 @@ export class FilterResponseInterceptor implements NestInterceptor {
 
         return handler.handle().pipe(
             map((body: Observable<any>) => {
+                console.group(ConsoleColorEnum.white, new Date().toLocaleString(), ConsoleColorEnum.green, `[SUCCESS]`, `[${request.method}]`, `[${request.originalUrl}]`,  `[${response.statusCode}]`);
+                console.groupEnd();
                 return {
                     statusCode: response.statusCode,
                     message: response.message,
