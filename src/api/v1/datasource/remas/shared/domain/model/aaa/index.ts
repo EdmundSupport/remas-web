@@ -1,4 +1,5 @@
 export * from './token_disabled';
+export * from './user_person';
 export * from './binnacle';
 export * from './module';
 export * from './permission';

@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 import { Session } from './session';
 import { Role } from './role';
+import { UserPerson } from './user_person';
 
 export interface UserAttributes {
   uuid?: string;
@@ -76,4 +77,7 @@ export class User
 
   @BelongsTo(() => Role)
   role?: Role;
+
+  @HasMany(() => UserPerson, { sourceKey: 'uuid' })
+  userPerson?: UserPerson[];
 }
