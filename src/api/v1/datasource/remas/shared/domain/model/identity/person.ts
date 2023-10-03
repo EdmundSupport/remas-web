@@ -38,6 +38,7 @@ export class Person
   uuid?: string;
 
   @Column({ allowNull: true, type: DataType.DECIMAL(65) })
+  @Index({ name: 'person_un', using: 'btree', unique: true })
   number?: string;
 
   @Column({ field: 'name_first', allowNull: true, type: DataType.STRING })
