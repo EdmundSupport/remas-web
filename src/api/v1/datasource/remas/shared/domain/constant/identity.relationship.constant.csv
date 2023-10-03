@@ -1,0 +1,2 @@
+1:N, uuid, tribute_uuid, tribute, company
+1:N, uuid, company_uuid, company, branch
