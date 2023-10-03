@@ -64,7 +64,4 @@ export class ProductType
 
   @HasMany(() => Product, { sourceKey: 'uuid' })
   products?: Product[];
-
-  @HasMany(() => Product, { sourceKey: 'uuid' })
-  products?: Product[];
 }

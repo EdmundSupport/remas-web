@@ -6,8 +6,10 @@ import {
   Index,
   Sequelize,
   ForeignKey,
+  BelongsTo,
   HasMany,
 } from 'sequelize-typescript';
+import { Measure } from './measure';
 import { ProductPrice } from './product_price';
 
 export interface MeasureUnitAttributes {
@@ -54,6 +56,7 @@ export class MeasureUnit
   })
   factorConversion?: string;
 
+  @ForeignKey(() => MeasureUnit)
   @Column({ field: 'parent_uuid', allowNull: true, type: DataType.UUID })
   @Index({
     name: 'measure_unit_parent_uuid_idx',
@@ -62,6 +65,7 @@ export class MeasureUnit
   })
   parentUuid?: string;
 
+  @ForeignKey(() => Measure)
   @Column({ field: 'measure_uuid', allowNull: true, type: DataType.UUID })
   @Index({
     name: 'measure_unit_measure_uuid_idx',
@@ -92,6 +96,15 @@ export class MeasureUnit
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
+
+  @BelongsTo(() => Measure)
+  measure?: Measure;
+
+  @HasMany(() => MeasureUnit, { sourceKey: 'uuid' })
+  measureUnits?: MeasureUnit[];
+
+  @BelongsTo(() => MeasureUnit)
+  measureUnit?: MeasureUnit;
 
   @HasMany(() => ProductPrice, { sourceKey: 'uuid' })
   productPrices?: ProductPrice[];

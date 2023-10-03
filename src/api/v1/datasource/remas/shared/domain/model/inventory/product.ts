@@ -9,7 +9,6 @@ import {
   HasMany,
   BelongsTo,
 } from 'sequelize-typescript';
-import { Product } from './product';
 import { Measure } from './measure';
 import { ProductType } from './product_type';
 import { ProductPrice } from './product_price';
@@ -105,9 +104,6 @@ export class Product
 
   @BelongsTo(() => Measure)
   measure?: Measure;
-
-  @BelongsTo(() => ProductType)
-  productType?: ProductType;
 
   @BelongsTo(() => ProductType)
   productType?: ProductType;

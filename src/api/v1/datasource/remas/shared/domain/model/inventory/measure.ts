@@ -7,11 +7,9 @@ import {
   Sequelize,
   ForeignKey,
   HasMany,
-  BelongsTo,
 } from 'sequelize-typescript';
 import { Product } from './product';
-import { MeasureUuid } from './measure_uuid';
-import { Measure } from './measure';
+import { MeasureUnit } from './measure_unit';
 
 export interface MeasureAttributes {
   uuid?: string;
@@ -68,12 +66,6 @@ export class Measure
   @HasMany(() => Product, { sourceKey: 'uuid' })
   products?: Product[];
 
-  @HasMany(() => MeasureUuid, { sourceKey: 'uuid' })
-  measureUuids?: MeasureUuid[];
-
-  @HasMany(() => Measure, { sourceKey: 'uuid' })
-  measures?: Measure[];
-
-  @BelongsTo(() => Measure)
-  measure?: Measure;
+  @HasMany(() => MeasureUnit, { sourceKey: 'uuid' })
+  measureUnits?: MeasureUnit[];
 }
