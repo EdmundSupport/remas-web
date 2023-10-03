@@ -1,4 +1,4 @@
-import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module } from "src/api/v1/datasource/remas/shared";
+import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module, UserPerson } from "src/api/v1/datasource/remas/shared";
 
 export const aaaConnectionProvider = [
     { provide: 'TOKEN_DISABLED_REPOSITORY', useValue: TokenDisabled },
@@ -9,6 +9,7 @@ export const aaaConnectionProvider = [
     { provide: 'ROLE_REPOSITORY', useValue: Role },
     { provide: 'PRIVILEGE_REPOSITORY', useValue: Privilege },
     { provide: 'MODULE_REPOSITORY', useValue: Module },
+    { provide: 'USER_PERSON_REPOSITORY', useValue: UserPerson },
 ]
 
 export const aaaModels = [
@@ -19,4 +20,5 @@ export const aaaModels = [
     Permission,
     Privilege,
     Module,
+    UserPerson,
 ]
