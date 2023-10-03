@@ -1,0 +1,3 @@
+1:N, uuid, country_uuid, country, province
+1:N, uuid, province_uuid, province, city
+1:N, uuid, city_uuid, city, address
