@@ -12,6 +12,7 @@ export class ConnectionHelper {
 
     init(schema: string) {
         return {
+            name: schema == 'aaa' ? undefined : schema,
             dialect: this.config.get('REMAS_DIALECT'),
             host: this.config.get<string>('REMAS_HOST'),
             port: this.config.get<number>('REMAS_PORT'),
@@ -26,3 +27,70 @@ export class ConnectionHelper {
         };
     }
 }
+
+@Injectable()
+export class AaaConnectionHelper implements SequelizeOptionsFactory {
+  @Inject(ConfigService)
+  private readonly configService: ConfigService;
+  
+  public createSequelizeOptions(): SequelizeModuleOptions {
+    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_AAA'));
+    return connectionHelperWithSchema;
+  }
+}
+
+@Injectable()
+export class LocationConnectionHelper implements SequelizeOptionsFactory {
+  @Inject(ConfigService)
+  private readonly configService: ConfigService;
+  
+  public createSequelizeOptions(): SequelizeModuleOptions {
+    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_LOCATION'));
+    return connectionHelperWithSchema;
+  }
+}
+
+@Injectable()
+export class IdentityConnectionHelper implements SequelizeOptionsFactory {
+  @Inject(ConfigService)
+  private readonly configService: ConfigService;
+  
+  public createSequelizeOptions(): SequelizeModuleOptions {
+    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_IDENTITY'));
+    return connectionHelperWithSchema;
+  }
+}
+
+@Injectable()
+export class InventoryConnectionHelper implements SequelizeOptionsFactory {
+  @Inject(ConfigService)
+  private readonly configService: ConfigService;
+  
+  public createSequelizeOptions(): SequelizeModuleOptions {
+    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_INVENTORY'));
+    return connectionHelperWithSchema;
+  }
+}
+
+@Injectable()
+export class GuatemalaConnectionHelper implements SequelizeOptionsFactory {
+  @Inject(ConfigService)
+  private readonly configService: ConfigService;
+  
+  public createSequelizeOptions(): SequelizeModuleOptions {
+    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_GUATEMALA'));
+    return connectionHelperWithSchema;
+  }
+}
+
+@Injectable()
+export class BillingConnectionHelper implements SequelizeOptionsFactory {
+  @Inject(ConfigService)
+  private readonly configService: ConfigService;
+  
+  public createSequelizeOptions(): SequelizeModuleOptions {
+    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_BILLING'));
+    return connectionHelperWithSchema;
+  }
+}
+

@@ -1,8 +1,6 @@
 import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module } from "src/api/v1/datasource/remas/shared";
-import { AaaConnectionHelper } from "../helper";
 
 export const aaaConnectionProvider = [
-    // AaaConnectionHelper,
     { provide: 'TOKEN_DISABLED_REPOSITORY', useValue: TokenDisabled },
     { provide: 'SESSION_TYPE_REPOSITORY', useValue: SessionType },
     { provide: 'SESSION_REPOSITORY', useValue: Session },
@@ -13,7 +11,7 @@ export const aaaConnectionProvider = [
     { provide: 'MODULE_REPOSITORY', useValue: Module },
 ]
 
-export const models = [
+export const aaaModels = [
     SessionType,
     Session,
     User,
