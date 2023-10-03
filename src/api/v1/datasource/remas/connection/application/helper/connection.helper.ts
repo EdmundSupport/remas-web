@@ -40,12 +40,12 @@ export class AaaConnectionHelper implements SequelizeOptionsFactory {
 }
 
 @Injectable()
-export class LocationConnectionHelper implements SequelizeOptionsFactory {
+export class ContactConnectionHelper implements SequelizeOptionsFactory {
   @Inject(ConfigService)
   private readonly configService: ConfigService;
   
   public createSequelizeOptions(): SequelizeModuleOptions {
-    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_LOCATION'));
+    const connectionHelperWithSchema = new ConnectionHelper(this.configService).init(this.configService.get<string>('REMAS_CONTACT'));
     return connectionHelperWithSchema;
   }
 }
