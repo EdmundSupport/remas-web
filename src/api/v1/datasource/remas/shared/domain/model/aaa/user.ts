@@ -37,6 +37,7 @@ export class User
   uuid?: string;
 
   @Column({ allowNull: true, type: DataType.STRING })
+  @Index({ name: 'user_un', using: 'btree', unique: true })
   name?: string;
 
   @Column({ allowNull: true, type: DataType.STRING })
