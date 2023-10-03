@@ -23,7 +23,7 @@ export interface PersonAttributes {
   updatedAt?: Date;
 }
 
-@Table({ tableName: 'person', timestamps: false })
+@Table({ schema: 'identity', tableName: 'person', timestamps: false })
 export class Person
   extends Model<PersonAttributes, PersonAttributes>
   implements PersonAttributes

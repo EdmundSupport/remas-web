@@ -1,4 +1,5 @@
 import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module, UserPerson } from "src/api/v1/datasource/remas/shared";
+import { Person } from "../../../shared/domain/model/identity";
 
 export const aaaConnectionProvider = [
     { provide: 'TOKEN_DISABLED_REPOSITORY', useValue: TokenDisabled },
@@ -21,4 +22,5 @@ export const aaaModels = [
     Privilege,
     Module,
     UserPerson,
+    Person,
 ]

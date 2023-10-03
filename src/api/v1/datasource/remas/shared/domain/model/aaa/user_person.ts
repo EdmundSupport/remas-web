@@ -6,8 +6,8 @@ import {
   Index,
   Sequelize,
   ForeignKey,
-  BelongsTo,
 } from 'sequelize-typescript';
+import { Person } from './../identity/person';
 import { User } from './user';
 
 export interface UserPersonAttributes {
@@ -38,6 +38,7 @@ export class UserPerson
   @Index({ name: 'user_person_user_uuid_idx', using: 'btree', unique: false })
   userUuid?: string;
 
+  @ForeignKey(() => Person)
   @Column({ field: 'person_uuid', allowNull: true, type: DataType.UUID })
   @Index({ name: 'user_person_person_uuid_idx', using: 'btree', unique: false })
   personUuid?: string;
@@ -64,7 +65,4 @@ export class UserPerson
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
-
-  @BelongsTo(() => User)
-  user?: User;
 }

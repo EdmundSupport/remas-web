@@ -7,4 +7,4 @@ N:N, uuid, uuid, privilege, module, permission
 1:N, uuid, role_uuid, role, permission
 1:N, uuid, privilege_uuid, privilege, permission
 1:N, uuid, module_uuid, module, permission
-1:N, uuid, user_uuid, user, user_person
+N:N, uuid, uuid, user, "identity.person", user_person

@@ -8,9 +8,11 @@ import {
   ForeignKey,
   HasMany,
   BelongsTo,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { Session } from './session';
 import { Role } from './role';
+import { Person } from './../identity/person';
 import { UserPerson } from './user_person';
 
 export interface UserAttributes {
@@ -78,6 +80,6 @@ export class User
   @BelongsTo(() => Role)
   role?: Role;
 
-  @HasMany(() => UserPerson, { sourceKey: 'uuid' })
-  userPerson?: UserPerson[];
+  @BelongsToMany(() => Person, () => UserPerson)
+  persons?: Person[];
 }
