@@ -13,22 +13,8 @@ import { Client } from './client';
 import { QuotationStatus } from './quotation_status';
 import { QuotationDetail } from './quotation_detail';
 
-export interface QuotationAttributes {
-  uuid?: string;
-  number?: string;
-  date?: Date;
-  clientUuid?: string;
-  quotationStatusUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'quotation', timestamps: false })
-export class Quotation
-  extends Model<QuotationAttributes, QuotationAttributes>
-  implements QuotationAttributes
-{
+export class Quotation extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

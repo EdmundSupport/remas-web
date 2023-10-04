@@ -1,3 +1,4 @@
 1:N, uuid, client_uuid, client, quotation
 1:N, uuid, quotation_status_uuid, quotation_status, quotation
 1:N, uuid, quotation_uuid, quotation, quotation_detail
+1:N, uuid, tribute_uuid, identity.tribute, client

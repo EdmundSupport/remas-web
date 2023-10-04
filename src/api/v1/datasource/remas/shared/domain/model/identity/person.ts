@@ -8,26 +8,8 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-export interface PersonAttributes {
-  uuid?: string;
-  number?: string;
-  nameFirst?: string;
-  nameSecond?: string;
-  nameOther?: string;
-  surnameFirst?: string;
-  surnameSecond?: string;
-  surnameOther?: string;
-  birthday?: Date;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-@Table({ schema: 'identity', tableName: 'person', timestamps: false })
-export class Person
-  extends Model<PersonAttributes, PersonAttributes>
-  implements PersonAttributes
-{
+@Table({ tableName: 'person', timestamps: false })
+export class Person extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

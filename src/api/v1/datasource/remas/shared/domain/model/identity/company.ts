@@ -12,20 +12,8 @@ import {
 import { Tribute } from './tribute';
 import { Branch } from './branch';
 
-export interface CompanyAttributes {
-  uuid?: string;
-  name?: string;
-  tributeUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-@Table({ tableName: 'company', timestamps: false })
-export class Company
-  extends Model<CompanyAttributes, CompanyAttributes>
-  implements CompanyAttributes
-{
+@Table({ schema: 'identity', tableName: 'company', timestamps: false })
+export class Company extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

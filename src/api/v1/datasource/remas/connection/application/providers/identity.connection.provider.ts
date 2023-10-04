@@ -1,3 +1,4 @@
+import { Client, Quotation, QuotationDetail, QuotationStatus } from "../../../shared/domain/model/billing"
 import { Branch, Company, Person, Tribute } from "../../../shared/domain/model/identity"
 
 export const identityConnectionProvider = [
@@ -12,4 +13,8 @@ export const identityModels = [
     Company,
     Branch,
     Person,
+    Client,
+    Quotation,
+    QuotationStatus,
+    QuotationDetail,
 ]

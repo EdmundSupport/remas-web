@@ -6,7 +6,7 @@ import { BillingConnectionHelper, GuatemalaConnectionHelper, IdentityConnectionH
 import { identityConnectionProvider, identityModels } from "./application/providers/identity.connection.provider";
 import { inventoryModels } from "./application/providers/inventory.connection.provider";
 import { guatemalaModels } from "./application/providers/guatemala.connection.provider";
-import { billingModels } from "./application/providers/billing.connection.provider";
+import { billingConnectionProvider, billingModels } from "./application/providers/billing.connection.provider";
 import { contactModels } from "./application/providers/contact.connection.provider";
 
 @Module({
@@ -32,10 +32,12 @@ import { contactModels } from "./application/providers/contact.connection.provid
     providers: [
         ...aaaConnectionProvider,
         ...identityConnectionProvider,
+        ...billingConnectionProvider,
     ],
     exports: [
         ...aaaConnectionProvider,
         ...identityConnectionProvider,
+        ...billingConnectionProvider,
     ]
 })
 export class ConnectionModule { }

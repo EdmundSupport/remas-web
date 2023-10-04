@@ -10,20 +10,8 @@ import {
 } from 'sequelize-typescript';
 import { Quotation } from './quotation';
 
-export interface QuotationStatusAttributes {
-  uuid?: string;
-  keyName?: string;
-  name?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'quotation_status', timestamps: false })
-export class QuotationStatus
-  extends Model<QuotationStatusAttributes, QuotationStatusAttributes>
-  implements QuotationStatusAttributes
-{
+export class QuotationStatus extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

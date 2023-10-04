@@ -10,20 +10,8 @@ import {
 } from 'sequelize-typescript';
 import { Company } from './company';
 
-export interface BranchAttributes {
-  uuid?: string;
-  name?: string;
-  companyUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'branch', timestamps: false })
-export class Branch
-  extends Model<BranchAttributes, BranchAttributes>
-  implements BranchAttributes
-{
+export class Branch extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

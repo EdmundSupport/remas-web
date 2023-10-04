@@ -9,21 +9,10 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { Company } from './company';
+import { Client } from './../billing';
 
-export interface TributeAttributes {
-  uuid?: string;
-  code?: string;
-  countryUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-@Table({ tableName: 'tribute', timestamps: false })
-export class Tribute
-  extends Model<TributeAttributes, TributeAttributes>
-  implements TributeAttributes
-{
+@Table({ schema: 'identity', tableName: 'tribute', timestamps: false })
+export class Tribute extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -36,7 +25,14 @@ export class Tribute
   @Column({ allowNull: true, type: DataType.STRING })
   code?: string;
 
-  @Column({ field: 'country_uuid', allowNull: true, type: DataType.UUID })
+  @Column({
+    field: 'country_uuid',
+    allowNull: true,
+    type: DataType.UUID,
+    defaultValue: Sequelize.literal(
+      "'76b29a9f-09d2-4df2-8924-60ae25d65b27'::uuid",
+    ),
+  })
   @Index({ name: 'tribute_country_uuid_idx', using: 'btree', unique: false })
   countryUuid?: string;
 
@@ -65,4 +61,7 @@ export class Tribute
 
   @HasMany(() => Company, { sourceKey: 'uuid' })
   companies?: Company[];
+
+  @HasMany(() => Client, { sourceKey: 'uuid' })
+  clients?: Client[];
 }

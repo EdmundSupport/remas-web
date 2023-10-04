@@ -7,22 +7,13 @@ import {
   Sequelize,
   ForeignKey,
   HasMany,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Quotation } from './quotation';
-
-export interface ClientAttributes {
-  uuid?: string;
-  tributeUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import { Tribute } from './../identity';
 
 @Table({ tableName: 'client', timestamps: false })
-export class Client
-  extends Model<ClientAttributes, ClientAttributes>
-  implements ClientAttributes
-{
+export class Client extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -32,6 +23,7 @@ export class Client
   @Index({ name: 'client_uuid_idx', using: 'btree', unique: false })
   uuid?: string;
 
+  @ForeignKey(() => Tribute)
   @Column({ field: 'tribute_uuid', allowNull: true, type: DataType.UUID })
   @Index({ name: 'client_tribute_uuid_idx', using: 'btree', unique: false })
   tributeUuid?: string;
@@ -61,4 +53,7 @@ export class Client
 
   @HasMany(() => Quotation, { sourceKey: 'uuid' })
   quotations?: Quotation[];
+
+  @BelongsTo(() => Tribute)
+  tributes?: Tribute;
 }

@@ -8,19 +8,8 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-export interface SupplierAttributes {
-  uuid?: string;
-  tributeUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'supplier', timestamps: false })
-export class Supplier
-  extends Model<SupplierAttributes, SupplierAttributes>
-  implements SupplierAttributes
-{
+export class Supplier extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

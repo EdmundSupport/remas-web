@@ -10,25 +10,8 @@ import {
 } from 'sequelize-typescript';
 import { Quotation } from './quotation';
 
-export interface QuotationDetailAttributes {
-  uuid?: string;
-  amount?: string;
-  description?: string;
-  price?: string;
-  quotationUuid?: string;
-  productUuid?: string;
-  measureUnitUuid?: string;
-  priceCategoryUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'quotation_detail', timestamps: false })
-export class QuotationDetail
-  extends Model<QuotationDetailAttributes, QuotationDetailAttributes>
-  implements QuotationDetailAttributes
-{
+export class QuotationDetail extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

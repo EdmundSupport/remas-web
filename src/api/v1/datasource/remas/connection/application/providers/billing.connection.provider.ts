@@ -1,4 +1,5 @@
 import { Client, Quotation, QuotationDetail, QuotationStatus } from "../../../shared/domain/model/billing"
+import { Branch, Company, Tribute } from "../../../shared/domain/model/identity"
 
 export const billingConnectionProvider = [
     { provide: 'CLIENT_REPOSITORY', useValue: Client },
@@ -12,4 +13,7 @@ export const billingModels = [
     QuotationStatus,
     Quotation,
     QuotationDetail,
+    Tribute,
+    Company,
+    Branch,
 ]
