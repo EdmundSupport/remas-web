@@ -12,21 +12,8 @@ import { Role } from './role';
 import { Privilege } from './privilege';
 import { Module } from './module';
 
-export interface PermissionAttributes {
-  uuid?: string;
-  roleUuid?: string;
-  moduleUuid?: string;
-  privilegeUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'permission', timestamps: false })
-export class Permission
-  extends Model<PermissionAttributes, PermissionAttributes>
-  implements PermissionAttributes
-{
+export class Permission extends Model {
   @ForeignKey(() => Module)
   @Column({
     primaryKey: true,

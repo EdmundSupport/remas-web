@@ -1,14 +1,20 @@
-import { User as DatasourceUser } from "src/api/v1/datasource"
+import { User } from "src/api/v1/datasource"
 
-export type UserInterface = Partial<DatasourceUser>;
-
-export class VerifyUserExistsInterface {
+export class UserNameExistsInterface {
     userName: string;
-    users?: UserInterface[];
+    source?: User[] | Promise<User[]>
 }
 
 export class SignInInterface {
-    user: UserInterface;
+    nameFirst: string;
+    nameSecond?: string;
+    nameOther?: string;
+    surnameFirst: string;
+    surnameSecond?: string;
+    surnameOther?: string;
+    birthday?: Date;
+    password: string;
+
 }
 
 export class LogInInterface {

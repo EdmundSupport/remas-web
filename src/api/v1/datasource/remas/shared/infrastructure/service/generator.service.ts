@@ -54,7 +54,8 @@ const env = {};
             output: {
                 clean: true,
                 outDir: modelPath
-            }
+            },
+            strict: false,
         };
 
         const dialect = env['REMAS_DIALECT'] == 'postgres' ? new DialectPostgres() : new DialectPostgres();

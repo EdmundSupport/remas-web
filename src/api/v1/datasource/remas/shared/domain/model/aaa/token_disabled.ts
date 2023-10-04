@@ -8,18 +8,8 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-export interface TokenDisabledAttributes {
-  uuid?: string;
-  token?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'token_disabled', timestamps: false })
-export class TokenDisabled
-  extends Model<TokenDisabledAttributes, TokenDisabledAttributes>
-  implements TokenDisabledAttributes
-{
+export class TokenDisabled extends Model {
   @Column({
     allowNull: true,
     type: DataType.UUID,

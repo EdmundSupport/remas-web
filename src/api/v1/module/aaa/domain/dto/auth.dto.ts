@@ -1,11 +1,37 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsDate, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class SignInDto {
     @IsString()
-    name?: string;
+    @IsNotEmpty()
+    nameFirst: string;
 
     @IsString()
-    password?: string;
+    @IsOptional()
+    nameSecond?: string;
+
+    @IsString()
+    @IsOptional()
+    nameOther?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    surnameFirst: string;
+
+    @IsString()
+    @IsOptional()
+    surnameSecond?: string;
+
+    @IsString()
+    @IsOptional()
+    surnameOther?: string;
+
+    @IsDate()
+    @IsOptional()
+    birthday?: Date;
+
+    @IsString()
+    @IsNotEmpty()
+    password: string;
 }
 
 export class LogInDto {

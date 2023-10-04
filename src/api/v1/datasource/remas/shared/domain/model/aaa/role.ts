@@ -14,20 +14,8 @@ import { Privilege } from './privilege';
 import { Permission } from './permission';
 import { Module } from './module';
 
-export interface RoleAttributes {
-  uuid?: string;
-  keyName?: string;
-  name?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'role', timestamps: false })
-export class Role
-  extends Model<RoleAttributes, RoleAttributes>
-  implements RoleAttributes
-{
+export class Role extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

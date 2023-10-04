@@ -10,21 +10,8 @@ import {
 } from 'sequelize-typescript';
 import { Session } from './session';
 
-export interface SessionTypeAttributes {
-  uuid?: string;
-  keyName?: string;
-  name?: string;
-  time?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'session_type', timestamps: false })
-export class SessionType
-  extends Model<SessionTypeAttributes, SessionTypeAttributes>
-  implements SessionTypeAttributes
-{
+export class SessionType extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

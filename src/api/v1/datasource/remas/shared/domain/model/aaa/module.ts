@@ -13,20 +13,8 @@ import { Role } from './role';
 import { Permission } from './permission';
 import { Privilege } from './privilege';
 
-export interface ModuleAttributes {
-  uuid?: string;
-  keyName?: string;
-  name?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'module', timestamps: false })
-export class Module
-  extends Model<ModuleAttributes, ModuleAttributes>
-  implements ModuleAttributes
-{
+export class Module extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

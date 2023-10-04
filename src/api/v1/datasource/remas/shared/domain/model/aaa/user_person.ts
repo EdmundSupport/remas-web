@@ -6,24 +6,13 @@ import {
   Index,
   Sequelize,
   ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
-import { Person } from './../identity/person';
 import { User } from './user';
-
-export interface UserPersonAttributes {
-  uuid?: string;
-  userUuid?: string;
-  personUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import { Person } from '../identity';
 
 @Table({ tableName: 'user_person', timestamps: false })
-export class UserPerson
-  extends Model<UserPersonAttributes, UserPersonAttributes>
-  implements UserPersonAttributes
-{
+export class UserPerson extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -65,4 +54,7 @@ export class UserPerson
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
+
+  @BelongsTo(() => User)
+  user?: User;
 }

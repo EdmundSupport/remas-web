@@ -22,7 +22,7 @@ export class AuthController {
 
     @Post('sign-in')
     signIn(@Body() data: SignInDto) {
-        return this.authService.signIn({ user: data });
+        return this.authService.signIn(data);
     }
 
     @Post('log-in')

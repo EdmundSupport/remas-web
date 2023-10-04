@@ -11,21 +11,8 @@ import {
 import { SessionType } from './session_type';
 import { User } from './user';
 
-export interface SessionAttributes {
-  uuid?: string;
-  userUuid?: string;
-  sessionTypeUuid?: string;
-  token?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'session', timestamps: false })
-export class Session
-  extends Model<SessionAttributes, SessionAttributes>
-  implements SessionAttributes
-{
+export class Session extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

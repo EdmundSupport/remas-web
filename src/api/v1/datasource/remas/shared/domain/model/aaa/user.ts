@@ -12,24 +12,11 @@ import {
 } from 'sequelize-typescript';
 import { Session } from './session';
 import { Role } from './role';
-import { Person } from './../identity/person';
 import { UserPerson } from './user_person';
-
-export interface UserAttributes {
-  uuid?: string;
-  name?: string;
-  password?: string;
-  condition?: boolean;
-  roleUuid?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import { Person } from '../identity';
 
 @Table({ tableName: 'user', timestamps: false })
-export class User
-  extends Model<UserAttributes, UserAttributes>
-  implements UserAttributes
-{
+export class User extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -82,4 +69,7 @@ export class User
 
   @BelongsToMany(() => Person, () => UserPerson)
   persons?: Person[];
+
+  @HasMany(() => UserPerson, { sourceKey: 'uuid' })
+  userPersons?: UserPerson[];
 }

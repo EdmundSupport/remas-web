@@ -1,20 +1,24 @@
 import { Inject } from "@nestjs/common";
-import { Role, Session, SessionType, TokenDisabled, User } from "src/api/v1/datasource";
-import { LogInInterface, SignInInterface, TokenConfigInterface } from "../../domain";
+import { Role, Session, SessionType, User, UserPerson } from "src/api/v1/datasource";
+import { LogInInterface, SignInInterface } from "../../domain";
 import { AuthHelper } from "../helper";
 import { hashSync, compareSync } from 'bcrypt';
 import { ConfigService } from "@nestjs/config";
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { JwtService } from "@nestjs/jwt";
-import { Op } from "sequelize";
+import { Op, Optional } from "sequelize";
 import { StructureHashTable } from "shared/structure/application/hash/structure.hash_table";
 import { FilterResponseHelper } from "shared/filter_response/application/helper/filter_response.helper";
+import { Person } from "src/api/v1/datasource/remas/shared/domain/model/identity";
+import { NullishPropertiesOf } from "sequelize/types/utils";
 
 export class AuthService {
     constructor(
         @Inject('USER_REPOSITORY')
         private userService: typeof User,
+        @Inject('PERSON_REPOSITORY')
+        private personService: typeof Person,
         private authHelper: AuthHelper,
         private jwtService: JwtService,
         private configService: ConfigService,
@@ -30,14 +34,32 @@ export class AuthService {
         private roleService: typeof Role,
     ) { }
 
-    async signIn({ user }: SignInInterface) {
-        const hash = this.configService.get('HASH');
-        user.password = await hashSync(user.password, hash);
-        await this.authHelper.userExists({ userName: user.name });
+    async signIn(data: SignInInterface) {
+        const user: Partial<User> = {};
+        const person: Partial<Person> = {
+            nameFirst: data.nameFirst,
+            nameSecond: data.nameSecond,
+            nameOther: data.nameOther,
+            surnameFirst: data.surnameFirst,
+            surnameSecond: data.surnameSecond,
+            surnameOther: data.surnameOther,
+        };
+
+        const userName = this.authHelper.userNameBuild(data);
+        await this.authHelper.userNameExists({ userName });
         const role = await this.roleService.findOne({ where: { keyName: 'public' } });
         if (!role) throw FilterResponseHelper.httpException('AMBIGUOUS', `No existe el rol publico, por favor, contacta al administrador.`);
+
+        const hash = this.configService.get('HASH');
+        user.name = userName;
+        user.password = await hashSync(data.password, hash);
         user.roleUuid = role.uuid;
-        const userNew = await this.userService.create(user);
+        const personNew = await this.personService.create(person);
+        const userPersons: Partial<UserPerson>[] = [
+            { personUuid: personNew.uuid }
+        ];
+        const userNew = await this.userService.create({...user, userPersons: userPersons}, { include: [{model: UserPerson, attributes: []}] });
+
         delete userNew.dataValues.password;
         return userNew;
     }
