@@ -58,7 +58,7 @@ export class AuthService {
         const userPersons: Partial<UserPerson>[] = [
             { personUuid: personNew.uuid }
         ];
-        const userNew = await this.userService.create({...user, userPersons: userPersons}, { include: [{model: UserPerson, attributes: []}] });
+        const userNew = await this.userService.create({ ...user, userPersons: userPersons }, { include: [{ model: UserPerson }] });
 
         delete userNew.dataValues.password;
         return userNew;
