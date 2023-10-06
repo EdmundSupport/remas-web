@@ -1,8 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { QuotationComponent } from "./infrastructure/component/quotation.component";
+import { AuthGuard } from "src/app/shared/auth/infrastructure/guard/auth.guard";
 
 const routes: Routes = [
-    // { path: '', component: AppComponent, canActivate: [AuthGuard] },
+    { path: '', component: QuotationComponent, canActivate: [AuthGuard] },
     { path: '**', redirectTo: '' },
 ];
 @NgModule({
@@ -13,4 +15,4 @@ const routes: Routes = [
         RouterModule,
     ]
 })
-export class TemplateRoutingModule { }
+export class QuotationRoutingModule { }

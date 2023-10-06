@@ -5,7 +5,7 @@ import { AuthGuard } from './shared/auth/infrastructure/guard/auth.guard';
 const routes: Routes = [
   {
     path: 'app/quotation',
-    loadChildren: () => import('./module/app/app.module').then((m) => m.AppModule),
+    loadChildren: () => import('./module/quotation/quotation.module').then((m) => m.QuotationModule),
     canActivate: [AuthGuard]
   },
   {

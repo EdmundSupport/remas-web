@@ -1,12 +1,16 @@
-import { Component } from "@angular/core";
+import {
+    Component,
+} from '@angular/core';
 
 @Component({
-    selector: 'app-template',
-    templateUrl: '../page/template.page.html',
-    styleUrls: ['../style/template.style.scss']
+    selector: 'app-quotation',
+    templateUrl: '../page/quotation.page.html',
+    styleUrls: ['../style/quotation.style.scss'],
 })
-export class AppComponent {
+export class QuotationComponent {
     constructor() { }
 
-    ngOnInit() { }
+    ngOnInit(){
+        
+    }
 }
