@@ -1,6 +1,9 @@
 import {
     Component,
 } from '@angular/core';
+import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
+import { subDays, startOfDay, addDays, endOfMonth, addHours } from 'date-fns';
+import { colors } from 'src/app/shared/color/domain/constant/color.constant';
 
 @Component({
     selector: 'app-quotation',
@@ -8,6 +11,65 @@ import {
     styleUrls: ['../style/quotation.style.scss'],
 })
 export class QuotationComponent {
+    title: string = 'Cotizaciones';
+    actions: CalendarEventAction[] = [
+        {
+            label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+            a11yLabel: 'Edit',
+            onClick: ({ event }: { event: CalendarEvent }): void => {
+                console.log("🚀 ~ file: quotation.component.ts:19 ~ QuotationComponent ~ event:", event);
+            },
+        },
+        {
+            label: '<i class="fas fa-fw fa-trash-alt"></i>',
+            a11yLabel: 'Delete',
+            onClick: ({ event }: { event: CalendarEvent }): void => {
+                console.log("🚀 ~ file: quotation.component.ts:26 ~ QuotationComponent ~ event:", event)
+            },
+        },
+    ];
+
+    events: CalendarEvent[] = [
+        {
+            start: subDays(startOfDay(new Date()), 1),
+            end: addDays(new Date(), 1),
+            title: 'A 3 day event',
+            color: { ...colors['red'] },
+            actions: this.actions,
+            allDay: true,
+            resizable: {
+                beforeStart: true,
+                afterEnd: true,
+            },
+            draggable: true,
+        },
+        {
+            start: startOfDay(new Date()),
+            title: 'An event with no end date',
+            color: { ...colors['yellow'] },
+            actions: this.actions,
+        },
+        {
+            start: subDays(endOfMonth(new Date()), 3),
+            end: addDays(endOfMonth(new Date()), 3),
+            title: 'A long event that spans 2 months',
+            color: { ...colors['blue'] },
+            allDay: true,
+        },
+        {
+            start: addHours(startOfDay(new Date()), 2),
+            end: addHours(new Date(), 2),
+            title: 'A draggable and resizable event',
+            color: { ...colors['yellow'] },
+            actions: this.actions,
+            resizable: {
+                beforeStart: true,
+                afterEnd: true,
+            },
+            draggable: true,
+        },
+    ];
+
     constructor() { }
 
     ngOnInit(){
