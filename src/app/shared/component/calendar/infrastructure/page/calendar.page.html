@@ -1,34 +1,37 @@
 <div class="header">
-    <div class="date-range-management">
-        <button mat-button color="primary">
-            <div mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-                (viewDateChange)="closeOpenMonthViewDay()">
-                Next
-            </div>
-        </button>
-        <div mwlCalendarToday [(viewDate)]="viewDate">Today</div>
-        <button mat-button color="primary">
-            <div mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                Next
-            </div>
-        </button>
-    </div>
     <div class="title">
-        <h2>{{title}} {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h2>
+        <h2>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h2>
     </div>
-    <div class="view-type-management">
-        <button mat-button color="primary" (click)="setView(CalendarView.Month)"
-            [class.active]="view === CalendarView.Month">
-            Month
-        </button>
-        <button mat-button color="primary" (click)="setView(CalendarView.Week)"
-            [class.active]="view === CalendarView.Week">
-            Week
-        </button>
-        <button mat-button color="primary" (click)="setView(CalendarView.Day)"
-            [class.active]="view === CalendarView.Day">
-            Day
-        </button>
+    <div class="management">
+        <div class="date-range-management">
+            <button mat-button color="primary">
+                <div mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Next
+                </div>
+            </button>
+            <div mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+            <button mat-button color="primary">
+                <div mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Next
+                </div>
+            </button>
+        </div>
+        <div class="view-type-management">
+            <button mat-button color="primary" (click)="setView(CalendarView.Month)"
+                [class.active]="view === CalendarView.Month">
+                Month
+            </button>
+            <button mat-button color="primary" (click)="setView(CalendarView.Week)"
+                [class.active]="view === CalendarView.Week">
+                Week
+            </button>
+            <button mat-button color="primary" (click)="setView(CalendarView.Day)"
+                [class.active]="view === CalendarView.Day">
+                Day
+            </button>
+        </div>
     </div>
 </div>
 <br />

@@ -102,6 +102,8 @@ export class CalendarComponent {
     }
 
     handleEvent(action: string, event: CalendarEvent): void {
+        console.log("🚀 ~ file: calendar.component.ts:105 ~ CalendarComponent ~ handleEvent ~ event:", event)
+        console.log("🚀 ~ file: calendar.component.ts:105 ~ CalendarComponent ~ handleEvent ~ action:", action)
         this.modalData = { event, action };
         // this.modal.open(this.modalContent, { size: 'lg' });
     }

@@ -1,27 +1,30 @@
 .header {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    padding: 20px;
 
-    .date-range-management {
+    .title {
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex: 1;
-    }
-
-    .title{
-        display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
     }
 
-    .view-type-management {
+    .management {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: right;
-        flex: 1;
+
+        .date-range-management {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .view-type-management {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: right;
+        }
     }
 }
