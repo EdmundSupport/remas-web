@@ -8,12 +8,14 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ResponseInterceptor } from './shared/auth/infrastructure/interceptor/response.interceptor';
 import { AuthInterceptor } from './shared/auth/infrastructure/interceptor/auth.interceptor';
+import { ToolBarComponent } from './shared/component/tool_bar/infrastructure/component/tool_bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
+    ToolBarComponent,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -38,6 +38,7 @@ export class ResponseInterceptor implements HttpInterceptor {
                 const urlsExclude = [
                     'auth/refresh',
                     'auth/logout',
+                    'auth/log-in',
                 ];
                 const isUrlExcluded = urlsExclude.reduce((isUrlExcluded, urlExclude) => isUrlExcluded ? isUrlExcluded : error.url.indexOf(urlExclude) != -1, false);
                 if (error.status === 401 && !isUrlExcluded) {
