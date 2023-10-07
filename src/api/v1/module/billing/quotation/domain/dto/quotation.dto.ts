@@ -1,29 +1,29 @@
 import { Type } from "class-transformer";
-import { IsArray, IsNumber, IsString, ValidateNested, IsDate } from "class-validator";
+import { IsArray, IsNumber, IsString, ValidateNested, IsDate, IsOptional } from "class-validator";
 
-export class CreateDto{
+export class CreateDto {
     @IsNumber()
-    number: number; 
-    
+    number: number;
+
     @IsDate()
-    date: Date; 
+    date: Date;
 
     @IsString()
-    clientUuid: string; 
+    clientUuid: string;
 
-    @ValidateNested({each: true})
-    @Type(()=>CreateDetailDto)
+    @ValidateNested({ each: true })
+    @Type(() => CreateDetailDto)
     @IsArray()
     quotationDetails: CreateDetailDto[]
 }
 
-export class CreateDetailDto{
+export class CreateDetailDto {
     @IsNumber()
     amount: number;
 
     @IsString()
     description: string;
-    
+
     @IsNumber()
     price: number;
 
@@ -36,3 +36,16 @@ export class CreateDetailDto{
     @IsString()
     priceCategoryUuid: string;
 }
+
+export class PaginationDto {
+    @IsOptional()
+    @IsNumber()
+    limit?: number;
+
+    @IsOptional()
+    @IsNumber()
+    offset?: number;
+}
+
+export class FindDto extends PaginationDto { }
+

@@ -1,6 +1,7 @@
 import { Injectable, Inject } from "@nestjs/common";
-import { Quotation, QuotationDetail } from "src/api/v1/datasource/remas/shared/domain/model/billing";
-import { CreateInterface } from "../../domain";
+import { Client, Quotation, QuotationDetail } from "src/api/v1/datasource/remas/shared/domain/model/billing";
+import { CreateInterface, FindInterface } from "../../domain";
+
 
 @Injectable()
 export class QuotationService {
@@ -17,6 +18,17 @@ export class QuotationService {
             quotationDetails: data.quotationDetails
         }, {
             include: [{ model: QuotationDetail }]
+        })
+    }
+
+    findAll(data: FindInterface) {
+        const pagination = { limit: data.limit, offset: data.offset };
+        delete data.limit;
+        delete data.offset;
+        return this.quotationService.findAll({
+            // where: {data},
+            include: [{ model: Client }],
+            ...pagination,
         })
     }
 }

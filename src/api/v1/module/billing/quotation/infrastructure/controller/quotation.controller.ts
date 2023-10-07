@@ -1,7 +1,7 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { QuotationService } from "../../application/service";
 import { ApiTags } from "@nestjs/swagger";
-import { CreateDto } from "../../domain/dto/quotation.dto";
+import { CreateDto, FindDto } from "../../domain/dto/quotation.dto";
 
 @ApiTags('Cotizaciones')
 @Controller({
@@ -13,7 +13,12 @@ export class QuotationController {
     ) { }
 
     @Post()
-    create(@Body() data: CreateDto){
+    create(@Body() data: CreateDto) {
         return this.quotationService.create(data);
+    }
+
+    @Get()
+    findAll(@Query() data: FindDto) {
+        return this.quotationService.findAll(data);
     }
 }
