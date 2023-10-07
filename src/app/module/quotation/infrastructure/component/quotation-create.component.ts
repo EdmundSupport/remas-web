@@ -6,7 +6,9 @@ import { subDays, startOfDay, addDays, endOfMonth, addHours } from 'date-fns';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { colors } from 'src/app/shared/color/domain/constant/color.constant';
 import { QuotationService } from '../../application/service/quotation.service';
-import { QuotationCreateInterface } from '../../domain/interface/quotation.interface';
+import { ClientInterface, QuotationCreateInterface } from '../../domain/interface/quotation.interface';
+import { ClientService } from 'src/app/module/client/application/service/client.service';
+import { finalize, map } from 'rxjs';
 
 @Component({
     selector: 'app-quotation-create',
@@ -14,19 +16,62 @@ import { QuotationCreateInterface } from '../../domain/interface/quotation.inter
     styleUrls: ['../style/quotation-create.style.scss'],
 })
 export class QuotationCreateComponent {
+    clients: ClientInterface[] = [];
+    client!: ClientInterface;
+
     quotation: QuotationCreateInterface = {
         number: '',
         date: new Date(),
         clientUuid: '',
         quotationDetails: [],
     };
-    constructor() { }
+    constructor(
+        private quotationService: QuotationService,
+        public clientService: ClientService,
+        private matSnackBar: MatSnackBar,
+    ) { }
 
     ngOnInit() {
-        
+        this.onClientLoadInitial();
     }
-    onLogIn(){
+
+
+    onClientSelected(client: ClientInterface) {
+        this.client = client;
+    }
+
+    onClientOptionShow(client: any) {
+        console.log("🚀 ~ file: quotation-create.component.ts:42 ~ QuotationCreateComponent ~ onClientOptionShow ~ client:", client)
+        return client!['tributes']!['companies']![0]!['name'];
+    }
+
+    onClientSearch(clientName: string) {
+        this.onClientLoad(clientName).subscribe((result) => this.clients = result);
+    }
+
+    onClientLoad(clientName: string | undefined) {
+        return this.clientService.onFind({ tributes: { companies: { name: clientName } } }, { omitLoading: true }).pipe(
+            map((result) => {
+                console.log("🚀 ~ file: quotation-create.component.ts:42 ~ QuotationCreateComponent ~ map ~ result:", result)
+                if (result?.statusCode != 200) {
+                    this.matSnackBar.open(result?.message, 'Cancelar');
+                    return [];
+                }
+                return result?.data;
+            }));
+    }
+
+    onClientLoadInitial() {
+        this.clientService.onFindLoad$.next(true);
+        this.onClientLoad(undefined).pipe(
+            finalize(() => this.clientService.onFindLoad$.next(false)))
+            .subscribe((data) => {
+                this.clients = data;
+            });
+    }
+
+    onLogIn() {
         console.log("🚀 ~ file: quotation-create.component.ts:18 ~ QuotationCreateComponent ~ quotation:", this.quotation)
-        
+        console.log("🚀 ~ file: quotation-create.component.ts:21 ~ QuotationCreateComponent ~ client:", this.client)
     }
 }

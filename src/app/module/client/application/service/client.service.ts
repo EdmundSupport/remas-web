@@ -10,21 +10,21 @@ import { SerializeHelper } from "src/app/shared/serialize/application/helper/ser
 })
 export class ClientService {
     url = environment.remas;
-    onFind$ = new BehaviorSubject<boolean>(false);
+    onFindLoad$ = new BehaviorSubject<boolean>(false);
 
     constructor(
         private httpService: HttpClient,
     ) { }
 
-    onFind(filter: { uuid: string | string[] }): Observable<any> {
-        this.onFind$.next(true);
+    onFind(filter: { uuid?: string | string[], tributes: { companies: { name?: string | string[] } } }, options?: { omitLoading?: boolean }): Observable<any> {
+        if (!options?.omitLoading) this.onFindLoad$.next(true);
         return this.httpService.get(this.url + '/v1/client' + SerializeHelper.objectToQueryParams(filter)).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
             })),
             finalize(() => {
-                this.onFind$.next(false);
+                if (!options?.omitLoading) this.onFindLoad$.next(false);
             })
         );
     }

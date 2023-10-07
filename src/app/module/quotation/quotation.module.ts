@@ -14,6 +14,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { NgFor, AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AutocompleteModule } from "src/app/shared/component/autocomplete/autocomplete.module";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 @NgModule({
     declarations: [
         QuotationComponent,
@@ -28,11 +30,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatNativeDateModule,
         MatButtonModule,
         MatAutocompleteModule,
+        MatProgressSpinnerModule,
 
         FormsModule,
         CommonModule,
         CalendarModule,
         QuotationRoutingModule,
+        AutocompleteModule,
     ]
 })
 export class QuotationModule { }

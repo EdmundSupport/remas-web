@@ -17,6 +17,16 @@
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
     </p>
+    <p>
+    <div *ngIf="clientService.onFindLoad$ | async; else clientAutocomplete">
+        <mat-spinner></mat-spinner>
+        <div class="spinner"></div>
+    </div>
+    <ng-template #clientAutocomplete>
+        <app-autocomplete [initial]="client" [onOptionShow]="onClientOptionShow" (onSelected)="onClientSelected($event)"
+            (onChange)="onClientSearch($event)" [datasource]="clients"></app-autocomplete>
+    </ng-template>
+    
     <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button>
 
     <p>

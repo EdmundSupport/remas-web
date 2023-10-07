@@ -10,37 +10,36 @@ import { QuotationInterface } from "../../domain/interface/quotation.interface";
 })
 export class QuotationService {
     url = environment.apiAuth;
-    onFind$ = new BehaviorSubject<boolean>(false);
+    onCreateLoad$ = new BehaviorSubject<boolean>(false);
+    onFindLoad$ = new BehaviorSubject<boolean>(false);
 
     constructor(
         private httpService: HttpClient,
     ) { }
 
     onCreate(){
-        this.onFind$.next(true);
+        this.onCreateLoad$.next(true);
         return this.httpService.post(this.url + '/v1/quotation', {}).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
             })),
             finalize(() => {
-                this.onFind$.next(false);
+                this.onCreateLoad$.next(false);
             })
         );
     }
 
     onFind(filter: Partial<QuotationInterface>): Observable<any> {
-        this.onFind$.next(true);
+        this.onFindLoad$.next(true);
         return this.httpService.get(this.url + '/v1/quotation').pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
             })),
             finalize(() => {
-                this.onFind$.next(false);
+                this.onFindLoad$.next(false);
             })
         );
     }
-
-
 }
