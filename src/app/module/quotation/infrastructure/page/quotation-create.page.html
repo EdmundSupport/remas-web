@@ -26,7 +26,32 @@
         <app-autocomplete [initial]="client" [onOptionShow]="onClientOptionShow" (onSelected)="onClientSelected($event)"
             (onChange)="onClientSearch($event)" [datasource]="clients"></app-autocomplete>
     </ng-template>
-    
+
+    <div class="card">
+        <div class="header">
+            <app-autocomplete [initial]="client" [onOptionShow]="onClientOptionShow"
+                (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
+                [datasource]="clients"></app-autocomplete>
+        </div>
+        <div class="content">
+            <div class="amount">
+                <app-autocomplete [width]="'33.33vw'" [initial]="client" [onOptionShow]="onClientOptionShow"
+                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
+                    [datasource]="clients"></app-autocomplete>
+            </div>
+            <div class="unit">
+                <app-autocomplete [width]="'33.33vw'" [initial]="client" [onOptionShow]="onClientOptionShow"
+                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
+                    [datasource]="clients"></app-autocomplete>
+            </div>
+            <div class="price">
+                <app-autocomplete [width]="'33.33vw'" [initial]="client" [onOptionShow]="onClientOptionShow"
+                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
+                    [datasource]="clients"></app-autocomplete>
+            </div>
+        </div>
+    </div>
+
     <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button>
 
     <p>

@@ -12,6 +12,7 @@ type OnDatasourceInterface<T> = (arg: string) => Observable<Array<T>> | Array<T>
     styleUrls: ['../style/autocomplete.style.scss']
 })
 export class AutocompleteComponent<T>{
+    @Input('width') width!: string;
     @Input('placeholder') placeholder: string = '';
     @Input('initial') initial!: T;
     @Input('datasource') datasource: T[] = [];

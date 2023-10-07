@@ -1,0 +1,43 @@
+.form-amount{
+    width: 33.33vw;
+    max-width: 33.33vw;
+}
+
+.header .autocomplete{
+    width: 10px !important;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        width: 10px !important;
+        max-width: 10px !important;
+
+        
+    }
+
+    .content {
+        display: flex;
+        flex-direction: row;
+
+        .price{
+            .form-price{
+                max-width: 33.33vw;
+            }
+        }
+        .unit{
+            .form-unit{
+                max-width: 33.33vw;
+            }
+        }
+        .amount{
+            .form-amount{
+                max-width: 33.33vw;
+            }
+            
+        }
+    }
+}
