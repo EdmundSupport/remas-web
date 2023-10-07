@@ -35,6 +35,9 @@ export class QuotationCreateComponent {
         this.onClientLoadInitial();
     }
 
+    onImporteSum(){
+        return 9999999.99;
+    }
 
     onClientSelected(client: ClientInterface) {
         this.client = client;
@@ -45,7 +48,6 @@ export class QuotationCreateComponent {
     }
 
     onClientSearch(clientName: string) {
-        console.log("🚀 ~ file: quotation-create.component.ts:48 ~ QuotationCreateComponent ~ onClientSearch ~ clientName:", clientName)
         this.onClientLoad(clientName).subscribe((result) => this.clients = result);
     }
 

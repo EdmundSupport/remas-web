@@ -1,4 +1,5 @@
-<mat-form-field [style.width]="width">
+<mat-form-field [subscriptSizing]="'dynamic'">
+    <mat-label>{{placeholder}}</mat-label>
     <input type="text" placeholder="{{placeholder}}" matInput [formControl]="form" [matAutocomplete]="auto" />
     <mat-autocomplete #auto="matAutocomplete">
         <!-- <div *ngIf="onLoadingDatasource$ | async; else content">

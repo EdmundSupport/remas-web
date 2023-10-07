@@ -29,30 +29,43 @@
 
     <div class="card">
         <div class="header">
-            <app-autocomplete [initial]="client" [onOptionShow]="onClientOptionShow"
-                (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
-                [datasource]="clients"></app-autocomplete>
-        </div>
-        <div class="content">
             <div class="amount">
-                <app-autocomplete [width]="'33.33vw'" [initial]="client" [onOptionShow]="onClientOptionShow"
+                <app-autocomplete [placeholder]="'Monto'" [initial]="client" [onOptionShow]="onClientOptionShow"
                     (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
                     [datasource]="clients"></app-autocomplete>
             </div>
-            <div class="unit">
-                <app-autocomplete [width]="'33.33vw'" [initial]="client" [onOptionShow]="onClientOptionShow"
+            <div class="description">
+                <app-autocomplete [placeholder]="'Descripcion'" [initial]="client" [onOptionShow]="onClientOptionShow"
+                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
+                    [datasource]="clients"></app-autocomplete>
+            </div>
+        </div>
+        <div class="content">
+            <div class="measure">
+                <app-autocomplete [placeholder]="'Medida'" [initial]="client" [onOptionShow]="onClientOptionShow"
                     (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
                     [datasource]="clients"></app-autocomplete>
             </div>
             <div class="price">
-                <app-autocomplete [width]="'33.33vw'" [initial]="client" [onOptionShow]="onClientOptionShow"
+                <app-autocomplete [placeholder]="'Precio'" [initial]="client" [onOptionShow]="onClientOptionShow"
                     (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
                     [datasource]="clients"></app-autocomplete>
+            </div>
+            <div class="total">
+                <mat-form-field [subscriptSizing]="'dynamic'">
+                    <mat-label>Importe</mat-label>
+                    <input type="text" placeholder="Importe" disabled [value]="onImporteSum()" matInput />
+                </mat-form-field>
+            </div>
+            <div class="control">
+                <button mat-icon-button color="warn" aria-label="Example icon button with a delete icon">
+                    <mat-icon>delete</mat-icon>
+                </button>
             </div>
         </div>
     </div>
 
-    <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button>
+    <!-- <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button> -->
 
     <p>
         <!-- <div *ngIf="authService.onLogInLoading$ | async; else content">
