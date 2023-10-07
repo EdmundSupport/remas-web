@@ -37,6 +37,7 @@ export class FilterResponseInterceptor implements NestInterceptor {
                 }
             }),
             catchError((error) => new Observable(observer => {
+                console.log("🚀 ~ file: filter_response.interceptor.ts:40 ~ FilterResponseInterceptor ~ catchError ~ error:", error)
                 const extracts = FilterResponseHelper.extractOrigin(error.stack);
                 const statusCode = error?.response?.statusCode ?? error?.status ?? 500;
                 const message = error?.response?.message ?? error?.message ?? FilterResponseHelper.functionMap(extracts);

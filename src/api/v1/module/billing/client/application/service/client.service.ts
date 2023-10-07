@@ -3,6 +3,9 @@ import { Company, Tribute } from "src/api/v1/datasource/remas/shared/domain/mode
 import { Tribute as GuatemalaTribute } from "src/api/v1/datasource/remas/shared/domain/model/guatemala";
 import { Client } from "src/api/v1/datasource/remas/shared/domain/model/billing";
 import { ClientHelper } from "../helper";
+import { FindInterface } from "../../domain/interface/client.interface";
+import { StructureHelper } from "shared/structure/application/helper/structure.helper";
+import { Op } from "sequelize";
 
 @Injectable()
 export class ClientService {
@@ -32,5 +35,29 @@ export class ClientService {
                 { model: Client },
             ]
         });
+    }
+
+    findAll(data: FindInterface) {
+        const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
+        console.log("🚀 ~ file: client.service.ts:42 ~ ClientService ~ findAll ~ pagination:", pagination)
+        const companies = StructureHelper.searchProperty(data, 'companies', true)[0];
+        console.log("🚀 ~ file: client.service.ts:44 ~ ClientService ~ findAll ~ companies:", companies)
+        if (companies?.name) companies.name = { [Op.like]: `%${companies.name}%` };
+        const tribute = StructureHelper.searchProperty(data, 'tributes', true)[0];
+        console.log("🚀 ~ file: client.service.ts:47 ~ ClientService ~ findAll ~ tribute:", tribute)
+        data = JSON.parse(JSON.stringify(data));
+        console.log("🚀 ~ file: client.service.ts:49 ~ ClientService ~ findAll ~ data:", data)
+        return this.clientService.findAll({
+            where: { ...data },
+            include: [{
+                model: Tribute,
+                where: tribute?.length == 0 ? undefined : tribute,
+                include: [{
+                    model: Company,
+                    where: companies?.length == 0 ? undefined : companies
+                }]
+            }],
+            ...pagination,
+        })
     }
 }
