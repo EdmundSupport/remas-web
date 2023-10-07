@@ -8,7 +8,7 @@ import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
-import { QuotationCreateComponent } from "./infrastructure/component/quotation-create.component";
+import { QuotationFormComponent } from "./infrastructure/component/quotation-form.component";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 @NgModule({
     declarations: [
         QuotationComponent,
-        QuotationCreateComponent,
+        QuotationFormComponent,
     ],
     imports: [
         MatIconModule,
