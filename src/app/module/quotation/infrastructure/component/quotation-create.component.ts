@@ -41,18 +41,17 @@ export class QuotationCreateComponent {
     }
 
     onClientOptionShow(client: any) {
-        console.log("🚀 ~ file: quotation-create.component.ts:42 ~ QuotationCreateComponent ~ onClientOptionShow ~ client:", client)
-        return client!['tributes']!['companies']![0]!['name'];
+        return client?.tributes?.companies![0]?.['name'];
     }
 
     onClientSearch(clientName: string) {
+        console.log("🚀 ~ file: quotation-create.component.ts:48 ~ QuotationCreateComponent ~ onClientSearch ~ clientName:", clientName)
         this.onClientLoad(clientName).subscribe((result) => this.clients = result);
     }
 
     onClientLoad(clientName: string | undefined) {
         return this.clientService.onFind({ tributes: { companies: { name: clientName } } }, { omitLoading: true }).pipe(
             map((result) => {
-                console.log("🚀 ~ file: quotation-create.component.ts:42 ~ QuotationCreateComponent ~ map ~ result:", result)
                 if (result?.statusCode != 200) {
                     this.matSnackBar.open(result?.message, 'Cancelar');
                     return [];
@@ -71,7 +70,5 @@ export class QuotationCreateComponent {
     }
 
     onLogIn() {
-        console.log("🚀 ~ file: quotation-create.component.ts:18 ~ QuotationCreateComponent ~ quotation:", this.quotation)
-        console.log("🚀 ~ file: quotation-create.component.ts:21 ~ QuotationCreateComponent ~ client:", this.client)
     }
 }

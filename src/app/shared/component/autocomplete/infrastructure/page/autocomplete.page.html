@@ -6,7 +6,7 @@
             <div class="spinner"></div>
         </div> -->
         <!-- <ng-template #content> -->
-            <mat-option *ngFor="let item of datasource" [value]="item" (click)="onClickOption(item)">
+            <mat-option *ngFor="let item of datasource" [value]="onOptionShow(item)" (click)="onClickOption(item)">
                 {{ onOptionShow(item) }}
             </mat-option>
         <!-- </ng-template> -->

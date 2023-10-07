@@ -30,7 +30,6 @@ export class AutocompleteComponent<T>{
     }
 
     onClickOption(obj: T) {
-        // this.initial = obj;
         this.onSelected.emit(obj);
     }
 
@@ -42,9 +41,5 @@ export class AutocompleteComponent<T>{
             })).subscribe((value) => {
                 this.onChange.emit(value);
             });
-    }
-
-    isSelected() {
-
     }
 }
