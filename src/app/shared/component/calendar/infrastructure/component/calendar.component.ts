@@ -51,6 +51,7 @@ export class CalendarComponent {
     @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
     @Input('events') events!: CalendarEvent[];
     @Input('title') title: string = '';
+    @Input('actions') actions!: CalendarEventAction[];
 
     view: CalendarView = CalendarView.Month;
 

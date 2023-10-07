@@ -3,7 +3,9 @@ import {
 } from '@angular/core';
 import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
 import { subDays, startOfDay, addDays, endOfMonth, addHours } from 'date-fns';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { colors } from 'src/app/shared/color/domain/constant/color.constant';
+import { QuotationService } from '../../application/service/quotation.service';
 
 @Component({
     selector: 'app-quotation',
@@ -14,7 +16,7 @@ export class QuotationComponent {
     title: string = 'Cotizaciones';
     actions: CalendarEventAction[] = [
         {
-            label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+            label: '<p class="fas fa-fw fa-pencil-alt">test</p>',
             a11yLabel: 'Edit',
             onClick: ({ event }: { event: CalendarEvent }): void => {
                 console.log("🚀 ~ file: quotation.component.ts:19 ~ QuotationComponent ~ event:", event);
@@ -70,9 +72,21 @@ export class QuotationComponent {
         },
     ];
 
-    constructor() { }
+    quotations!: {}[];
 
-    ngOnInit(){
-        
+    constructor(
+        private quotationService: QuotationService,
+        private matSnackBar: MatSnackBar,
+    ) { }
+
+    ngOnInit() {
+
+    }
+
+    onFind(filter: {}) {
+        this.quotationService.onFind(filter).subscribe((result) => {
+            if (result?.statusCode != 201) this.matSnackBar.open(result?.message, 'Cancelar');
+            this.quotations = result?.data;
+        });
     }
 }

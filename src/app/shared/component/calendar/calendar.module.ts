@@ -5,12 +5,14 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { FlatpickrModule } from "angularx-flatpickr";
 import { CalendarComponent } from "./infrastructure/component/calendar.component";
+import { ButtonFloatComponent } from "../button-float/infrastructure/component/button-float.component";
 
 @NgModule({
     declarations: [
         CalendarComponent,
     ],
     imports: [
+        ButtonFloatComponent,
         CommonModule,
         FormsModule,
         AngularCalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),

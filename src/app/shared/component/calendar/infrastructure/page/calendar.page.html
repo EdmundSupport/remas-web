@@ -1,3 +1,4 @@
+<app-button-float [iconName]="'add'"></app-button-float>
 <div class="header">
     <div class="title">
         <h2>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h2>
@@ -47,4 +48,5 @@
     <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
         (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
+    <div class="footer"></div>
 </div>
