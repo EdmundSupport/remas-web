@@ -7,5 +7,5 @@ export interface TributeInterface {
     condition: boolean;
     createdAt: Date;
     updatedAt: Date;
-    companies: CompanyTribute
+    companies: CompanyTribute[];
 }

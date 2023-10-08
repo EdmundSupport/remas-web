@@ -23,11 +23,13 @@
         <div class="spinner"></div>
     </div>
     <ng-template #clientAutocomplete>
-        <app-autocomplete [initial]="client" [onOptionShow]="onClientOptionShow" (onSelected)="onClientSelected($event)"
-            (onChange)="onClientSearch($event)" [datasource]="clients"></app-autocomplete>
+        <app-autocomplete [initial]="client" [onOptionShow]="clientAutocompleteHelper.onClientOptionShow"
+            (onSelected)="clientAutocompleteHelper.onClientSelected($event)"
+            (onChange)="clientAutocompleteHelper.onClientSearch($event)" [datasource]="clients">
+        </app-autocomplete>
     </ng-template>
 
-    <div class="card">
+    <!-- <div class="card">
         <div class="header">
             <div class="amount">
                 <app-autocomplete [placeholder]="'Monto'" [initial]="client" [onOptionShow]="onClientOptionShow"
@@ -63,7 +65,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button> -->
 

@@ -6,5 +6,5 @@ export interface ClientInterface {
     condition: boolean;
     createdAt: Date;
     updatedAt: Date;
-    tribute: TributeInterface;
+    tributes: TributeInterface
 }
