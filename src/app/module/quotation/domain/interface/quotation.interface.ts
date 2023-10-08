@@ -1,6 +1,4 @@
-import { ClientInterface as ClientClientInterface } from "src/app/module/client/domain/interface/client.interface";
-
-export interface ClientInterface extends Partial<ClientClientInterface> { }
+import { ClientInterface } from "src/app/datasource/remas/domain/interface/client.interface";
 
 export type QuotationCreateDetailInterface = Pick<
     QuotationDetailInterface,

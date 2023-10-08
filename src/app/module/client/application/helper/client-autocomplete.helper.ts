@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { ClientService } from "../service/client.service";
-import { ClientInterface } from "../../domain/interface/client.interface";
+import { ClientInterface } from "src/app/datasource/remas/domain/interface/client.interface";
 
 @Injectable({
     providedIn: 'root',
@@ -13,14 +13,6 @@ export class ClientAutocompleteHelper {
     constructor(
         private clientService: ClientService,
     ) { }
-
-    // setOnClientChange(client: ClientInterface) {
-    //     if (this.onClientChange) this.onClientChange(client);
-    // }
-
-    // setOnClientsChange(client: ClientInterface) {
-    //     if (this.onClientChange) this.onClientChange(client);
-    // }
 
     onClientSelected(client?: ClientInterface) {
         if (!!this.onClientChange) this.onClientChange(client!);
