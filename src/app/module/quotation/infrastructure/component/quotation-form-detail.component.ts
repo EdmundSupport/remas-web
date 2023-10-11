@@ -6,69 +6,36 @@ import { subDays, startOfDay, addDays, endOfMonth, addHours } from 'date-fns';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { colors } from 'src/app/shared/color/domain/constant/color.constant';
 import { QuotationService } from '../../application/service/quotation.service';
-import { ClientInterface, QuotationCreateInterface } from '../../domain/interface/quotation.interface';
+import { QuotationCreateInterface } from '../../domain/interface/quotation.interface';
 import { ClientService } from 'src/app/module/client/application/service/client.service';
 import { finalize, map } from 'rxjs';
+import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
+import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
+import { ProductAutocompleteHelper } from 'src/app/datasource/remas/application/helper/product-autocomplete.helper';
 
 @Component({
-    selector: 'app-quotation-create',
-    templateUrl: '../page/quotation-create.page.html',
-    styleUrls: ['../style/quotation-create.style.scss'],
+    selector: 'app-quotation-form-detail',
+    templateUrl: '../page/quotation-form-detail.page.html',
+    styleUrls: ['../style/quotation-form-detail.style.scss'],
 })
-export class QuotationCreateComponent {
-    clients: ClientInterface[] = [];
-    client!: ClientInterface;
+export class QuotationFormDetailComponent {
+    products: ProductInterface[] = [];
+    product!: ProductInterface;
 
-    quotation: QuotationCreateInterface = {
-        number: '',
-        date: new Date(),
-        clientUuid: '',
-        quotationDetails: [],
-    };
+
     constructor(
-        private quotationService: QuotationService,
-        public clientService: ClientService,
-        private matSnackBar: MatSnackBar,
-    ) { }
+        protected productAutompleteHelper: ProductAutocompleteHelper,
+    ) {
+        this.productAutompleteHelper.onChange = (product: ProductInterface) => this.product = product;
+        this.productAutompleteHelper.onChanges = (products: ProductInterface[]) => this.products = products;
+    }
 
     ngOnInit() {
-        this.onClientLoadInitial();
+        // this.productAutompleteHelper.onLoad(undefined, true);
     }
 
-    onImporteSum(){
+    onImporteSum() {
         return 9999999.99;
-    }
-
-    onClientSelected(client: ClientInterface) {
-        this.client = client;
-    }
-
-    onClientOptionShow(client: any) {
-        return client?.tributes?.companies![0]?.['name'];
-    }
-
-    onClientSearch(clientName: string) {
-        this.onClientLoad(clientName).subscribe((result) => this.clients = result);
-    }
-
-    onClientLoad(clientName: string | undefined) {
-        return this.clientService.onFind({ tributes: { companies: { name: clientName } } }, { omitLoading: true }).pipe(
-            map((result) => {
-                if (result?.statusCode != 200) {
-                    this.matSnackBar.open(result?.message, 'Cancelar');
-                    return [];
-                }
-                return result?.data;
-            }));
-    }
-
-    onClientLoadInitial() {
-        this.clientService.onFindLoad$.next(true);
-        this.onClientLoad(undefined).pipe(
-            finalize(() => this.clientService.onFindLoad$.next(false)))
-            .subscribe((data) => {
-                this.clients = data;
-            });
     }
 
     onLogIn() {

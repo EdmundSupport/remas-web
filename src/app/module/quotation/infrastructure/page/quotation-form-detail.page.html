@@ -1,0 +1,13 @@
+<div class="detail">
+    <div *ngIf="productAutompleteHelper.onFindInitial$ | async; else productAutocomplete">
+        <mat-spinner></mat-spinner>
+        <div class="spinner"></div>
+    </div>
+    <ng-template #productAutocomplete>
+        <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
+        [placeholder]="'Producto'"
+            (onSelected)="productAutompleteHelper.onSelected($event)"
+            (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
+        </app-autocomplete>
+    </ng-template>
+</div>

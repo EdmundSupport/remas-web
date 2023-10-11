@@ -18,7 +18,7 @@
         </mat-form-field>
     </p>
     <p>
-    <div *ngIf="clientService.onFindLoad$ | async; else clientAutocomplete">
+    <!-- <div *ngIf="clientService.onFindLoad$ | async; else clientAutocomplete">
         <mat-spinner></mat-spinner>
         <div class="spinner"></div>
     </div>
@@ -27,7 +27,8 @@
             (onSelected)="clientAutocompleteHelper.onClientSelected($event)"
             (onChange)="clientAutocompleteHelper.onClientSearch($event)" [datasource]="clients">
         </app-autocomplete>
-    </ng-template>
+    </ng-template> -->
+    <app-quotation-form-detail></app-quotation-form-detail>
 
     <!-- <div class="card">
         <div class="header">

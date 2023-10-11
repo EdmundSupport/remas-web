@@ -16,10 +16,12 @@ import { NgFor, AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AutocompleteModule } from "src/app/shared/component/autocomplete/autocomplete.module";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { QuotationFormDetailComponent } from "./infrastructure/component/quotation-form-detail.component";
 @NgModule({
     declarations: [
         QuotationComponent,
         QuotationFormComponent,
+        QuotationFormDetailComponent,
     ],
     imports: [
         MatIconModule,
