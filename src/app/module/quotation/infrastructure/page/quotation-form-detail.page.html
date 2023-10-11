@@ -1,13 +1,41 @@
 <div class="detail">
-    <div *ngIf="productAutompleteHelper.onFindInitial$ | async; else productAutocomplete">
-        <mat-spinner></mat-spinner>
-        <div class="spinner"></div>
+    <div class="row">
+        <div class="amount">
+            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
+                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
+                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
+            </app-autocomplete>
+        </div>
+        <div class="description">
+            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
+                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
+                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
+            </app-autocomplete>
+        </div>
     </div>
-    <ng-template #productAutocomplete>
-        <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
-        [placeholder]="'Producto'"
-            (onSelected)="productAutompleteHelper.onSelected($event)"
-            (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
-        </app-autocomplete>
-    </ng-template>
+    <div class="row">
+        <div class="measure">
+            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
+                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
+                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
+            </app-autocomplete>
+        </div>
+        <div class="price">
+            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
+                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
+                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
+            </app-autocomplete>
+        </div>
+        <div class="total">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Importe</mat-label>
+                <input type="text" placeholder="Importe" disabled [value]="onImporteSum()" matInput />
+            </mat-form-field>
+        </div>
+        <div class="control">
+            <button mat-icon-button color="warn" aria-label="Example icon button with a delete icon">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
 </div>
