@@ -6,24 +6,13 @@ import {
   Index,
   Sequelize,
   ForeignKey,
-  HasMany,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import { Product } from './product';
 import { ProductPrice } from './product_price';
 
-export interface PriceCategoryAttributes {
-  uuid?: string;
-  code?: string;
-  name?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'price_category', timestamps: false })
-export class PriceCategory
-  extends Model<PriceCategoryAttributes, PriceCategoryAttributes>
-  implements PriceCategoryAttributes
-{
+export class PriceCategory extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -67,6 +56,6 @@ export class PriceCategory
   })
   updatedAt?: Date;
 
-  @HasMany(() => ProductPrice, { sourceKey: 'uuid' })
-  productPrices?: ProductPrice[];
+  @BelongsToMany(() => Product, () => ProductPrice)
+  products?: Product[];
 }

@@ -1,8 +1,8 @@
 1:N, uuid, parent_uuid, product, product
-1:N, uuid, measure_uuid, measure, product
+1:N, uuid, measure__uuid, measure, product
 1:N, uuid, product_type_uuid, product_type, product
 1:N, uuid, measure_uuid, measure, measure_unit
 1:N, uuid, parent_uuid, measure_unit, measure_unit
 1:N, uuid, product_uuid, product, product_price
 1:N, uuid, measure_unit_uuid, measure_unit, product_price
-1:N, uuid, price_category_uuid, price_category, product_price
+N:N, uuid, uuid, product, price_category, product_price

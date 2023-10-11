@@ -12,22 +12,9 @@ import { Product } from './product';
 import { MeasureUnit } from './measure_unit';
 import { PriceCategory } from './price_category';
 
-export interface ProductPriceAttributes {
-  uuid?: string;
-  amount?: string;
-  productUuid?: string;
-  measureUnitUuid?: string;
-  priceCategoryUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'product_price', timestamps: false })
-export class ProductPrice
-  extends Model<ProductPriceAttributes, ProductPriceAttributes>
-  implements ProductPriceAttributes
-{
+export class ProductPrice extends Model {
+  @ForeignKey(() => PriceCategory)
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -48,7 +35,6 @@ export class ProductPrice
   @Column({ field: 'measure_unit_uuid', allowNull: true, type: DataType.UUID })
   measureUnitUuid?: string;
 
-  @ForeignKey(() => PriceCategory)
   @Column({
     field: 'price_category_uuid',
     allowNull: true,
@@ -84,7 +70,4 @@ export class ProductPrice
 
   @BelongsTo(() => MeasureUnit)
   measureUnit?: MeasureUnit;
-
-  @BelongsTo(() => PriceCategory)
-  priceCategory?: PriceCategory;
 }

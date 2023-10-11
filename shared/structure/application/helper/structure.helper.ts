@@ -2,7 +2,6 @@ export class StructureHelper {
     constructor() { }
 
     static searchProperty(object: any, searchProp: string, deleted = false) {
-        // object = JSON.parse(JSON.stringify(object));
         function search(obj: any) {
             if (typeof obj === 'object') {
                 for (const key in obj) {

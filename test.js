@@ -1,50 +1,31 @@
-function mergeObjects(target, ...sources) {
-    if (!sources.length) return target;
-  
-    const source = sources.shift();
-  
-    if (isObject(target) && isObject(source)) {
-      for (const key in source) {
-        if (isObject(source[key])) {
-          if (!target[key]) Object.assign(target, { [key]: {} });
-          mergeObjects(target[key], source[key]);
-        } else if (isArray(source[key])) {
-          if (!target[key]) Object.assign(target, { [key]: [] });
-          target[key] = target[key].concat(source[key]);
-        } else {
-          Object.assign(target, { [key]: source[key] });
-        }
-      }
-    }
-  
-    return mergeObjects(target, ...sources);
+function generarSKU(productMeasureName, productTypeName, productName) {
+  // Eliminar espacios y convertir a mayúsculas
+  productMeasureName = productMeasureName.replace(/\s/g, "").toUpperCase();
+  productTypeName = productTypeName.replace(/\s/g, "").toUpperCase();
+  productName = productName.replace(/\s/g, "").toUpperCase();
+
+  // Tomar las primeras tres letras del tipo de producto y del nombre del producto
+  const measureAbbr = productMeasureName.slice(0, 2);
+  const typeAbbr = productTypeName.slice(0, 2);
+  const nameAbbr = productName.slice(0, 2);
+
+  // Generar una cadena aleatoria de 4 caracteres alfanuméricos
+  const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXY";
+  let aleatorio = "";
+  for (let i = 0; i < 2; i++) {
+    const randomIndex = Math.floor(Math.random() * caracteres.length);
+    aleatorio += caracteres.charAt(randomIndex);
   }
-  
-  function isObject(item) {
-    return item && typeof item === 'object' && !Array.isArray(item);
-  }
-  
-  function isArray(item) {
-    return Array.isArray(item);
-  }
-  
-  // Ejemplo de uso
-  const obj1 = {
-    a: 1,
-    b: {
-      c: [1, 2]
-    }
-  };
-  
-  const obj2 = {
-    b: {
-      c: [3, 4],
-      d: 5
-    },
-    e: 6
-  };
-  
-  const mergedObj = mergeObjects({}, 'a', 'b');
-  
-  console.log(mergedObj);
-  
+
+  const date = new Date();
+  const timeMs = `${date.getTime()}`;
+  const timeMsLastFourNum = timeMs.substring(timeMs.length - 4);
+
+  // Combinar las abreviaturas y el valor aleatorio para formar el SKU
+  const sku = measureAbbr + typeAbbr + nameAbbr + timeMsLastFourNum + aleatorio;
+
+  return sku;
+}
+
+const skuGenerado = generarSKU('contables', 'consumibles', 'unicos');
+console.log("SKU generado:", skuGenerado);

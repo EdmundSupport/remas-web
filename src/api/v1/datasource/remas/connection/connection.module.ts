@@ -4,7 +4,7 @@ import { AaaConnectionHelper } from "./application/helper/aaa.connection.helper"
 import { aaaConnectionProvider, aaaModels } from "./application/providers/aaa.connection.provider";
 import { BillingConnectionHelper, GuatemalaConnectionHelper, IdentityConnectionHelper, InventoryConnectionHelper, ContactConnectionHelper } from "./application/helper/connection.helper";
 import { identityConnectionProvider, identityModels } from "./application/providers/identity.connection.provider";
-import { inventoryModels } from "./application/providers/inventory.connection.provider";
+import { inventoryConnectionProvider, inventoryModels } from "./application/providers/inventory.connection.provider";
 import { guatemalaModels } from "./application/providers/guatemala.connection.provider";
 import { billingConnectionProvider, billingModels } from "./application/providers/billing.connection.provider";
 import { contactModels } from "./application/providers/contact.connection.provider";
@@ -33,11 +33,13 @@ import { contactModels } from "./application/providers/contact.connection.provid
         ...aaaConnectionProvider,
         ...identityConnectionProvider,
         ...billingConnectionProvider,
+        ...inventoryConnectionProvider,
     ],
     exports: [
         ...aaaConnectionProvider,
         ...identityConnectionProvider,
         ...billingConnectionProvider,
+        ...inventoryConnectionProvider,
     ]
 })
 export class ConnectionModule { }

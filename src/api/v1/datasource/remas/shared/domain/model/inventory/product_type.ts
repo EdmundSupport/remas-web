@@ -10,20 +10,8 @@ import {
 } from 'sequelize-typescript';
 import { Product } from './product';
 
-export interface ProductTypeAttributes {
-  uuid?: string;
-  keyName?: string;
-  name?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'product_type', timestamps: false })
-export class ProductType
-  extends Model<ProductTypeAttributes, ProductTypeAttributes>
-  implements ProductTypeAttributes
-{
+export class ProductType extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

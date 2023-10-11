@@ -39,14 +39,10 @@ export class ClientService {
 
     findAll(data: FindInterface) {
         const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
-        console.log("🚀 ~ file: client.service.ts:42 ~ ClientService ~ findAll ~ pagination:", pagination)
         const companies = StructureHelper.searchProperty(data, 'companies', true)[0];
-        console.log("🚀 ~ file: client.service.ts:44 ~ ClientService ~ findAll ~ companies:", companies)
         if (companies?.name) companies.name = { [Op.like]: `%${companies.name}%` };
         const tribute = StructureHelper.searchProperty(data, 'tributes', true)[0];
-        console.log("🚀 ~ file: client.service.ts:47 ~ ClientService ~ findAll ~ tribute:", tribute)
         data = JSON.parse(JSON.stringify(data));
-        console.log("🚀 ~ file: client.service.ts:49 ~ ClientService ~ findAll ~ data:", data)
         return this.clientService.findAll({
             where: { ...data },
             include: [{

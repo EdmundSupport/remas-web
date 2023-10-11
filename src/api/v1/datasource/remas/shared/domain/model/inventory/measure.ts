@@ -11,20 +11,8 @@ import {
 import { Product } from './product';
 import { MeasureUnit } from './measure_unit';
 
-export interface MeasureAttributes {
-  uuid?: string;
-  keyName?: string;
-  name?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 @Table({ tableName: 'measure', timestamps: false })
-export class Measure
-  extends Model<MeasureAttributes, MeasureAttributes>
-  implements MeasureAttributes
-{
+export class Measure extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

@@ -8,29 +8,15 @@ import {
   ForeignKey,
   HasMany,
   BelongsTo,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { Measure } from './measure';
 import { ProductType } from './product_type';
 import { ProductPrice } from './product_price';
-
-export interface ProductAttributes {
-  uuid?: string;
-  sku?: string;
-  name?: string;
-  description?: string;
-  parentUuid?: string;
-  measureUuid?: string;
-  productTypeUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import { PriceCategory } from './price_category';
 
 @Table({ tableName: 'product', timestamps: false })
-export class Product
-  extends Model<ProductAttributes, ProductAttributes>
-  implements ProductAttributes
-{
+export class Product extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -61,7 +47,7 @@ export class Product
 
   @ForeignKey(() => Measure)
   @Column({ field: 'measure_uuid', allowNull: true, type: DataType.UUID })
-  @Index({ name: 'product_measure_uuid_idx', using: 'btree', unique: false })
+  @Index({ name: 'product_measure_idx', using: 'btree', unique: false })
   measureUuid?: string;
 
   @ForeignKey(() => ProductType)
@@ -96,10 +82,10 @@ export class Product
   })
   updatedAt?: Date;
 
-  @HasMany(() => Product, { sourceKey: 'uuid' })
+  @HasMany(() => Product, { sourceKey: 'uuid', as: 'productsChild' })
   products?: Product[];
 
-  @BelongsTo(() => Product)
+  @BelongsTo(() => Product, {as: 'productParent'})
   product?: Product;
 
   @BelongsTo(() => Measure)
@@ -110,4 +96,7 @@ export class Product
 
   @HasMany(() => ProductPrice, { sourceKey: 'uuid' })
   productPrices?: ProductPrice[];
+
+  @BelongsToMany(() => PriceCategory, () => ProductPrice)
+  priceCategories?: PriceCategory[];
 }
