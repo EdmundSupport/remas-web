@@ -6,10 +6,11 @@ import {
   Index,
   Sequelize,
   ForeignKey,
+  HasMany,
   BelongsToMany,
 } from 'sequelize-typescript';
-import { Product } from './product';
 import { ProductPrice } from './product_price';
+import { Product } from './product';
 
 @Table({ tableName: 'price_category', timestamps: false })
 export class PriceCategory extends Model {
@@ -55,6 +56,9 @@ export class PriceCategory extends Model {
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
+
+  @HasMany(() => ProductPrice, { sourceKey: 'uuid' })
+  productPrices?: ProductPrice[];
 
   @BelongsToMany(() => Product, () => ProductPrice)
   products?: Product[];

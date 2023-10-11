@@ -10,11 +10,11 @@ import {
 } from 'sequelize-typescript';
 import { Product } from './product';
 import { MeasureUnit } from './measure_unit';
-import { PriceCategory } from './price_category';
+import { PriceCategory } from './price-category';
 
 @Table({ tableName: 'product_price', timestamps: false })
 export class ProductPrice extends Model {
-  @ForeignKey(() => PriceCategory)
+  @ForeignKey(() => Product)
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -35,6 +35,7 @@ export class ProductPrice extends Model {
   @Column({ field: 'measure_unit_uuid', allowNull: true, type: DataType.UUID })
   measureUnitUuid?: string;
 
+  @ForeignKey(() => PriceCategory)
   @Column({
     field: 'price_category_uuid',
     allowNull: true,
@@ -70,4 +71,7 @@ export class ProductPrice extends Model {
 
   @BelongsTo(() => MeasureUnit)
   measureUnit?: MeasureUnit;
+
+  @BelongsTo(() => PriceCategory)
+  priceCategory?: PriceCategory;
 }

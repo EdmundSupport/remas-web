@@ -13,7 +13,7 @@ import {
 import { Measure } from './measure';
 import { ProductType } from './product_type';
 import { ProductPrice } from './product_price';
-import { PriceCategory } from './price_category';
+import { PriceCategory } from './price-category';
 
 @Table({ tableName: 'product', timestamps: false })
 export class Product extends Model {
@@ -47,7 +47,7 @@ export class Product extends Model {
 
   @ForeignKey(() => Measure)
   @Column({ field: 'measure_uuid', allowNull: true, type: DataType.UUID })
-  @Index({ name: 'product_measure_idx', using: 'btree', unique: false })
+  @Index({ name: 'product_measure_uuid_idx', using: 'btree', unique: false })
   measureUuid?: string;
 
   @ForeignKey(() => ProductType)
@@ -82,10 +82,10 @@ export class Product extends Model {
   })
   updatedAt?: Date;
 
-  @HasMany(() => Product, { sourceKey: 'uuid', as: 'productsChild' })
+  @HasMany(() => Product, { sourceKey: 'uuid' })
   products?: Product[];
 
-  @BelongsTo(() => Product, {as: 'productParent'})
+  @BelongsTo(() => Product)
   product?: Product;
 
   @BelongsTo(() => Measure)
