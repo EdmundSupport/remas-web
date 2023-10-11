@@ -45,8 +45,8 @@ export class ProductDto {
         updatedAt: Date;
 
         @IsOptional()
-        @IsObject()
-        productChild: ProductDto;
+        @IsArray()
+        productChild: ProductDto[];
 
         @IsOptional()
         @IsObject()
