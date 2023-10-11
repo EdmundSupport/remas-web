@@ -12,6 +12,8 @@ import { finalize, map } from 'rxjs';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 import { ProductAutocompleteHelper } from 'src/app/datasource/remas/application/helper/product-autocomplete.helper';
+import { MeasureUnitInterface } from 'src/app/datasource/remas/domain/interface/measure-unit.interface';
+import { MeasureUnitAutocompleteHelper } from 'src/app/datasource/remas/application/helper/measure-unit-autocomplete.helper';
 
 @Component({
     selector: 'app-quotation-form-detail',
@@ -22,12 +24,19 @@ export class QuotationFormDetailComponent {
     products: ProductInterface[] = [];
     product!: ProductInterface;
 
+    measuresUnit: MeasureUnitInterface[] = [];
+    measureUnit!: MeasureUnitInterface;
+
 
     constructor(
         protected productAutompleteHelper: ProductAutocompleteHelper,
+        protected measureUnitAutompleteHelper: MeasureUnitAutocompleteHelper,
     ) {
         this.productAutompleteHelper.onChange = (product: ProductInterface) => this.product = product;
         this.productAutompleteHelper.onChanges = (products: ProductInterface[]) => this.products = products;
+
+        this.measureUnitAutompleteHelper.onChange = (measureUnit: MeasureUnitInterface) => this.measureUnit = measureUnit;
+        this.measureUnitAutompleteHelper.onChanges = (measuresUnit: MeasureUnitInterface[]) => this.measuresUnit = measuresUnit;
     }
 
     ngOnInit() {

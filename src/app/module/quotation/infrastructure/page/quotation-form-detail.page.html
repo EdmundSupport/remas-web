@@ -15,9 +15,9 @@
     </div>
     <div class="row">
         <div class="measure">
-            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
-                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
-                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
+            <app-autocomplete [initial]="measureUnit" [onOptionShow]="measureUnitAutompleteHelper.onOptionShow"
+                [placeholder]="'Medida'" (onSelected)="measureUnitAutompleteHelper.onSelected($event)"
+                (onChange)="measureUnitAutompleteHelper.onLoad($event)" [datasource]="measuresUnit">
             </app-autocomplete>
         </div>
         <div class="price">
