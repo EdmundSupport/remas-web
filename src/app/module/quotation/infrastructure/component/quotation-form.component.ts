@@ -18,15 +18,29 @@ export class QuotationFormComponent {
     client!: ClientInterface;
     clientTimer: any;
 
+    // quotation: Partial<QuotationInterface> = {
+    //     number: '',
+    //     date: new Date(),
+    //     clientUuid: '',
+    //     quotationDetails: [],
+    // };
     quotation: Partial<QuotationInterface> = {
-        number: '',
-        date: new Date(),
-        clientUuid: '',
-        quotationStatusUuid: '',
-        quotationDetails: [],
-    };
+        "number": 202310112243,
+        "date": "2023-10-12T04:43:14.671Z",
+        "clientUuid": "8cb9e5f1-d053-4455-9c08-94d2b520fa45",
+        "quotationDetails": [
+            {
+                "description": "Producto",
+                "amount": "10",
+                "price": "0.50",
+                "productUuid": "f1a114cd-bb82-45b8-b999-0da095243b12",
+                "measureUnitUuid": "d703d6eb-6b4a-4ef8-897b-3303e9523741",
+                "priceCategoryUuid": "0483ebf6-4cc0-4cbd-a18c-8e5c06fc083d"
+            }
+        ]
+    } as any;
 
-    total: number = 0;
+    total!: number;
     constructor(
         private quotationService: QuotationService,
         public clientService: ClientService,
@@ -37,8 +51,12 @@ export class QuotationFormComponent {
     ngOnInit() {
     }
 
+    ngAfterContentInit() {
+        this.total = this.onTotal();
+    }
+
     onLoad(index: number) {
-        const targetDiv = this.elementRef.nativeElement.querySelector('#detail'+index);
+        const targetDiv = this.elementRef.nativeElement.querySelector('#detail' + index);
 
         if (targetDiv) {
             targetDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -46,7 +64,42 @@ export class QuotationFormComponent {
     }
 
     ngOnChanges(data: any) {
-        this.onTotal();
+        console.log("🚀 ~ file: quotation-form.component.ts:67 ~ QuotationFormComponent ~ ngOnChanges ~ data:", data)
+    }
+
+    onSave(): any {
+        console.log("🚀 ~ file: quotation-form.component.ts:54 ~ QuotationFormComponent ~ onSave ~ this.quotation:", this.quotation)
+        if (!(this.quotation && this.quotation.clientUuid && this.quotation.clientUuid != ''))
+            return this.matSnackBar.open('Debes elegir a un cliente.', 'Ok');
+
+        if (!(this.quotation && this.quotation.number))
+            return this.matSnackBar.open('Debes escribir un número.', 'Ok');
+
+        if (!(this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails.length > 0))
+            return this.matSnackBar.open('Debes agregar el detalle de los productos.', 'Ok');
+
+        for (let index = 0; index < this.quotation.quotationDetails.length; index++) {
+            const detail = this.quotation.quotationDetails[index];
+
+            if (!(detail && detail.description && detail.description != ''))
+                return this.matSnackBar.open(`Debes agregar la descripcion en un producto.`, 'Ok');
+
+            if (!(detail && detail.amount && detail.amount != ''))
+                return this.matSnackBar.open(`Debes agregar la cantidad en el producto ${detail.description}.`, 'Ok');
+
+            if (!(detail && detail.price && detail.price != ''))
+                return this.matSnackBar.open(`Debes agregar el precio en el producto ${detail.description}.`, 'Ok');
+
+            if (!(detail && detail.productUuid))
+                return this.matSnackBar.open(`Hay un producto que tiene descripción, pero no se seleccionó el producto origen.`, 'Ok');
+
+            if (!(detail && detail.measureUnitUuid))
+                return this.matSnackBar.open(`Debes elegir una unidad de medida en el producto ${detail.description}.`, 'Ok');
+
+            if (!(detail && detail.priceCategoryUuid))
+                return this.matSnackBar.open(`El producto ${detail.description} tiene el precio agregado, pero no se seleccionó una categoria.`, 'Ok');
+
+        }
     }
 
     // region Autocomplete Client
@@ -84,7 +137,10 @@ export class QuotationFormComponent {
     onChangeDetail(index: number, detail: QuotationDetailInterface) {
         if (this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails[index]) {
             this.quotation.quotationDetails[index] = detail;
-            this.total = this.onTotal();
+            if (this.total >= 0){ 
+                console.log("🚀 ~ file: quotation-form.component.ts:138 ~ QuotationFormComponent ~ onChangeDetail ~ detail:", detail)
+                this.total = this.onTotal();
+            }
         }
 
     }
@@ -92,7 +148,7 @@ export class QuotationFormComponent {
     onDeleteDetail(index: number, detail: QuotationDetailInterface) {
         if (this.quotation && this.quotation.quotationDetails) {
             this.quotation.quotationDetails.splice(index, 1);
-            this.total = this.onTotal();
+            if (this.total >= 0) this.total = this.onTotal();
         }
     }
 

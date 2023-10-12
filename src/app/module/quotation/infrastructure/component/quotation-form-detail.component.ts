@@ -1,5 +1,5 @@
 import {
-    Component, EventEmitter, Input, Output,
+    Component, ElementRef, EventEmitter, Input, Output, Renderer2,
 } from '@angular/core';
 import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 import { MeasureUnitInterface } from 'src/app/datasource/remas/domain/interface/measure-unit.interface';
@@ -24,6 +24,7 @@ export class QuotationFormDetailComponent {
 
     products: ProductInterface[] = [];
     product!: ProductInterface;
+    productLoadFirst: boolean = false;
     productTimer: any;
 
     measuresUnit: MeasureUnitInterface[] = [];
@@ -38,24 +39,37 @@ export class QuotationFormDetailComponent {
         private productService: ProductService,
         private measureUnitService: MeasureUnitService,
         private priceCategoryService: PriceCategoryService,
+        private elementRef: ElementRef,
+        private renderer: Renderer2
     ) {
+
     }
 
     ngOnInit() {
-        if (this.detail.productUuid) this.onLoadProduct({ uuid: this.detail.productUuid, pagination: { offset: 0, limit: 100 } })
-            .add(() => {
-                this.product = this.products.find((product) => product.uuid == this.detail.productUuid)!;
-            });
+        if (this.detail) {
+            if (this.detail.description) this.product = { name: this.detail.description } as any;
+            if (this.detail.price) this.priceCategory = { productPrices: [{ amount: this.detail.price }] } as any;
+            // if (this.detail.productUuid) this.onLoadProduct({ uuid: this.detail.productUuid, pagination: { offset: 0, limit: 100 } })
+            //     .add(() => {
+            //         this.product = {name: this.detail.description} as any;
+            //     });
 
-        if (this.detail.measureUnitUuid) this.onLoadMeasureUnit({ uuid: this.detail.measureUnitUuid, pagination: { offset: 0, limit: 100 } })
-            .add(() => {
-                this.measureUnit = this.measuresUnit.find((measureUnit) => measureUnit.uuid == this.detail.measureUnitUuid)!;
-            });
+            if (this.detail.measureUnitUuid) this.onLoadMeasureUnit({ uuid: this.detail.measureUnitUuid, pagination: { offset: 0, limit: 100 } })
+                .add(() => {
+                    this.measureUnit = this.measuresUnit.find((measureUnit) => measureUnit.uuid == this.detail.measureUnitUuid)!;
+                });
 
-        if (this.detail.priceCategoryUuid) this.onLoadPriceCategory({ productPrices: [{ uuid: this.detail.priceCategoryUuid } as any], pagination: { offset: 0, limit: 100 } })
-            .add(() => {
-                this.priceCategory = this.pricesCategory.find((priceCategory) => priceCategory.uuid == this.detail.priceCategoryUuid)!;
-            });
+            // if (this.detail.priceCategoryUuid) this.onLoadPriceCategory({ productPrices: [{ uuid: this.detail.priceCategoryUuid } as any], pagination: { offset: 0, limit: 100 } })
+            //     .add(() => {
+            //         this.priceCategory = this.pricesCategory.find((priceCategory) => priceCategory.uuid == this.detail.priceCategoryUuid)!;
+            //     });
+        }
+    }
+
+    ngAfterContentInit() {
+        // const inputDescription = this.elementRef.nativeElement.querySelector('#inputDescription');
+        // this.renderer.setProperty(inputDescription, 'value', 'asd')
+        // this.product = '' as any;
     }
 
     ngAfterViewInit() {
@@ -68,6 +82,7 @@ export class QuotationFormDetailComponent {
 
     // region Autocomplete Product
     onChangeProduct(textProduct: string) {
+        console.log("🚀 ~ file: quotation-form-detail.component.ts:71 ~ QuotationFormDetailComponent ~ onChangeProduct ~ textProduct:", textProduct)
         this.detail.description = textProduct;
         this.onChange.emit(this.detail);
         if (this.productTimer) clearTimeout(this.productTimer);
@@ -80,6 +95,7 @@ export class QuotationFormDetailComponent {
     }
 
     onSelectProduct(product: ProductInterface) {
+        console.log("🚀 ~ file: quotation-form-detail.component.ts:86 ~ QuotationFormDetailComponent ~ onSelectProduct ~ product:", product)
         this.product = product;
         this.priceCategory = undefined as any;
         this.detail.productUuid = this.product.uuid;
@@ -87,6 +103,7 @@ export class QuotationFormDetailComponent {
     }
 
     onLoadProduct(filter: Partial<ProductInterface>) {
+        console.log("🚀 ~ file: quotation-form-detail.component.ts:98 ~ QuotationFormDetailComponent ~ onLoadProduct ~ filter:", filter)
         const payload = { pagination: { offset: 0, limit: 5 } };
         Object.assign(payload, filter);
         return this.productService.onFind(payload)
@@ -133,7 +150,7 @@ export class QuotationFormDetailComponent {
         this.detail.price = textPriceCategory;
         this.onChange.emit(this.detail);
         if (this.priceCategoryTimer) clearTimeout(this.priceCategoryTimer);
-
+        
         this.priceCategoryTimer = setTimeout(() => {
             if (textPriceCategory && this.product && this.measureUnit) {
                 const productPrices: Partial<ProductPriceInterface>[] = [{
