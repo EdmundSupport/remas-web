@@ -9,48 +9,48 @@ export class QuotationDto{
     
     @IsOptional()
     @IsString()
-    uuid?: string;
+    uuid: string;
     
     @IsOptional()
     @IsString()
-    number?: string;
+    number: string;
     
     @IsOptional()
     @IsDate()
-    date?: Date;
+    date: Date;
     
     @IsOptional()
     @IsString()
-    clientUuid?: string;
+    clientUuid: string;
     
     @IsOptional()
     @IsString()
-    quotationStatusUuid?: string;
+    quotationStatusUuid: string;
     
     @IsOptional()
     @IsBoolean()
-    condition?: boolean;
+    condition: boolean;
     
     @IsOptional()
     @IsDate()
-    createdAt?: Date;
+    createdAt: Date;
     
     @IsOptional()
     @IsDate()
-    updatedAt?: Date;
+    updatedAt: Date;
     
     @IsOptional()
     @IsObject()
-    client?: ClientDto;
+    client: ClientDto;
     
     @IsOptional()
     @IsObject()
-    quotationStatus?: QuotationStatusDto;
+    quotationStatus: QuotationStatusDto;
     
     @IsOptional()
     @IsArray()
     @Type(()=>QuotationDetailDto)
-    quotationDetails?: QuotationDetailDto[];
+    quotationDetails: QuotationDetailDto[];
 
     @IsOptional()
     @IsObject()
