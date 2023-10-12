@@ -15,20 +15,26 @@ export class AutocompleteComponent<T>{
     @Input('width') width!: string;
     @Input('placeholder') placeholder: string = '';
     @Input('initial') initial!: T;
-    @Input('value') value!: T;
+    @Output('onChangeValue') onChangeValue = new EventEmitter<string>();
     @Input('datasource') datasource: T[] = [];
     @Output('onChange') onChange = new EventEmitter<string>();
     @Output('onSelected') onSelected = new EventEmitter<T>();
     @Input('onOptionShow') onOptionShow: (arg: T) => string = (() => '');
+    @Input('onOptionSelected') onOptionSelected!: (arg: T) => string;
+    @Input('form') form = new FormControl();
     objSelected!: T | undefined;
-    form = new FormControl();
+    value!: string;
+    
     timer: any;
     constructor() {
-        this.onLoadDatasource();
+        if(!this.onOptionSelected) this.onOptionSelected = this.onOptionShow;
+
     }
 
     ngOnInit() {
-        this.form.setValue(this.onOptionShow(this.initial));
+        this.onLoadDatasource();
+        console.log("🚀 ~ file: autocomplete.component.ts:35 ~ AutocompleteComponent<T> ~ ngOnInit ~ this.initial:", this.initial)
+        this.form.setValue(this.initial);
     }
 
     onClickOption(obj: T) {
@@ -37,10 +43,12 @@ export class AutocompleteComponent<T>{
 
     onLoadDatasource() {
         this.form.valueChanges.pipe(
-            startWith(this.onOptionShow(this.initial)),
+            startWith(this.initial),
             map((value) => {
                 return value;
             })).subscribe((value) => {
+                console.log("🚀 ~ file: autocomplete.component.ts:45 ~ AutocompleteComponent<T> ~ map ~ value:", value)
+                this.onChangeValue.emit(value);
                 if (this.timer) clearTimeout(this.timer);
 
                 this.timer = setTimeout(() => {

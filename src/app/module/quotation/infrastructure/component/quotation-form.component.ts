@@ -1,15 +1,10 @@
 import {
     Component,
 } from '@angular/core';
-import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
-import { subDays, startOfDay, addDays, endOfMonth, addHours } from 'date-fns';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { colors } from 'src/app/shared/color/domain/constant/color.constant';
 import { QuotationService } from '../../application/service/quotation.service';
-import { QuotationCreateInterface } from '../../domain/interface/quotation.interface';
+import { QuotationCreateInterface, QuotationInterface } from '../../domain/interface/quotation.interface';
 import { ClientService } from 'src/app/module/client/application/service/client.service';
-import { finalize, map } from 'rxjs';
-import { ClientAutocompleteHelper } from 'src/app/module/client/application/helper/client-autocomplete.helper';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 
 @Component({
@@ -20,28 +15,55 @@ import { ClientInterface } from 'src/app/datasource/remas/domain/interface/clien
 export class QuotationFormComponent {
     clients: ClientInterface[] = [];
     client!: ClientInterface;
+    clientTimer: any;
 
-    quotation: QuotationCreateInterface = {
+    quotation: Partial<QuotationInterface> = {
         number: '',
         date: new Date(),
         clientUuid: '',
-        quotationDetails: [],
+        quotationStatusUuid: '',
     };
     constructor(
         private quotationService: QuotationService,
         public clientService: ClientService,
-        public clientAutocompleteHelper: ClientAutocompleteHelper,
         private matSnackBar: MatSnackBar,
-    ) { 
-        this.clientAutocompleteHelper.onClientChange = (client: ClientInterface)=>this.client = client;
-        this.clientAutocompleteHelper.onClientsChange = (clients: ClientInterface[])=>this.clients = clients;
-    }
+    ) { }
 
     ngOnInit() {
-        this.clientAutocompleteHelper.onClientLoadInitial();
     }
 
-    onImporteSum(){
+    // region Autocomplete Client
+    onChangeClient(textClient: string) {
+        if (this.clientTimer) clearTimeout(this.clientTimer);
+
+        this.clientTimer = setTimeout(() => {
+            if (textClient) {
+                this.onLoadClient({ tributes: { companies: [{ name: textClient } as any] } as any })
+            }
+        }, 400);
+    }
+
+    onSelectClient(client: ClientInterface) {
+        this.client = client;
+        this.quotation.clientUuid = this.client.uuid;
+    }
+
+    onLoadClient(filter: Partial<ClientInterface>) {
+        const payload = { pagination: { offset: 0, limit: 5 } };
+        Object.assign(payload, filter);
+        return this.clientService.onFind(payload)
+            .subscribe((data) => this.clients = data);
+    }
+
+    onShowClient(client: ClientInterface) {
+        return (client && client.tributes
+            && client.tributes.companies
+            && client.tributes.companies[0]
+            && client.tributes.companies[0].name) ? client.tributes.companies[0].name : '';
+    }
+    // endregion Autocomplete Client
+
+    onImporteSum() {
         return 9999999.99;
     }
 

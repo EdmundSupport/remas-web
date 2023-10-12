@@ -1,30 +1,51 @@
 <div class="detail">
     <div class="row">
         <div class="amount">
-            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
-                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
-                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
-            </app-autocomplete>
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Cant.</mat-label>
+                <input type="text" placeholder="Cant." [(ngModel)]="detail.amount" matInput />
+            </mat-form-field>
         </div>
         <div class="description">
-            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
-                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
-                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
-            </app-autocomplete>
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Descripcion</mat-label>
+                <input type="text" placeholder="Descripcion" matInput [(ngModel)]="product"
+                    (ngModelChange)="onChangeProduct($event)" [matAutocomplete]="description" />
+                <mat-autocomplete #description="matAutocomplete" [displayWith]="onShowProduct">
+                    <mat-option *ngFor="let item of products" [value]="onShowProduct(item)"
+                        (click)="onSelectProduct(item)">
+                        {{ onShowProduct(item) }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
         </div>
     </div>
     <div class="row">
         <div class="measure">
-            <app-autocomplete [initial]="measureUnit" [onOptionShow]="measureUnitAutompleteHelper.onOptionShow"
-                [placeholder]="'Medida'" (onSelected)="measureUnitAutompleteHelper.onSelected($event)"
-                (onChange)="measureUnitAutompleteHelper.onLoad($event)" [datasource]="measuresUnit">
-            </app-autocomplete>
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Medida</mat-label>
+                <input type="text" placeholder="Medida" matInput [(ngModel)]="measureUnit"
+                    (ngModelChange)="onChangeMeasureUnit($event)" [matAutocomplete]="measure" />
+                <mat-autocomplete #measure="matAutocomplete" [displayWith]="onShowMeasureUnit">
+                    <mat-option *ngFor="let item of measuresUnit" [value]="onShowMeasureUnit(item)"
+                        (click)="onSelectMeasureUnit(item)">
+                        {{ onShowMeasureUnit(item) }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
         </div>
         <div class="price">
-            <app-autocomplete [initial]="product" [onOptionShow]="productAutompleteHelper.onOptionShow"
-                [placeholder]="'Producto'" (onSelected)="productAutompleteHelper.onSelected($event)"
-                (onChange)="productAutompleteHelper.onLoad($event)" [datasource]="products">
-            </app-autocomplete>
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Precio</mat-label>
+                <input type="text" placeholder="Precio" matInput [(ngModel)]="priceCategory"
+                    (ngModelChange)="onChangePriceCategory($event)" [matAutocomplete]="price" />
+                <mat-autocomplete #price="matAutocomplete" [displayWith]="onDisplayPriceCategory">
+                    <mat-option *ngFor="let item of pricesCategory" [value]="onShowPriceCategory(item)"
+                        (click)="onSelectPriceCategory(item)">
+                        {{ onShowPriceCategory(item) }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
         </div>
         <div class="total">
             <mat-form-field [subscriptSizing]="'dynamic'">
@@ -33,7 +54,8 @@
             </mat-form-field>
         </div>
         <div class="control">
-            <button mat-icon-button color="warn" aria-label="Example icon button with a delete icon">
+            <button (click)="onDelete()" mat-icon-button color="warn"
+                aria-label="Example icon button with a delete icon">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>

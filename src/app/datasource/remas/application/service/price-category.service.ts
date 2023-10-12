@@ -3,13 +3,13 @@ import { Injectable } from "@angular/core";
 import { environment } from "environment";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { ClientInterface } from "src/app/datasource/remas/domain/interface/client.interface";
 import { SerializeHelper } from "src/app/shared/serialize/application/helper/serialize.helper";
+import { PriceCategoryInterface } from "../../domain/interface/price-category.interface";
 
 @Injectable({
     providedIn: 'root',
 })
-export class ClientService {
+export class PriceCategoryService {
     url = environment.remas;
     onFind$ = new BehaviorSubject<boolean>(false);
 
@@ -17,10 +17,10 @@ export class ClientService {
         private httpService: HttpClient,
     ) { }
 
-    onFind(measureUnit: Partial<ClientInterface> = { pagination: { offset: 0, limit: 100 } }): Observable<any> {
+    onFind(measureUnit: Partial<PriceCategoryInterface> = { pagination: { offset: 0, limit: 100 } }): Observable<any> {
         this.onFind$.next(true);
         const queryParams = SerializeHelper.objectToQueryParams(measureUnit);
-        return this.httpService.get(this.url + '/v1/client' + queryParams).pipe(
+        return this.httpService.get(this.url + '/v1/price-category' + queryParams).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();

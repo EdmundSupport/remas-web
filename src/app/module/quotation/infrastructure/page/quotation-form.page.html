@@ -3,84 +3,32 @@
     <h1>
         Inicio de Sesion
     </h1>
-    <p>
+    <div>
         <mat-form-field appearance="fill">
             <mat-label>Número</mat-label>
-            <input type="number" [(ngModel)]="quotation.number" matInput placeholder="Número">
+            <input type="number" [(ngModel)]="quotation.number!" matInput placeholder="Número">
         </mat-form-field>
-    </p>
-    <p>
+    </div>
+    <div>
         <mat-form-field>
             <mat-label>Choose a date</mat-label>
             <input matInput [matDatepicker]="picker" [(ngModel)]="quotation.date">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-    </p>
-    <p>
-    <!-- <div *ngIf="clientService.onFindLoad$ | async; else clientAutocomplete">
-        <mat-spinner></mat-spinner>
-        <div class="spinner"></div>
     </div>
-    <ng-template #clientAutocomplete>
-        <app-autocomplete [initial]="client" [onOptionShow]="clientAutocompleteHelper.onClientOptionShow"
-            (onSelected)="clientAutocompleteHelper.onClientSelected($event)"
-            (onChange)="clientAutocompleteHelper.onClientSearch($event)" [datasource]="clients">
-        </app-autocomplete>
-    </ng-template> -->
+    <div>
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Cliente</mat-label>
+            <input type="text" placeholder="Cliente" matInput [(ngModel)]="client!"
+                (ngModelChange)="onChangeClient($event)" [matAutocomplete]="clientA" />
+            <mat-autocomplete #clientA="matAutocomplete" [displayWith]="onShowClient">
+                <mat-option *ngFor="let item of clients" [value]="onShowClient(item)"
+                    (click)="onSelectClient(item)">
+                    {{ onShowClient(item) }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
     <app-quotation-form-detail></app-quotation-form-detail>
-
-    <!-- <div class="card">
-        <div class="header">
-            <div class="amount">
-                <app-autocomplete [placeholder]="'Monto'" [initial]="client" [onOptionShow]="onClientOptionShow"
-                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
-                    [datasource]="clients"></app-autocomplete>
-            </div>
-            <div class="description">
-                <app-autocomplete [placeholder]="'Descripcion'" [initial]="client" [onOptionShow]="onClientOptionShow"
-                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
-                    [datasource]="clients"></app-autocomplete>
-            </div>
-        </div>
-        <div class="content">
-            <div class="measure">
-                <app-autocomplete [placeholder]="'Medida'" [initial]="client" [onOptionShow]="onClientOptionShow"
-                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
-                    [datasource]="clients"></app-autocomplete>
-            </div>
-            <div class="price">
-                <app-autocomplete [placeholder]="'Precio'" [initial]="client" [onOptionShow]="onClientOptionShow"
-                    (onSelected)="onClientSelected($event)" (onChange)="onClientSearch($event)"
-                    [datasource]="clients"></app-autocomplete>
-            </div>
-            <div class="total">
-                <mat-form-field [subscriptSizing]="'dynamic'">
-                    <mat-label>Importe</mat-label>
-                    <input type="text" placeholder="Importe" disabled [value]="onImporteSum()" matInput />
-                </mat-form-field>
-            </div>
-            <div class="control">
-                <button mat-icon-button color="warn" aria-label="Example icon button with a delete icon">
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button> -->
-
-    <p>
-        <!-- <div *ngIf="authService.onLogInLoading$ | async; else content">
-        <mat-spinner></mat-spinner>
-        <div class="spinner"></div>
-    </div>
-    <ng-template #content>
-        <div>
-            <button mat-raised-button color="primary" (click)="onLogIn()">Iniciar Sesion</button>
-        </div>
-    </ng-template>
-    <p>
-        <button mat-button color="accent" routerLink="auth">Registrarme</button>
-    </p> -->
 </div>

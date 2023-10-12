@@ -1,13 +1,13 @@
 <mat-form-field [subscriptSizing]="'dynamic'">
     <mat-label>{{placeholder}}</mat-label>
     <input type="text" placeholder="{{placeholder}}" matInput [formControl]="form" [matAutocomplete]="auto" />
-    <mat-autocomplete #auto="matAutocomplete">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="onOptionSelected">
         <!-- <div *ngIf="onLoadingDatasource$ | async; else content">
             <mat-spinner></mat-spinner>
             <div class="spinner"></div>
         </div> -->
         <!-- <ng-template #content> -->
-            <mat-option *ngFor="let item of datasource" [value]="onOptionShow(item)" (click)="onClickOption(item)">
+            <mat-option *ngFor="let item of datasource"  [value]="item" (click)="onClickOption(item)">
                 {{ onOptionShow(item) }}
             </mat-option>
         <!-- </ng-template> -->

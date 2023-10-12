@@ -4,7 +4,7 @@ import { QuotationRoutingModule } from "./quotation-routing.module";
 import { CalendarModule } from "src/app/shared/component/calendar/calendar.module";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
@@ -33,6 +33,10 @@ import { QuotationFormDetailComponent } from "./infrastructure/component/quotati
         MatButtonModule,
         MatAutocompleteModule,
         MatProgressSpinnerModule,
+        
+        
+        ReactiveFormsModule,
+
 
         FormsModule,
         CommonModule,
