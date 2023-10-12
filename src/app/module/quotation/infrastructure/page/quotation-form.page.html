@@ -34,4 +34,5 @@
             (onChange)="onChangeDetail(i, $event)"></app-quotation-form-detail>
     </ng-container>
 </div>
-<app-button-float [iconName]="'add'" (onClick)="onAddDetail()">
+<app-button-float [iconName]="'add'" (onClick)="onAddDetail()" />
+<app-button-float [position]="2" [iconName]="'save'" (onClick)="onAddDetail()" />

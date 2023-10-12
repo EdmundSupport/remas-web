@@ -46,7 +46,6 @@ export class QuotationFormComponent {
     }
 
     ngOnChanges(data: any) {
-        console.log("🚀 ~ file: quotation-form.component.ts:40 ~ QuotationFormComponent ~ ngOnChanges ~ data:", data)
         this.onTotal();
     }
 
@@ -83,13 +82,6 @@ export class QuotationFormComponent {
 
 
     onChangeDetail(index: number, detail: QuotationDetailInterface) {
-        // console.log("🚀 ~ file: quotation-form.component.ts:76 ~ QuotationFormComponent ~ onChangeDetail ~ detail:", detail)
-        // // this.total = this.onTotal();
-        // const amount = Number.isNaN(detail.amount) ? 0 : Number(detail.amount);
-        // const price = Number.isNaN(detail.price) ? 0 : Number(detail.price);
-        // // console.log("🚀 ~ file: quotation-form.component.ts:81 ~ QuotationFormComponent ~ onChangeDetail ~ this.total:", this.total, amount, price)
-        // this.total = this.total + (amount * price);
-
         if (this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails[index]) {
             this.quotation.quotationDetails[index] = detail;
             this.total = this.onTotal();
@@ -102,10 +94,6 @@ export class QuotationFormComponent {
             this.quotation.quotationDetails.splice(index, 1);
             this.total = this.onTotal();
         }
-
-        // const amount = !Number.isNaN(detail.amount) ? 0 : Number(detail.amount);
-        // const price = !Number.isNaN(detail.price) ? 0 : Number(detail.price);
-        // this.total += (amount * price);
     }
 
     onAddDetail() {
@@ -116,7 +104,6 @@ export class QuotationFormComponent {
     }
 
     onTotal() {
-        // this.total + amount;
         if (this.quotation && this.quotation.quotationDetails) {
             return this.quotation.quotationDetails.reduce((total, quotationDetail) => {
                 if (quotationDetail && quotationDetail.amount && quotationDetail.price) {

@@ -1,5 +1,5 @@
-<div class="button-float">
-    <button (click)="click()" mat-fab color="primary">
-        <mat-icon>{{iconName}}</mat-icon>
-      </button>
+<div class="button-float" [style.bottom]="(position*10)+ (56*(position-1)) + 'px'">
+  <button (click)="click()" mat-fab color="primary">
+    <mat-icon>{{iconName}}</mat-icon>
+  </button>
 </div>

@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
     ]
 })
 export class ButtonFloatComponent {
+    @Input('position') position: number = 1;
     @Input('iconName') iconName!: string;
     @Output('onClick') onClick = new EventEmitter();
     constructor() { }
