@@ -1,5 +1,7 @@
+<app-superposition-loading *ngIf="onSaveLoading$ | async">
+    <mat-spinner></mat-spinner>
+</app-superposition-loading>
 <div>
-
     <div>
         <mat-form-field appearance="fill">
             <mat-label>Número</mat-label>

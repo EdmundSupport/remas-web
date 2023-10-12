@@ -18,6 +18,7 @@ import { AutocompleteModule } from "src/app/shared/component/autocomplete/autoco
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { QuotationFormDetailComponent } from "./infrastructure/component/quotation-form-detail.component";
 import { ButtonFloatComponent } from "src/app/shared/component/button-float/infrastructure/component/button-float.component";
+import { SuperpositionLoadingComponent } from "src/app/shared/component/superposition-loading/infrastructure/component/superposition-loading.component";
 @NgModule({
     declarations: [
         QuotationComponent,
@@ -45,6 +46,7 @@ import { ButtonFloatComponent } from "src/app/shared/component/button-float/infr
         QuotationRoutingModule,
         AutocompleteModule,
         ButtonFloatComponent,
+        SuperpositionLoadingComponent,
     ]
 })
 export class QuotationModule { }

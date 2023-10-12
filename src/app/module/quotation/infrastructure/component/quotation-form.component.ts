@@ -7,6 +7,8 @@ import { ClientService } from 'src/app/module/client/application/service/client.
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 import { QuotationInterface } from 'src/app/datasource/remas/domain/interface/quotation.interface';
 import { QuotationDetailInterface } from 'src/app/datasource/remas/domain/interface/quotation-detail.interface';
+import { BehaviorSubject, finalize } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-quotation-form',
@@ -18,34 +20,24 @@ export class QuotationFormComponent {
     client!: ClientInterface;
     clientTimer: any;
 
-    // quotation: Partial<QuotationInterface> = {
-    //     number: '',
-    //     date: new Date(),
-    //     clientUuid: '',
-    //     quotationDetails: [],
-    // };
     quotation: Partial<QuotationInterface> = {
-        "number": 202310112243,
-        "date": "2023-10-12T04:43:14.671Z",
-        "clientUuid": "8cb9e5f1-d053-4455-9c08-94d2b520fa45",
-        "quotationDetails": [
-            {
-                "description": "Producto",
-                "amount": "10",
-                "price": "0.50",
-                "productUuid": "f1a114cd-bb82-45b8-b999-0da095243b12",
-                "measureUnitUuid": "d703d6eb-6b4a-4ef8-897b-3303e9523741",
-                "priceCategoryUuid": "0483ebf6-4cc0-4cbd-a18c-8e5c06fc083d"
-            }
-        ]
-    } as any;
+        number: '',
+        date: new Date(),
+        clientUuid: '',
+        quotationDetails: [],
+    };
 
     total!: number;
+
+    onSaveLoading$ = new BehaviorSubject<boolean>(false);
+    timeSaveLoading: any;
     constructor(
         private quotationService: QuotationService,
         public clientService: ClientService,
         private matSnackBar: MatSnackBar,
         private elementRef: ElementRef,
+        private router: Router,
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
@@ -64,42 +56,64 @@ export class QuotationFormComponent {
     }
 
     ngOnChanges(data: any) {
-        console.log("🚀 ~ file: quotation-form.component.ts:67 ~ QuotationFormComponent ~ ngOnChanges ~ data:", data)
+    }
+
+    onStopSaveLoading() {
+        this.onSaveLoading$.next(false)
+        clearTimeout(this.timeSaveLoading);
     }
 
     onSave(): any {
-        console.log("🚀 ~ file: quotation-form.component.ts:54 ~ QuotationFormComponent ~ onSave ~ this.quotation:", this.quotation)
+        this.onSaveLoading$.next(true);
+        const timeMin = 5;
+        const timeMs = 1000 * 60 * timeMin;
+        this.timeSaveLoading = setTimeout(() => {
+            this.matSnackBar.open(`Se detuvo la operacion, porque se espero mas de ${timeMin} minutos.`);
+            this.onSaveLoading$.next(false);
+        }, timeMs);
+
         if (!(this.quotation && this.quotation.clientUuid && this.quotation.clientUuid != ''))
-            return this.matSnackBar.open('Debes elegir a un cliente.', 'Ok');
+            return this.matSnackBar.open('Debes elegir a un cliente.', 'Ok') && this.onStopSaveLoading();
 
         if (!(this.quotation && this.quotation.number))
-            return this.matSnackBar.open('Debes escribir un número.', 'Ok');
+            return this.matSnackBar.open('Debes escribir un número.', 'Ok') && this.onStopSaveLoading();
 
         if (!(this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails.length > 0))
-            return this.matSnackBar.open('Debes agregar el detalle de los productos.', 'Ok');
+            return this.matSnackBar.open('Debes agregar el detalle de los productos.', 'Ok') && this.onStopSaveLoading();
 
         for (let index = 0; index < this.quotation.quotationDetails.length; index++) {
             const detail = this.quotation.quotationDetails[index];
 
             if (!(detail && detail.description && detail.description != ''))
-                return this.matSnackBar.open(`Debes agregar la descripcion en un producto.`, 'Ok');
+                return this.matSnackBar.open(`Debes agregar la descripcion en un producto.`, 'Ok') && this.onStopSaveLoading();
 
             if (!(detail && detail.amount && detail.amount != ''))
-                return this.matSnackBar.open(`Debes agregar la cantidad en el producto ${detail.description}.`, 'Ok');
+                return this.matSnackBar.open(`Debes agregar la cantidad en el producto ${detail.description}.`, 'Ok') && this.onStopSaveLoading();
 
             if (!(detail && detail.price && detail.price != ''))
-                return this.matSnackBar.open(`Debes agregar el precio en el producto ${detail.description}.`, 'Ok');
+                return this.matSnackBar.open(`Debes agregar el precio en el producto ${detail.description}.`, 'Ok') && this.onStopSaveLoading();
 
             if (!(detail && detail.productUuid))
-                return this.matSnackBar.open(`Hay un producto que tiene descripción, pero no se seleccionó el producto origen.`, 'Ok');
+                return this.matSnackBar.open(`Hay un producto que tiene descripción, pero no se seleccionó el producto origen.`, 'Ok') && this.onStopSaveLoading();
 
             if (!(detail && detail.measureUnitUuid))
-                return this.matSnackBar.open(`Debes elegir una unidad de medida en el producto ${detail.description}.`, 'Ok');
+                return this.matSnackBar.open(`Debes elegir una unidad de medida en el producto ${detail.description}.`, 'Ok') && this.onStopSaveLoading();
 
             if (!(detail && detail.priceCategoryUuid))
-                return this.matSnackBar.open(`El producto ${detail.description} tiene el precio agregado, pero no se seleccionó una categoria.`, 'Ok');
+                return this.matSnackBar.open(`El producto ${detail.description} tiene el precio agregado, pero no se seleccionó una categoria.`, 'Ok') && this.onStopSaveLoading();
 
         }
+        if (!(this.quotation && this.quotation.uuid && this.quotation.uuid != ''))
+            this.quotationService.onCreate(this.quotation as any).pipe(
+                finalize(() => this.onStopSaveLoading()))
+                .subscribe((result: any) => {
+                    console.log("🚀 ~ file: quotation-form.component.ts:107 ~ QuotationFormComponent ~ .subscribe ~ result:", result)
+                    if (result.statusCode != 201)
+                        this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'OK');
+
+                    this.matSnackBar.open(result?.message ?? 'La cotizacion fue creada con exito.', 'OK');
+                    this.router.navigate(['../'], { relativeTo: this.route })
+                });
     }
 
     // region Autocomplete Client
@@ -137,8 +151,7 @@ export class QuotationFormComponent {
     onChangeDetail(index: number, detail: QuotationDetailInterface) {
         if (this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails[index]) {
             this.quotation.quotationDetails[index] = detail;
-            if (this.total >= 0){ 
-                console.log("🚀 ~ file: quotation-form.component.ts:138 ~ QuotationFormComponent ~ onChangeDetail ~ detail:", detail)
+            if (this.total || this.total == 0 || `${this.total}` == 'NaN') {
                 this.total = this.onTotal();
             }
         }
@@ -148,7 +161,7 @@ export class QuotationFormComponent {
     onDeleteDetail(index: number, detail: QuotationDetailInterface) {
         if (this.quotation && this.quotation.quotationDetails) {
             this.quotation.quotationDetails.splice(index, 1);
-            if (this.total >= 0) this.total = this.onTotal();
+            if (this.total || this.total == 0 || `${this.total}` == 'NaN') this.total = this.onTotal();
         }
     }
 
@@ -168,7 +181,7 @@ export class QuotationFormComponent {
                     const op = total + (amount * price);
                     return op;
                 } else return total + 0;
-            }, 0)
+            }, 0);
         }
         return 0;
     }
