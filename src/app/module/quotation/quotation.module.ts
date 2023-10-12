@@ -17,6 +17,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AutocompleteModule } from "src/app/shared/component/autocomplete/autocomplete.module";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { QuotationFormDetailComponent } from "./infrastructure/component/quotation-form-detail.component";
+import { ButtonFloatComponent } from "src/app/shared/component/button-float/infrastructure/component/button-float.component";
 @NgModule({
     declarations: [
         QuotationComponent,
@@ -43,6 +44,7 @@ import { QuotationFormDetailComponent } from "./infrastructure/component/quotati
         CalendarModule,
         QuotationRoutingModule,
         AutocompleteModule,
+        ButtonFloatComponent,
     ]
 })
 export class QuotationModule { }

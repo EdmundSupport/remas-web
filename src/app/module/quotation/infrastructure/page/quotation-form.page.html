@@ -1,8 +1,5 @@
 <div>
-    <p>
-    <h1>
-        Inicio de Sesion
-    </h1>
+
     <div>
         <mat-form-field appearance="fill">
             <mat-label>Número</mat-label>
@@ -23,12 +20,18 @@
             <input type="text" placeholder="Cliente" matInput [(ngModel)]="client!"
                 (ngModelChange)="onChangeClient($event)" [matAutocomplete]="clientA" />
             <mat-autocomplete #clientA="matAutocomplete" [displayWith]="onShowClient">
-                <mat-option *ngFor="let item of clients" [value]="onShowClient(item)"
-                    (click)="onSelectClient(item)">
+                <mat-option *ngFor="let item of clients" [value]="onShowClient(item)" (click)="onSelectClient(item)">
                     {{ onShowClient(item) }}
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
     </div>
-    <app-quotation-form-detail></app-quotation-form-detail>
+    <div class="total">
+        Total: {{total}}
+    </div>
+    <ng-container *ngFor="let detail of quotation.quotationDetails; let i = index">
+        <app-quotation-form-detail (onLoad)="onLoad(i)" [attr.id]="'detail' + i" [detail]="detail" (onDelete)="onDeleteDetail(i, $event)"
+            (onChange)="onChangeDetail(i, $event)"></app-quotation-form-detail>
+    </ng-container>
 </div>
+<app-button-float [iconName]="'add'" (onClick)="onAddDetail()">

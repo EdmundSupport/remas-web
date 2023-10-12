@@ -1,5 +1,5 @@
 import {
-    Component,
+    Component, EventEmitter, Input, Output,
 } from '@angular/core';
 import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 import { MeasureUnitInterface } from 'src/app/datasource/remas/domain/interface/measure-unit.interface';
@@ -17,7 +17,10 @@ import { ClientInterface } from 'src/app/datasource/remas/domain/interface/clien
     styleUrls: ['../style/quotation-form-detail.style.scss'],
 })
 export class QuotationFormDetailComponent {
-    detail: Partial<QuotationDetailInterface> = {};
+    @Output('onDelete') onDelete = new EventEmitter();
+    @Output('onChange') onChange = new EventEmitter();
+    @Output('onLoad') onLoad = new EventEmitter();
+    @Input('detail') detail!: QuotationDetailInterface;
 
     products: ProductInterface[] = [];
     product!: ProductInterface;
@@ -39,25 +42,34 @@ export class QuotationFormDetailComponent {
     }
 
     ngOnInit() {
-        this.onLoadProduct({ uuid: this.detail.productUuid, pagination: { offset: 0, limit: 100 } })
+        if (this.detail.productUuid) this.onLoadProduct({ uuid: this.detail.productUuid, pagination: { offset: 0, limit: 100 } })
             .add(() => {
                 this.product = this.products.find((product) => product.uuid == this.detail.productUuid)!;
             });
 
-        this.onLoadMeasureUnit({ uuid: this.detail.measureUnitUuid, pagination: { offset: 0, limit: 100 } })
+        if (this.detail.measureUnitUuid) this.onLoadMeasureUnit({ uuid: this.detail.measureUnitUuid, pagination: { offset: 0, limit: 100 } })
             .add(() => {
                 this.measureUnit = this.measuresUnit.find((measureUnit) => measureUnit.uuid == this.detail.measureUnitUuid)!;
             });
 
-        this.onLoadPriceCategory({ productPrices: [{ uuid: this.detail.priceCategoryUuid } as any], pagination: { offset: 0, limit: 100 } })
+        if (this.detail.priceCategoryUuid) this.onLoadPriceCategory({ productPrices: [{ uuid: this.detail.priceCategoryUuid } as any], pagination: { offset: 0, limit: 100 } })
             .add(() => {
                 this.priceCategory = this.pricesCategory.find((priceCategory) => priceCategory.uuid == this.detail.priceCategoryUuid)!;
             });
     }
 
+    ngAfterViewInit() {
+        this.onLoad.emit();
+    }
+
+    ngOnChanges(data: any) {
+        this.onChange.emit(this.detail);
+    }
+
     // region Autocomplete Product
     onChangeProduct(textProduct: string) {
         this.detail.description = textProduct;
+        this.onChange.emit(this.detail);
         if (this.productTimer) clearTimeout(this.productTimer);
 
         this.productTimer = setTimeout(() => {
@@ -69,7 +81,9 @@ export class QuotationFormDetailComponent {
 
     onSelectProduct(product: ProductInterface) {
         this.product = product;
+        this.priceCategory = undefined as any;
         this.detail.productUuid = this.product.uuid;
+        this.onChange.emit(this.detail);
     }
 
     onLoadProduct(filter: Partial<ProductInterface>) {
@@ -97,7 +111,9 @@ export class QuotationFormDetailComponent {
 
     onSelectMeasureUnit(measureUnit: MeasureUnitInterface) {
         this.measureUnit = measureUnit;
+        this.priceCategory = undefined as any;
         this.detail.measureUnitUuid = this.measureUnit.uuid;
+        this.onChange.emit(this.detail);
     }
 
     onLoadMeasureUnit(filter: Partial<MeasureUnitInterface>) {
@@ -115,17 +131,18 @@ export class QuotationFormDetailComponent {
     // region Autocomplete Price Category
     onChangePriceCategory(textPriceCategory: string) {
         this.detail.price = textPriceCategory;
+        this.onChange.emit(this.detail);
         if (this.priceCategoryTimer) clearTimeout(this.priceCategoryTimer);
 
         this.priceCategoryTimer = setTimeout(() => {
-            if (textPriceCategory) {
+            if (textPriceCategory && this.product && this.measureUnit) {
                 const productPrices: Partial<ProductPriceInterface>[] = [{
                     productUuid: this.detail.productUuid
                 }];
 
                 const filter: Partial<PriceCategoryInterface> = {
                     name: textPriceCategory,
-                    productPrices: productPrices as any[],
+                    productPrices: productPrices as any[] ?? null,
                 };
                 this.onLoadPriceCategory(filter as any)
             }
@@ -133,13 +150,17 @@ export class QuotationFormDetailComponent {
     }
 
     onSelectPriceCategory(priceCategory: PriceCategoryInterface) {
-        this.priceCategory = priceCategory;
-        this.detail.priceCategoryUuid = this.priceCategory.uuid;
+        if (priceCategory && priceCategory.productPrices && priceCategory.productPrices[0]) {
+            this.priceCategory = priceCategory;
+            this.detail.price = this.priceCategory.productPrices[0].amount;
+            this.detail.priceCategoryUuid = this.priceCategory.uuid;
+            this.onChange.emit(this.detail);
+        }
     }
 
     onLoadPriceCategory(filter: Partial<PriceCategoryInterface>) {
 
-        const payload = { pagination: { offset: 0, limit: 5 } };
+        const payload = { pagination: { offset: 0, limit: 5 }, productPrices: [{ condition: true }] as any };
         Object.assign(payload, filter);
         return this.priceCategoryService.onFind(payload)
             .subscribe((data) => {
@@ -160,12 +181,12 @@ export class QuotationFormDetailComponent {
     // endregion Autocomplete Price Category
 
     onImporteSum() {
-        return 9999999.99;
+        const amount = Number.isNaN(this.detail.amount) ? 0 : Number(this.detail.amount);
+        const price = Number.isNaN(this.detail.price) ? 0 : Number(this.detail.price);
+        return amount * price;
     }
 
-    onLogIn() {
-    }
-
-    onDelete() {
+    delete() {
+        if (this.onDelete) this.onDelete.emit(this.detail);
     }
 }

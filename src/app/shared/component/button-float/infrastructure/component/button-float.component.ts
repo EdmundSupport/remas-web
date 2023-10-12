@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -13,9 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
     ]
 })
 export class ButtonFloatComponent {
-    @Input() iconName!: string;
-    @Input() onClick: () => void = (() => false);
+    @Input('iconName') iconName!: string;
+    @Output('onClick') onClick = new EventEmitter();
     constructor() { }
 
     ngOnInit() { }
+
+    click(){
+        this.onClick.emit();
+    }
 } 

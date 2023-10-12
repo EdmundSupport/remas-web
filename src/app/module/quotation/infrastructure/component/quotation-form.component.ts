@@ -1,11 +1,12 @@
 import {
-    Component,
+    Component, ElementRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuotationService } from '../../application/service/quotation.service';
-import { QuotationCreateInterface, QuotationInterface } from '../../domain/interface/quotation.interface';
 import { ClientService } from 'src/app/module/client/application/service/client.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
+import { QuotationInterface } from 'src/app/datasource/remas/domain/interface/quotation.interface';
+import { QuotationDetailInterface } from 'src/app/datasource/remas/domain/interface/quotation-detail.interface';
 
 @Component({
     selector: 'app-quotation-form',
@@ -22,14 +23,31 @@ export class QuotationFormComponent {
         date: new Date(),
         clientUuid: '',
         quotationStatusUuid: '',
+        quotationDetails: [],
     };
+
+    total: number = 0;
     constructor(
         private quotationService: QuotationService,
         public clientService: ClientService,
         private matSnackBar: MatSnackBar,
+        private elementRef: ElementRef,
     ) { }
 
     ngOnInit() {
+    }
+
+    onLoad(index: number) {
+        const targetDiv = this.elementRef.nativeElement.querySelector('#detail'+index);
+
+        if (targetDiv) {
+            targetDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    ngOnChanges(data: any) {
+        console.log("🚀 ~ file: quotation-form.component.ts:40 ~ QuotationFormComponent ~ ngOnChanges ~ data:", data)
+        this.onTotal();
     }
 
     // region Autocomplete Client
@@ -63,8 +81,53 @@ export class QuotationFormComponent {
     }
     // endregion Autocomplete Client
 
-    onImporteSum() {
-        return 9999999.99;
+
+    onChangeDetail(index: number, detail: QuotationDetailInterface) {
+        // console.log("🚀 ~ file: quotation-form.component.ts:76 ~ QuotationFormComponent ~ onChangeDetail ~ detail:", detail)
+        // // this.total = this.onTotal();
+        // const amount = Number.isNaN(detail.amount) ? 0 : Number(detail.amount);
+        // const price = Number.isNaN(detail.price) ? 0 : Number(detail.price);
+        // // console.log("🚀 ~ file: quotation-form.component.ts:81 ~ QuotationFormComponent ~ onChangeDetail ~ this.total:", this.total, amount, price)
+        // this.total = this.total + (amount * price);
+
+        if (this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails[index]) {
+            this.quotation.quotationDetails[index] = detail;
+            this.total = this.onTotal();
+        }
+
+    }
+
+    onDeleteDetail(index: number, detail: QuotationDetailInterface) {
+        if (this.quotation && this.quotation.quotationDetails) {
+            this.quotation.quotationDetails.splice(index, 1);
+            this.total = this.onTotal();
+        }
+
+        // const amount = !Number.isNaN(detail.amount) ? 0 : Number(detail.amount);
+        // const price = !Number.isNaN(detail.price) ? 0 : Number(detail.price);
+        // this.total += (amount * price);
+    }
+
+    onAddDetail() {
+        if (this.quotation && this.quotation.quotationDetails) this.quotation.quotationDetails.push({} as any);
+        else this.quotation.quotationDetails = [{} as any];
+
+        this.total = this.onTotal();
+    }
+
+    onTotal() {
+        // this.total + amount;
+        if (this.quotation && this.quotation.quotationDetails) {
+            return this.quotation.quotationDetails.reduce((total, quotationDetail) => {
+                if (quotationDetail && quotationDetail.amount && quotationDetail.price) {
+                    const amount = Number.isNaN(quotationDetail.amount) ? 0 : Number(quotationDetail.amount);
+                    const price = Number.isNaN(quotationDetail.price) ? 0 : Number(quotationDetail.price);
+                    const op = total + (amount * price);
+                    return op;
+                } else return total + 0;
+            }, 0)
+        }
+        return 0;
     }
 
 

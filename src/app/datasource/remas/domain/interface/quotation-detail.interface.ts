@@ -1,3 +1,4 @@
+import { PaginationInterface } from "./pagination.interface";
 import { QuotationInterface } from "./quotation.interface";
 
 export interface QuotationDetailInterface{
@@ -13,4 +14,5 @@ export interface QuotationDetailInterface{
     createdAt: Date;
     updatedAt: Date;
     quotation: QuotationInterface;
+    pagination: PaginationInterface;
 }
