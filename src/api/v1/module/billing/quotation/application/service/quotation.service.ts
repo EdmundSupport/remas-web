@@ -1,6 +1,9 @@
 import { Injectable, Inject } from "@nestjs/common";
-import { Client, Quotation, QuotationDetail } from "src/api/v1/datasource/remas/shared/domain/model/billing";
-import { CreateInterface, FindInterface } from "../../domain";
+import { Client, Quotation, QuotationDetail, QuotationStatus } from "src/api/v1/datasource/remas/shared/domain/model/billing";
+import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation.dto";
+import { StructureHelper } from "shared/structure/application/helper/structure.helper";
+import { CreateQuotationDto } from "../../domain/dto/create-quotation.dto";
+import { FilterResponseHelper } from "shared/filter_response";
 
 
 @Injectable()
@@ -8,26 +11,66 @@ export class QuotationService {
     constructor(
         @Inject('QUOTATION_REPOSITORY')
         private quotationService: typeof Quotation,
+        @Inject('QUOTATION_STATUS_REPOSITORY')
+        private quotationStatusService: typeof QuotationStatus,
     ) { }
 
-    create(data: CreateInterface) {
-        return this.quotationService.create({
-            number: data.number,
-            date: data.date,
-            clientUuid: data.clientUuid,
-            quotationDetails: data.quotationDetails
-        }, {
-            include: [{ model: QuotationDetail }]
+    async create(data: CreateQuotationDto) {
+        data = JSON.parse(JSON.stringify(data));
+        const client = StructureHelper.searchProperty(data, 'client', true)[0];
+        const quotationStatus = StructureHelper.searchProperty(data, 'quotationStatus', true)[0];
+        const quotationDetails = StructureHelper.searchProperty(data, 'quotationDetails')[0];
+
+        const include = [];
+        if (quotationDetails && quotationDetails[0]) include.push({
+            model: QuotationDetail,
+            require: true,
+        });
+
+        if (!(data?.quotationStatusUuid && data?.quotationStatusUuid != '')) {
+            const quotationStatus = await this.quotationStatusService.findOne({ where: { keyName: 'created' } });
+            if (!quotationStatus)
+                throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado de la cotización.');
+
+            Object.assign(data, { quotationStatusUuid: quotationStatus.uuid });
+        }
+
+        if (data?.uuid && data?.uuid != '') {
+            const quotation = await this.quotationService.findOne({ where: { uuid: data?.uuid } });
+            if (quotation?.number == data?.number)
+                throw FilterResponseHelper.httpException('BAD_REQUEST', 'El número de la cotización ya exite.');
+
+            StructureHelper.searchProperty(data, 'uuid', true);
+        }
+
+
+        return this.quotationService.create(data as any, {
+            include: include
         })
     }
 
-    findAll(data: FindInterface) {
-        const pagination = { limit: data.limit, offset: data.offset };
-        delete data.limit;
-        delete data.offset;
+    findAll(data: QuotationDto) {
+        data = JSON.parse(JSON.stringify(data));
+        const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
+        const client = StructureHelper.searchProperty(data, 'client', true)[0];
+        const quotationStatus = StructureHelper.searchProperty(data, 'quotationStatus', true)[0];
+        const quotationDetails = StructureHelper.searchProperty(data, 'quotationDetails', true)[0];
+        const include = [];
+        if (client) include.push({
+            model: Client,
+            where: client
+        });
+        if (quotationStatus) include.push({
+            model: QuotationStatus,
+            where: quotationStatus
+        });
+        if (quotationDetails && quotationDetails[0]) include.push({
+            model: QuotationDetail,
+            where: quotationDetails,
+        });
         return this.quotationService.findAll({
-            // where: {data},
-            include: [{ model: Client }],
+            where: data,
+            include: include,
             ...pagination,
         })
     }
