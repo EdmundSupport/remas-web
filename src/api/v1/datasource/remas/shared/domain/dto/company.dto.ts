@@ -1,31 +1,36 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsDate, IsObject, IsOptional, IsString } from "class-validator";
+import { TributeDto } from "./tribute.dto";
 import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
-export class ProductTypeDto {
-    @IsString()
+export class CompanyDto{
+
     @IsOptional()
+    @IsString()
     uuid: string;
 
-    @IsString()
     @IsOptional()
-    keyName: string;
-
     @IsString()
-    @IsOptional()
     name: string;
 
-    @IsBoolean()
     @IsOptional()
+    @IsString()
+    tributeUuid: string;
+
+    @IsOptional()
+    @IsBoolean()
     condition: boolean;
 
-    @IsDate()
     @IsOptional()
+    @IsDate()
     createdAt: Date;
 
-    @IsDate()
     @IsOptional()
+    @IsDate()
     updatedAt: Date;
+
+    @IsOptional()
+    @IsObject()
+    tribute: TributeDto;
 
     @IsOptional()
     @IsObject()

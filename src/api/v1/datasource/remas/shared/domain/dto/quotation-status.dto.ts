@@ -1,8 +1,7 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsDate, IsObject, IsOptional, IsString } from "class-validator";
+import { IsString, IsOptional, IsBoolean, IsDate, IsObject } from "class-validator";
 import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
-export class ProductTypeDto {
+export class QuotationStatusDto{
     @IsString()
     @IsOptional()
     uuid: string;

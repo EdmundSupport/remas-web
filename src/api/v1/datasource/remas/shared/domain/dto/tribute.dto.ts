@@ -1,10 +1,10 @@
-import { IsBoolean, IsOptional, IsString, IsArray, IsDate, IsObject, ValidateNested } from "class-validator";
-import { ProductPriceDto } from "./product-price.dto";
-import { ProductDto } from "./product.dto";
-import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 import { Type } from "class-transformer";
+import { IsBoolean, IsDate, IsOptional, IsString, IsArray, IsObject } from "class-validator";
+import { ClientDto } from "./client.dto";
+import { CompanyDto } from "./company.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
-export class PriceCategoryDto {
+export class TributeDto{
 
     @IsOptional()
     @IsString()
@@ -16,7 +16,7 @@ export class PriceCategoryDto {
 
     @IsOptional()
     @IsString()
-    name?: string;
+    countryUuid?: string;
 
     @IsOptional()
     @IsBoolean()
@@ -32,12 +32,13 @@ export class PriceCategoryDto {
 
     @IsOptional()
     @IsArray()
-    @Type(()=>ProductPriceDto)
-    productPrices?: ProductPriceDto[];
+    @Type(()=>CompanyDto)
+    companies?: CompanyDto[];
 
     @IsOptional()
     @IsArray()
-    products?: ProductDto[];
+    @Type(()=>ClientDto)
+    clients?: ClientDto[];
 
     @IsOptional()
     @IsObject()

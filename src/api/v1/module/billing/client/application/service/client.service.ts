@@ -5,7 +5,8 @@ import { Client } from "src/api/v1/datasource/remas/shared/domain/model/billing"
 import { ClientHelper } from "../helper";
 import { FindInterface } from "../../domain/interface/client.interface";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
-import { Op } from "sequelize";
+import { Includeable, Op } from "sequelize";
+import { ClientDto } from "src/api/v1/datasource/remas/shared/domain/dto/client.dto";
 
 @Injectable()
 export class ClientService {
@@ -22,37 +23,47 @@ export class ClientService {
         private clientHelper: ClientHelper,
     ) { }
 
-    async create({ name, tributeCode }: { name: string; tributeCode: string; }) {
-        await this.clientHelper.tributeCodeExists({ tributeCode });
+    // async create({ name, tributeCode }: { name: string; tributeCode: string; }) {
+    //     await this.clientHelper.tributeCodeExists({ tributeCode });
 
-        return await this.tributeService.create({
-            companies: [{ name }],
-            clients: [{ condition: true }],
-            ...{ code: tributeCode },
-        }, {
-            include: [
-                { model: Company },
-                { model: Client },
-            ]
-        });
-    }
+    //     return await this.tributeService.create({
+    //         companies: [{ name }],
+    //         clients: [{ condition: true }],
+    //         ...{ code: tributeCode },
+    //     }, {
+    //         include: [
+    //             { model: Company },
+    //             { model: Client },
+    //         ]
+    //     });
+    // }
 
-    findAll(data: FindInterface) {
-        const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
-        const companies = StructureHelper.searchProperty(data, 'companies', true)[0];
-        if (companies?.name) companies.name = { [Op.like]: `%${companies.name}%` };
-        const tribute = StructureHelper.searchProperty(data, 'tributes', true)[0];
+    findAll(data?: Partial<ClientDto>) {
+        console.log("🚀 ~ file: client.service.ts:43 ~ ClientService ~ findAll ~ data:", JSON.stringify(data))
         data = JSON.parse(JSON.stringify(data));
-        return this.clientService.findAll({
-            where: { ...data },
-            include: [{
+        const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
+        const tributes = StructureHelper.searchProperty(data, 'tributes', true)[0];
+
+        const include: Includeable | Includeable[] = [];
+        if (tributes) {
+            const companies = StructureHelper.searchProperty(tributes, 'companies', true)[0];
+            const index = include.push({
                 model: Tribute,
-                where: tribute?.length == 0 ? undefined : tribute,
-                include: [{
-                    model: Company,
-                    where: companies?.length == 0 ? undefined : companies
-                }]
-            }],
+                where: tributes[0],
+                required: true,
+            }) - 1;
+            if (companies![0]?.name) Object.assign(companies[0], { name: { [Op.like]: `%${companies[0].name}%` } });
+
+            if (companies && companies[0]) include[index]['include'] = [{
+                model: Company,
+                where: companies[0],
+                required: true,
+            }]
+        }
+
+        return this.clientService.findAll({
+            // where: data,
+            include: include,
             ...pagination,
         })
     }
