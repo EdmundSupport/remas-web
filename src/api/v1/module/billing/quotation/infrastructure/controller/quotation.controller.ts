@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Query } from "@nestjs/common";
 import { QuotationService } from "../../application/service";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateQuotationDto } from "../../domain/dto/create-quotation.dto";
@@ -22,5 +22,10 @@ export class QuotationController {
     @Get()
     findAll(@Query() data: FindQuotationDto) {
         return this.quotationService.findAll(data);
+    }
+
+    @Get('/:uuid')
+    findOne(@Param('uuid', ParseUUIDPipe) uuid: string) {
+        return this.quotationService.findOne(uuid);
     }
 }

@@ -58,7 +58,6 @@ export class QuotationService {
         const quotationStatus = StructureHelper.searchProperty(data, 'quotationStatus', true)[0];
         const quotationDetails = StructureHelper.searchProperty(data, 'quotationDetails', true)[0];
         const date = StructureHelper.searchProperty(data, 'date', true)[0];
-        console.log("🚀 ~ file: quotation.service.ts:61 ~ QuotationService ~ findAll ~ date:", date)
         if (date && Array.isArray(date)) {
             const startDate = date[0];
             const endDate = date[date.length - 1];
@@ -84,6 +83,13 @@ export class QuotationService {
             where: data,
             include: include,
             ...pagination,
+        })
+    }
+
+    findOne(uuid: string) {
+        return this.quotationService.findOne({
+            where: { uuid },
+            include: [{ model: QuotationDetail }],
         })
     }
 }
