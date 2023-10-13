@@ -4,6 +4,8 @@ import {
     ViewChild,
     TemplateRef,
     Input,
+    EventEmitter,
+    Output,
 } from '@angular/core';
 import {
     startOfDay,
@@ -14,6 +16,9 @@ import {
     isSameDay,
     isSameMonth,
     addHours,
+    startOfWeek,
+    endOfWeek,
+    startOfMonth,
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import {
@@ -49,6 +54,7 @@ const colors: Record<string, EventColor> = {
 })
 export class CalendarComponent {
     @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
+    @Output('onChangeRange') onChangeRange = new EventEmitter();
     @Input('events') events!: CalendarEvent[];
     @Input('title') title: string = '';
     @Input('actions') actions!: CalendarEventAction[];
@@ -70,6 +76,10 @@ export class CalendarComponent {
 
     constructor() { }
 
+    ngOnInit(){
+        this.emitChangeRange()
+    }
+
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
         if (isSameMonth(date, this.viewDate)) {
             if (
@@ -89,6 +99,8 @@ export class CalendarComponent {
         newStart,
         newEnd,
     }: CalendarEventTimesChangedEvent): void {
+        console.log("🚀 ~ file: calendar.component.ts:93 ~ CalendarComponent ~ event:", event)
+        console.log("🚀 ~ file: calendar.component.ts:95 ~ CalendarComponent ~ newEnd:", newEnd)
         this.events = this.events!.map((iEvent) => {
             if (iEvent === event) {
                 return {
@@ -136,5 +148,26 @@ export class CalendarComponent {
 
     closeOpenMonthViewDay() {
         this.activeDayIsOpen = false;
+    }
+
+    emitChangeRange() {
+        let startDate,
+            endDate;
+        if (this.view == CalendarView.Week) {
+            startDate = startOfWeek(this.viewDate);
+            endDate = endOfWeek(this.viewDate);
+        }
+
+        if (this.view == CalendarView.Month) {
+            startDate = startOfMonth(this.viewDate);
+            endDate = endOfMonth(this.viewDate);
+        }
+
+        if (this.view == CalendarView.Day) {
+            startDate = startOfDay(this.viewDate);
+            endDate = endOfDay(this.viewDate);
+        }
+
+        this.onChangeRange.emit({ startDate, endDate });
     }
 }

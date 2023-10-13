@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { FlatpickrModule } from "angularx-flatpickr";
 import { CalendarComponent } from "./infrastructure/component/calendar.component";
 import { ButtonFloatComponent } from "../button-float/infrastructure/component/button-float.component";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { ButtonFloatComponent } from "../button-float/infrastructure/component/b
         CommonModule,
         FormsModule,
         AngularCalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-        FlatpickrModule.forRoot()
+        FlatpickrModule.forRoot(),
+        MatIconModule
     ],
     exports: [
         CalendarComponent,

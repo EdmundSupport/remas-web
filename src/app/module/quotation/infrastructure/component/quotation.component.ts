@@ -2,10 +2,13 @@ import {
     Component,
 } from '@angular/core';
 import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
-import { subDays, startOfDay, addDays, endOfMonth, addHours } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { colors } from 'src/app/shared/color/domain/constant/color.constant';
 import { QuotationService } from '../../application/service/quotation.service';
+import { QuotationInterface } from 'src/app/datasource/remas/domain/interface/quotation.interface';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CalendarEventEditInterface } from '../../domain/interface/calendar-event-edit.interface';
 
 @Component({
     selector: 'app-quotation',
@@ -16,77 +19,60 @@ export class QuotationComponent {
     title: string = 'Cotizaciones';
     actions: CalendarEventAction[] = [
         {
-            label: '<p class="fas fa-fw fa-pencil-alt">test</p>',
+            label: 'Editar',
             a11yLabel: 'Edit',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                console.log("🚀 ~ file: quotation.component.ts:19 ~ QuotationComponent ~ event:", event);
-            },
-        },
-        {
-            label: '<i class="fas fa-fw fa-trash-alt"></i>',
-            a11yLabel: 'Delete',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                console.log("🚀 ~ file: quotation.component.ts:26 ~ QuotationComponent ~ event:", event)
+            onClick: ({ event }: { event: Partial<CalendarEventEditInterface> }): void => {
+                const quotation = event.quotation;
+                const route = ['/app/quotation', quotation?.uuid];
+                this.router.navigate(route);
             },
         },
     ];
 
-    events: CalendarEvent[] = [
-        {
-            start: subDays(startOfDay(new Date()), 1),
-            end: addDays(new Date(), 1),
-            title: 'A 3 day event',
-            color: { ...colors['red'] },
-            actions: this.actions,
-            allDay: true,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-        },
-        {
-            start: startOfDay(new Date()),
-            title: 'An event with no end date',
-            color: { ...colors['yellow'] },
-            actions: this.actions,
-        },
-        {
-            start: subDays(endOfMonth(new Date()), 3),
-            end: addDays(endOfMonth(new Date()), 3),
-            title: 'A long event that spans 2 months',
-            color: { ...colors['blue'] },
-            allDay: true,
-        },
-        {
-            start: addHours(startOfDay(new Date()), 2),
-            end: addHours(new Date(), 2),
-            title: 'A draggable and resizable event',
-            color: { ...colors['yellow'] },
-            actions: this.actions,
-            resizable: {
-                beforeStart: true,
-                afterEnd: true,
-            },
-            draggable: true,
-        },
-    ];
+    events: CalendarEvent[] = [];
 
-    quotations!: {}[];
+    quotations: QuotationInterface[] = [];
 
     constructor(
         private quotationService: QuotationService,
         private matSnackBar: MatSnackBar,
+        private router: Router,
+        private route: ActivatedRoute,
     ) { }
 
     ngOnInit() {
-
+        const filter: QuotationInterface | {} = {};
+        Object.assign(filter, { pagination: { offset: 0, limit: 5 } });
+        this.onLoadQuotations(filter as QuotationInterface);
     }
 
-    onFind(filter: {}) {
+    onChangeRange(range: { startDate: Date; endDate: Date }) {
+        const filter: QuotationInterface | {} = {};
+        Object.assign(filter, { date: [range.startDate, range.endDate] });
+        this.onLoadQuotations(filter as QuotationInterface);
+    }
+
+    onLoadQuotations(filter: QuotationInterface) {
         this.quotationService.onFind(filter).subscribe((result) => {
-            if (result?.statusCode != 201) this.matSnackBar.open(result?.message, 'Cancelar');
+            if (result?.statusCode != 200) this.matSnackBar.open(result?.message, 'Cancelar');
             this.quotations = result?.data;
+            this.onQuotationsToEvent();
         });
+    }
+
+    onQuotationsToEvent() {
+        this.events = this.quotations?.map!((quotation) => ({
+            start: parseISO(`${quotation.date}`),
+            // end: quotation.date,
+            title: quotation.number,
+            color: { ...colors['yellow'] },
+            actions: this.actions,
+            resizable: {
+                beforeStart: true,
+                afterEnd: true,
+            },
+            draggable: true,
+            quotation,
+        }));
     }
 }

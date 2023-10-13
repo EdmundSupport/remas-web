@@ -1,1 +1,1 @@
-<app-calendar [title]="title" [events]="events" [actions]="actions"></app-calendar>
+<app-calendar (onChangeRange)="onChangeRange($event)" [title]="title" [events]="events" [actions]="actions"></app-calendar>

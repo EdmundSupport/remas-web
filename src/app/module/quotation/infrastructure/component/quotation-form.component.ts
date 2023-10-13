@@ -9,6 +9,7 @@ import { QuotationInterface } from 'src/app/datasource/remas/domain/interface/qu
 import { QuotationDetailInterface } from 'src/app/datasource/remas/domain/interface/quotation-detail.interface';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SerializeHelper } from 'src/app/shared/serialize/application/helper/serialize.helper';
 
 @Component({
     selector: 'app-quotation-form',
@@ -38,13 +39,34 @@ export class QuotationFormComponent {
         private elementRef: ElementRef,
         private router: Router,
         private route: ActivatedRoute,
-    ) { }
+    ) {
+        this.quotation.uuid = this.route.snapshot.paramMap.get('uuid')!;
+    }
 
     ngOnInit() {
+        if (SerializeHelper.isUUID(this.quotation.uuid!)) {
+            this.quotationService.onFindOne(this?.quotation?.uuid!)
+                .subscribe((result) => {
+                    if (result.statusCode != 200) { 
+                        this.matSnackBar.open('Ocurrio un error al obtener la cotización.'); 
+                    }else{
+                        const quotation = result.data;
+                        this.quotation = quotation;
+    
+                        if (this.quotation.clientUuid) this.onLoadClient({ uuid: this.quotation.clientUuid, tributes: { companies: [{ condition: true } as any] } as any })
+                            .add(() => {
+                                this.client = this.clients.find((client) => client.uuid == this.quotation.clientUuid)!;
+                            });
+    
+                        this.total = this.onTotal();
+                        this.onStopSaveLoading();
+                    }
+                });
+        }
     }
 
     ngAfterContentInit() {
-        this.total = this.onTotal();
+        if (this.onSaveLoading$.getValue()) this.total = this.onTotal();
     }
 
     onLoad(index: number) {
