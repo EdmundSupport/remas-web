@@ -39,7 +39,6 @@ export class ClientService {
     // }
 
     findAll(data?: Partial<ClientDto>) {
-        console.log("🚀 ~ file: client.service.ts:43 ~ ClientService ~ findAll ~ data:", JSON.stringify(data))
         data = JSON.parse(JSON.stringify(data));
         const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
         const tributes = StructureHelper.searchProperty(data, 'tributes', true)[0];

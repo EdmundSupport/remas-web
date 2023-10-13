@@ -4,6 +4,8 @@ import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quot
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { CreateQuotationDto } from "../../domain/dto/create-quotation.dto";
 import { FilterResponseHelper } from "shared/filter_response";
+import { Op } from "sequelize";
+import { FindQuotationDto } from "../../domain/dto/find-quotation.dto";
 
 
 @Injectable()
@@ -49,12 +51,20 @@ export class QuotationService {
         })
     }
 
-    findAll(data: QuotationDto) {
+    findAll(data: FindQuotationDto) {
         data = JSON.parse(JSON.stringify(data));
         const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
         const client = StructureHelper.searchProperty(data, 'client', true)[0];
         const quotationStatus = StructureHelper.searchProperty(data, 'quotationStatus', true)[0];
         const quotationDetails = StructureHelper.searchProperty(data, 'quotationDetails', true)[0];
+        const date = StructureHelper.searchProperty(data, 'date', true)[0];
+        if (date && Array.isArray(date)) {
+            const startDate = date[0];
+            const endDate = date[date.length - 1];
+            Object.assign(data, { date: { [Op.between]: [startDate, endDate] } });
+
+        }
+
         const include = [];
         if (client) include.push({
             model: Client,

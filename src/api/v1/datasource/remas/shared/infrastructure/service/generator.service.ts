@@ -14,7 +14,6 @@ const env = {};
         if (`${parts![0]}`.toLowerCase() == 'schema'.toLowerCase()) props['schema'] = `${parts![1] ?? ''}`.toLowerCase();
     });
 
-    console.log("🚀 ~ file: generator.service.ts:18 ~ props.schema:", props.schema)
     if (props.schema) {
         const data = readFileSync('./.env', { encoding: `utf-8` });
         const exp = new RegExp(/(.+)(=)(.+)/g);
@@ -26,7 +25,6 @@ const env = {};
         const modelPath = __dirname+`/../../domain/model/${props.schema}`;
         const relationshipPath = __dirname+`/../../domain/constant/${props.schema}.relationship.constant.csv`;
         const relationshipExists = existsSync(relationshipPath);
-        console.log("🚀 ~ file: generator.service.ts:29 ~ relationshipExists:", relationshipExists)
         if (!relationshipExists){
 
             writeFileSync(relationshipPath, '', { encoding: 'utf-8' });

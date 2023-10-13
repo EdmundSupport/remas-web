@@ -3,6 +3,7 @@ import { QuotationService } from "../../application/service";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateQuotationDto } from "../../domain/dto/create-quotation.dto";
 import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation.dto";
+import { FindQuotationDto } from "../../domain/dto/find-quotation.dto";
 
 @ApiTags('Cotizaciones')
 @Controller({
@@ -19,7 +20,7 @@ export class QuotationController {
     }
 
     @Get()
-    findAll(@Query() data: QuotationDto) {
+    findAll(@Query() data: FindQuotationDto) {
         return this.quotationService.findAll(data);
     }
 }

@@ -14,10 +14,8 @@ export class PriceCategoryService {
 
     findAll(data?: Partial<PriceCategoryDto>) {
         data = JSON.parse(JSON.stringify(data));
-        console.log("🚀 ~ file: price-category.service.ts:17 ~ PriceCategoryService ~ findAll ~ data:", data)
         const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
         const productPrices = StructureHelper.searchProperty(data, 'productPrices', true)[0];
-        console.log("🚀 ~ file: price-category.service.ts:20 ~ PriceCategoryService ~ findAll ~ productPrices:", productPrices)
         const products = StructureHelper.searchProperty(data, 'products', true)[0];
         if (data?.name) Object.assign(data, { name: { [Op.like]: `%${data.name}%` } });
 
