@@ -63,7 +63,7 @@ export class QuotationService {
             const startDate = date[0];
             const endDate = date[date.length - 1];
             Object.assign(data, { date: { [Op.between]: [startDate, endDate] } });
-        } else {
+        } else if(date) {
             Object.assign(data, { date });
         }
 
