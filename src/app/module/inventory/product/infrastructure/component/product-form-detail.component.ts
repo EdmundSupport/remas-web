@@ -5,22 +5,22 @@ import { ProductInterface } from 'src/app/datasource/remas/domain/interface/prod
 import { MeasureUnitInterface } from 'src/app/datasource/remas/domain/interface/measure-unit.interface';
 import { PriceCategoryInterface } from 'src/app/datasource/remas/domain/interface/price-category.interface';
 import { ProductPriceInterface } from 'src/app/datasource/remas/domain/interface/product-price.interface';
-import { QuotationDetailInterface } from 'src/app/datasource/remas/domain/interface/quotation-detail.interface';
+// import { ProductDetailInterface } from 'src/app/datasource/remas/domain/interface/product-detail.interface';
 import { PriceCategoryService } from 'src/app/datasource/remas/application/service/price-category.service';
 import { MeasureUnitService } from 'src/app/datasource/remas/application/service/measure-unit.service';
 import { ProductService } from 'src/app/datasource/remas/application/service/inventory-product.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 
 @Component({
-    selector: 'app-quotation-form-detail',
-    templateUrl: '../page/quotation-form-detail.page.html',
-    styleUrls: ['../style/quotation-form-detail.style.scss'],
+    selector: 'app-product-form-detail',
+    templateUrl: '../page/product-form-detail.page.html',
+    styleUrls: ['../style/product-form-detail.style.scss'],
 })
-export class QuotationFormDetailComponent {
+export class ProductFormDetailComponent {
     @Output('onDelete') onDelete = new EventEmitter();
     @Output('onChange') onChange = new EventEmitter();
     @Output('onLoad') onLoad = new EventEmitter();
-    @Input('detail') detail!: QuotationDetailInterface;
+    @Input('detail') detail!: any;// ProductDetailInterface;
 
     products: ProductInterface[] = [];
     product!: ProductInterface;
@@ -96,7 +96,7 @@ export class QuotationFormDetailComponent {
     onSelectProduct(product: ProductInterface) {
         this.product = product;
         this.priceCategory = undefined as any;
-        this.detail.productUuid = this.product.uuid!;
+        this.detail.productUuid = this.product.uuid;
         this.onChange.emit(this.detail);
     }
 
