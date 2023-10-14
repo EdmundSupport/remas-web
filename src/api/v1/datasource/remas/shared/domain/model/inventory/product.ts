@@ -13,7 +13,9 @@ import {
 import { Measure } from './measure';
 import { ProductType } from './product_type';
 import { ProductPrice } from './product_price';
-import { PriceCategory } from './price-category';
+import { PriceCategory } from './price_category';
+import { ProductMaintenanceStep } from './product_maintenance_step';
+import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
 
 @Table({ tableName: 'product', timestamps: false })
 export class Product extends Model {
@@ -29,6 +31,14 @@ export class Product extends Model {
     using: 'btree',
     unique: false,
   })
+  @Index({ name: 'maintenance_step_uuid_idx', using: 'btree', unique: false })
+  @Index({
+    name: 'maintenance_step_detail_uuid_idx',
+    using: 'btree',
+    unique: false,
+  })
+  @Index({ name: 'step_uuid_idx', using: 'btree', unique: false })
+  @Index({ name: 'step_detail_uuid_idx', using: 'btree', unique: false })
   uuid?: string;
 
   @Column({ allowNull: true, type: DataType.STRING })
@@ -99,4 +109,10 @@ export class Product extends Model {
 
   @BelongsToMany(() => PriceCategory, () => ProductPrice)
   priceCategories?: PriceCategory[];
+
+  @HasMany(() => ProductMaintenanceStep, { sourceKey: 'uuid' })
+  productMaintenanceSteps?: ProductMaintenanceStep[];
+
+  @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid' })
+  productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
 }

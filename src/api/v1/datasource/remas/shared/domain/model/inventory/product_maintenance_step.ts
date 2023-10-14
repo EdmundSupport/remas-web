@@ -7,41 +7,44 @@ import {
   Sequelize,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { Product } from './product';
-import { MeasureUnit } from './measure_unit';
-import { PriceCategory } from './price_category';
+import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
 
-@Table({ tableName: 'product_price', timestamps: false })
-export class ProductPrice extends Model {
-  @ForeignKey(() => Product)
+@Table({ tableName: 'product_maintenance_step', timestamps: false })
+export class ProductMaintenanceStep extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
     defaultValue: Sequelize.literal('gen_random_uuid()'),
   })
-  @Index({ name: 'product_price_uuid_pk', using: 'btree', unique: true })
-  @Index({ name: 'product_price_uuid_idx', using: 'btree', unique: false })
+  @Index({
+    name: 'product_maintenance_step_uuid_pk',
+    using: 'btree',
+    unique: true,
+  })
+  @Index({
+    name: 'product_maintenance_step_uuid_idx',
+    using: 'btree',
+    unique: false,
+  })
   uuid?: string;
 
-  @Column({ allowNull: true, type: DataType.DECIMAL(65, 2) })
-  amount?: string;
+  @Column({ allowNull: true, type: DataType.DECIMAL(65) })
+  order?: string;
+
+  @Column({ allowNull: true, type: DataType.STRING })
+  description?: string;
 
   @ForeignKey(() => Product)
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
-  productUuid?: string;
-
-  @ForeignKey(() => MeasureUnit)
-  @Column({ field: 'measure_unit_uuid', allowNull: true, type: DataType.UUID })
-  measureUnitUuid?: string;
-
-  @ForeignKey(() => PriceCategory)
-  @Column({
-    field: 'price_category_uuid',
-    allowNull: true,
-    type: DataType.UUID,
+  @Index({
+    name: 'product_maintenance_step_product_uuid_idx',
+    using: 'btree',
+    unique: false,
   })
-  priceCategoryUuid?: string;
+  productUuid?: string;
 
   @Column({
     allowNull: true,
@@ -69,9 +72,6 @@ export class ProductPrice extends Model {
   @BelongsTo(() => Product)
   product?: Product;
 
-  @BelongsTo(() => MeasureUnit)
-  measureUnit?: MeasureUnit;
-
-  @BelongsTo(() => PriceCategory)
-  priceCategory?: PriceCategory;
+  @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid' })
+  productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
 }

@@ -1,4 +1,4 @@
-import { Measure, MeasureUnit, PriceCategory, Product, ProductPrice, ProductType } from "../../../shared/domain/model/inventory"
+import { Measure, MeasureUnit, PriceCategory, Product, ProductMaintenanceStep, ProductMaintenanceStepDetail, ProductPrice, ProductType } from "../../../shared/domain/model/inventory"
 
 export const inventoryConnectionProvider = [
     { provide: 'PRODUCT_REPOSITORY', useValue: Product },
@@ -8,6 +8,8 @@ export const inventoryConnectionProvider = [
     { provide: 'PRODUCT_REPOSITORY', useValue: Product },
     { provide: 'MEASURE_UNIT_REPOSITORY', useValue: MeasureUnit },
     { provide: 'PRODUCT_PRICE_REPOSITORY', useValue: ProductPrice },
+    { provide: 'PRODUCT_MAINTENANCE_STEP_REPOSITORY', useValue: ProductMaintenanceStep },
+    { provide: 'PRODUCT_MAINTENANCE_STEP_DETAIL_REPOSITORY', useValue: ProductMaintenanceStepDetail },
 ]
 
 export const inventoryModels = [
@@ -18,4 +20,6 @@ export const inventoryModels = [
     Product,
     MeasureUnit,
     ProductPrice,
+    ProductMaintenanceStep,
+    ProductMaintenanceStepDetail,
 ]

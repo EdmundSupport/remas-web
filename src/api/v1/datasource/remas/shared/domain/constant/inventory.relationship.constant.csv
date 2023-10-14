@@ -7,3 +7,7 @@
 1:N, uuid, measure_unit_uuid, measure_unit, product_price
 1:N, uuid, price_category_uuid, price_category, product_price
 N:N, uuid, uuid, price_category, product, product_price
+1:N, uuid, uuid_product, product, product_maintenance_step
+1:N, uuid, uuid_product, product, product_maintenance_step_detail
+1:N, uuid, uuid_measure_unit, measure_unit, product_maintenance_step_detail
+1:N, uuid, uuid_product_maintenance_step, product_maintenance_step, product_maintenance_step_detail

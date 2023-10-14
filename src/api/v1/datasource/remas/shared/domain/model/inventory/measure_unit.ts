@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 import { Measure } from './measure';
 import { ProductPrice } from './product_price';
+import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
 
 @Table({ tableName: 'measure_unit', timestamps: false })
 export class MeasureUnit extends Model {
@@ -93,4 +94,7 @@ export class MeasureUnit extends Model {
 
   @HasMany(() => ProductPrice, { sourceKey: 'uuid' })
   productPrices?: ProductPrice[];
+
+  @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid' })
+  productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
 }
