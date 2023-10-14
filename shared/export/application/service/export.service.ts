@@ -34,9 +34,7 @@ export class ExportService {
             const template = fs.readFileSync(templatePath, 'utf8');
 
             const compiledTemplate = handlebars.compile(template);
-            console.log("🚀 ~ file: export.service.ts:38 ~ ExportService ~ exportPdf ~ options?.htmlData:", options?.htmlData)
             const htmlContent = compiledTemplate(options?.htmlData ?? {});
-            console.log("🚀 ~ file: export.service.ts:39 ~ ExportService ~ exportPdf ~ htmlContent:", htmlContent)
             const browser = await puppeteer.launch({
                 headless: 'new'
             });

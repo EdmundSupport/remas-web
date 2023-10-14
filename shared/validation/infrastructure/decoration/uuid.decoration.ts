@@ -11,7 +11,6 @@ export function Uuid(validationOptions?: ValidationOptions) {
             options: { message: 'El campo uuid debe ser tipo uuid o la palabra new.', ...validationOptions },
             validator: {
                 validate(value: any, args: ValidationArguments) {
-                    console.log("🚀 ~ file: uuid.decoration.ts:14 ~ validate ~ value:", value)
                     if(ValidationHelper.isUUID(value)) return true;
                     if(value == 'new') return true;
                     return false;
