@@ -1,10 +1,11 @@
 import { OmitType, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsArray, IsString, IsDate, ValidateNested } from "class-validator";
+import { Uuid } from "shared/validation/infrastructure/decoration/uuid.decoration";
 import { QuotationDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation-detail.dto";
 import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation.dto";
 
-export class CreateQuotationDetailDto extends PartialType(OmitType(QuotationDetailDto, ['description', 'amount', 'price', 'productUuid', 'measureUnitUuid', 'priceCategoryUuid'])) {
+export class CreateQuotationDetailDto extends PartialType(OmitType(QuotationDetailDto, ['description', 'amount', 'price', 'productUuid', 'measureUnitUuid', 'priceCategoryUuid'])) {  
     @IsNotEmpty()
     @IsString()
     description: string;
@@ -29,7 +30,11 @@ export class CreateQuotationDetailDto extends PartialType(OmitType(QuotationDeta
     @IsString()
     priceCategoryUuid: string;
 }
-export class CreateQuotationDto extends PartialType(OmitType(QuotationDto, ['quotationDetails', 'number', 'date', 'clientUuid'])) {
+export class CreateQuotationDto extends PartialType(OmitType(QuotationDto, ['uuid', 'quotationDetails', 'number', 'date', 'clientUuid'])) {
+    @IsNotEmpty()
+    @Uuid()
+    uuid: string;
+    
     @IsNotEmpty()
     @IsString()
     number: string;
