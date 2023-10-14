@@ -47,6 +47,7 @@ import { SuperpositionLoadingComponent } from "src/app/shared/component/superpos
         AutocompleteModule,
         ButtonFloatComponent,
         SuperpositionLoadingComponent,
+
     ]
 })
 export class QuotationModule { }

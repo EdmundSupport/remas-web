@@ -55,6 +55,7 @@ const colors: Record<string, EventColor> = {
 export class CalendarComponent {
     @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
     @Output('onChangeRange') onChangeRange = new EventEmitter();
+    @Output('onAdd') onAdd = new EventEmitter();
     @Input('events') events!: CalendarEvent[];
     @Input('title') title: string = '';
     @Input('actions') actions!: CalendarEventAction[];
@@ -99,8 +100,6 @@ export class CalendarComponent {
         newStart,
         newEnd,
     }: CalendarEventTimesChangedEvent): void {
-        console.log("🚀 ~ file: calendar.component.ts:93 ~ CalendarComponent ~ event:", event)
-        console.log("🚀 ~ file: calendar.component.ts:95 ~ CalendarComponent ~ newEnd:", newEnd)
         this.events = this.events!.map((iEvent) => {
             if (iEvent === event) {
                 return {
@@ -115,8 +114,6 @@ export class CalendarComponent {
     }
 
     handleEvent(action: string, event: CalendarEvent): void {
-        console.log("🚀 ~ file: calendar.component.ts:105 ~ CalendarComponent ~ handleEvent ~ event:", event)
-        console.log("🚀 ~ file: calendar.component.ts:105 ~ CalendarComponent ~ handleEvent ~ action:", action)
         this.modalData = { event, action };
         // this.modal.open(this.modalContent, { size: 'lg' });
     }
@@ -169,5 +166,9 @@ export class CalendarComponent {
         }
 
         this.onChangeRange.emit({ startDate, endDate });
+    }
+
+    emitAdd(){
+        this.onAdd.emit();
     }
 }

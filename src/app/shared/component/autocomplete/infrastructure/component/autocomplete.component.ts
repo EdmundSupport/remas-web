@@ -33,7 +33,6 @@ export class AutocompleteComponent<T>{
 
     ngOnInit() {
         this.onLoadDatasource();
-        console.log("🚀 ~ file: autocomplete.component.ts:35 ~ AutocompleteComponent<T> ~ ngOnInit ~ this.initial:", this.initial)
         this.form.setValue(this.initial);
     }
 
@@ -47,7 +46,6 @@ export class AutocompleteComponent<T>{
             map((value) => {
                 return value;
             })).subscribe((value) => {
-                console.log("🚀 ~ file: autocomplete.component.ts:45 ~ AutocompleteComponent<T> ~ map ~ value:", value)
                 this.onChangeValue.emit(value);
                 if (this.timer) clearTimeout(this.timer);
 

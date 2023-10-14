@@ -9,6 +9,8 @@ import { ResponseInterceptor } from './shared/auth/infrastructure/interceptor/re
 import { AuthInterceptor } from './shared/auth/infrastructure/interceptor/auth.interceptor';
 import { ToolBarComponent } from './shared/component/tool_bar/infrastructure/component/tool_bar.component';
 import { CalendarModule } from './shared/component/calendar/calendar.module';
+import { StoreModule } from '@ngrx/store';
+import { counterReducer } from 'src/app/shared/component/tool_bar/application/reducer/tool_bar.reducer';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { CalendarModule } from './shared/component/calendar/calendar.module';
     HttpClientModule,
 
     ToolBarComponent,
+
+    StoreModule.forRoot({ count: counterReducer })
   ],
   providers: [
     {

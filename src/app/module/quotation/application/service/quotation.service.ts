@@ -45,4 +45,13 @@ export class QuotationService {
             }))
         );
     }
+
+    onUpdate(uuid: string, data: CreateQuotationInterface) {
+        return this.httpService.patch(this.url + '/v1/quotation/' + uuid, data).pipe(
+            catchError((result) => new Observable(observer => {
+                observer.next(result?.error);
+                observer.complete();
+            }))
+        );
+    }
 }

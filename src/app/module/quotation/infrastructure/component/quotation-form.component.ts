@@ -47,17 +47,17 @@ export class QuotationFormComponent {
         if (SerializeHelper.isUUID(this.quotation.uuid!)) {
             this.quotationService.onFindOne(this?.quotation?.uuid!)
                 .subscribe((result) => {
-                    if (result.statusCode != 200) { 
-                        this.matSnackBar.open('Ocurrio un error al obtener la cotización.'); 
-                    }else{
+                    if (result.statusCode != 200) {
+                        this.matSnackBar.open('Ocurrio un error al obtener la cotización.');
+                    } else {
                         const quotation = result.data;
                         this.quotation = quotation;
-    
+
                         if (this.quotation.clientUuid) this.onLoadClient({ uuid: this.quotation.clientUuid, tributes: { companies: [{ condition: true } as any] } as any })
                             .add(() => {
                                 this.client = this.clients.find((client) => client.uuid == this.quotation.clientUuid)!;
                             });
-    
+
                         this.total = this.onTotal();
                         this.onStopSaveLoading();
                     }
@@ -125,17 +125,32 @@ export class QuotationFormComponent {
                 return this.matSnackBar.open(`El producto ${detail.description} tiene el precio agregado, pero no se seleccionó una categoria.`, 'Ok') && this.onStopSaveLoading();
 
         }
-        if (!(this.quotation && this.quotation.uuid && this.quotation.uuid != ''))
+        if (!(this.quotation && this.quotation.uuid && this.quotation.uuid != '' && SerializeHelper.isUUID(this.quotation.uuid))) {
             this.quotationService.onCreate(this.quotation as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
                 .subscribe((result: any) => {
-                    console.log("🚀 ~ file: quotation-form.component.ts:107 ~ QuotationFormComponent ~ .subscribe ~ result:", result)
                     if (result.statusCode != 201)
                         this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'OK');
 
                     this.matSnackBar.open(result?.message ?? 'La cotizacion fue creada con exito.', 'OK');
                     this.router.navigate(['../'], { relativeTo: this.route })
                 });
+            return;
+        }
+
+        if ((this.quotation && this.quotation.uuid && this.quotation.uuid != '' && SerializeHelper.isUUID(this.quotation.uuid))) {
+            this.quotationService.onUpdate(this.quotation.uuid, this.quotation as any).pipe(
+                finalize(() => this.onStopSaveLoading()))
+                .subscribe((result: any) => {
+                    if (result.statusCode != 200) {
+                        this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'OK');
+                    } else {
+                        this.matSnackBar.open(result?.message ?? 'La cotizacion fue actualizada con exito.', 'OK');
+                        this.router.navigate(['../'], { relativeTo: this.route });
+                    }
+                });
+            return;
+        }
     }
 
     // region Autocomplete Client

@@ -31,7 +31,6 @@ export class PriceCategoryAutocompleteHelper {
     }
 
     onLoad(filter: PriceCategoryInterface, spinner = false) {
-        console.log("🚀 ~ file: price-category-autocomplete.helper.ts:29 ~ PriceCategoryAutocompleteHelper ~ onLoad ~ filter:", filter)
         const payload = { ...filter, pagination: spinner ? { offset: 0, limit: 100 } : { ofsset: 0, limit: 5 } };
         if (spinner) this.onFindInitial$.next(true);
         this.measureUnitService.onFind(payload).pipe(

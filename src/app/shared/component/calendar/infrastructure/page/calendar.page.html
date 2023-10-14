@@ -1,4 +1,4 @@
-<app-button-float [iconName]="'add'"></app-button-float>
+<app-button-float [iconName]="'add'" (onClick)="emitAdd()"></app-button-float>
 <div class="header">
     <div class="title">
         <h2>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h2>

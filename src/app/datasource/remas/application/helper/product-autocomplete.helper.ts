@@ -24,7 +24,6 @@ export class ProductAutocompleteHelper {
     }
 
     onOptionShow(object: ProductInterface) {
-        console.log("🚀 ~ file: product-autocomplete.helper.ts:27 ~ ProductAutocompleteHelper ~ onOptionShow ~ object:", object)
         return object?.name;
     }
 

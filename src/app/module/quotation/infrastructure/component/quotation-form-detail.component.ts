@@ -82,7 +82,6 @@ export class QuotationFormDetailComponent {
 
     // region Autocomplete Product
     onChangeProduct(textProduct: string) {
-        console.log("🚀 ~ file: quotation-form-detail.component.ts:71 ~ QuotationFormDetailComponent ~ onChangeProduct ~ textProduct:", textProduct)
         this.detail.description = textProduct;
         this.onChange.emit(this.detail);
         if (this.productTimer) clearTimeout(this.productTimer);
@@ -95,7 +94,6 @@ export class QuotationFormDetailComponent {
     }
 
     onSelectProduct(product: ProductInterface) {
-        console.log("🚀 ~ file: quotation-form-detail.component.ts:86 ~ QuotationFormDetailComponent ~ onSelectProduct ~ product:", product)
         this.product = product;
         this.priceCategory = undefined as any;
         this.detail.productUuid = this.product.uuid;
@@ -103,7 +101,6 @@ export class QuotationFormDetailComponent {
     }
 
     onLoadProduct(filter: Partial<ProductInterface>) {
-        console.log("🚀 ~ file: quotation-form-detail.component.ts:98 ~ QuotationFormDetailComponent ~ onLoadProduct ~ filter:", filter)
         const payload = { pagination: { offset: 0, limit: 5 } };
         Object.assign(payload, filter);
         return this.productService.onFind(payload)

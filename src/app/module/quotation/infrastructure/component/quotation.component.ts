@@ -9,6 +9,9 @@ import { QuotationService } from '../../application/service/quotation.service';
 import { QuotationInterface } from 'src/app/datasource/remas/domain/interface/quotation.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarEventEditInterface } from '../../domain/interface/calendar-event-edit.interface';
+import { Store } from '@ngrx/store';
+import { increment } from 'src/app/shared/component/tool_bar/application/action/tool_bar.action';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-quotation',
@@ -32,18 +35,27 @@ export class QuotationComponent {
     events: CalendarEvent[] = [];
 
     quotations: QuotationInterface[] = [];
-
+    count$!: Observable<number>;
     constructor(
         private quotationService: QuotationService,
         private matSnackBar: MatSnackBar,
         private router: Router,
         private route: ActivatedRoute,
-    ) { }
+        private store: Store<{ count: number }>,
+    ) { 
+        this.count$ = store.select('count');
+    }
 
     ngOnInit() {
         const filter: QuotationInterface | {} = {};
         Object.assign(filter, { pagination: { offset: 0, limit: 5 } });
         this.onLoadQuotations(filter as QuotationInterface);
+    }
+
+    onAdd() {
+        const route = ['/app/quotation', 'new'];
+        this.router.navigate(route);
+        this.store.dispatch(increment());
     }
 
     onChangeRange(range: { startDate: Date; endDate: Date }) {
