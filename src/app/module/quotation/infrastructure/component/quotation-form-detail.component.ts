@@ -8,7 +8,7 @@ import { ProductPriceInterface } from 'src/app/datasource/remas/domain/interface
 import { QuotationDetailInterface } from 'src/app/datasource/remas/domain/interface/quotation-detail.interface';
 import { PriceCategoryService } from 'src/app/datasource/remas/application/service/price-category.service';
 import { MeasureUnitService } from 'src/app/datasource/remas/application/service/measure-unit.service';
-import { ProductService } from 'src/app/datasource/remas/application/service/product.service';
+import { ProductService } from 'src/app/datasource/remas/application/service/inventory-product.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 
 @Component({

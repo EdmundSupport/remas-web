@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { finalize, map } from 'rxjs/operators';
-import { ProductService } from "../service/product.service";
+import { ProductService } from "../service/inventory-product.service";
 import { ProductInterface } from "../../domain/interface/product.interface";
 import { BehaviorSubject } from "rxjs";
 
