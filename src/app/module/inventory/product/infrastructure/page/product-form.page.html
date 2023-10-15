@@ -46,8 +46,10 @@
 
     </div>
     <div class="maintenance-step">
-        <app-product-maintenance-step></app-product-maintenance-step>
+        <ng-container *ngFor="let item of product.productMaintenanceSteps; let i = index">
+            <app-product-maintenance-step [detail]="item" (onChange)="onChangeDetail(i, item)" (onDelete)="onDeleteDetail(i, item)"></app-product-maintenance-step>
+        </ng-container>
     </div>
 </div>
-<!-- <app-button-float [iconName]="'add'" (onClick)="onAddDetail()" /> -->
-<!-- <app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" /> -->
+<app-button-float [iconName]="'add'" (onClick)="onAddDetail()" />
+<app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" />

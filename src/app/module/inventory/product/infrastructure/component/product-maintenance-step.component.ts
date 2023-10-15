@@ -33,6 +33,10 @@ export class ProductMaintenanceStepComponent {
     ngOnInit() {
     }
 
+    ngOnChanges(data: any) {
+        this.onChange.emit(this.detail);
+    }
+
     onChangeDetail(index: number, detail: ProductMaintenanceStepDetailInterface) {
         if (this.detail && this.detail.productMaintenanceStepDetails && this.detail.productMaintenanceStepDetails[index]) {
             this.detail.productMaintenanceStepDetails[index] = detail;

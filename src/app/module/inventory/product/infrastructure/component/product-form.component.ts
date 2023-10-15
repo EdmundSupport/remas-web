@@ -11,6 +11,7 @@ import { ProductTypeInterface } from 'src/app/datasource/remas/domain/interface/
 import { ProductTypeService } from 'src/app/datasource/remas/application/service/product-type.service';
 import { SerializeHelper } from 'src/app/shared/serialize/application/helper/serialize.helper';
 import { ProductService } from 'src/app/datasource/remas/application/service/inventory-product.service';
+import { ProductMaintenanceStepInterface } from 'src/app/datasource/remas/domain/interface/product-maintenance-step.interface';
 
 @Component({
     selector: 'app-product-form',
@@ -71,7 +72,7 @@ export class ProductFormComponent {
                         .add(() => {
                             this.measure = this.measures.find((measure) => measure.uuid == this.product.measureUuid)!;
                         });
-                        
+
                     if (this.product.productTypeUuid) this.onLoadProductType({ uuid: this.product.productTypeUuid })
                         .add(() => {
                             this.productType = this.productTypes.find((productType) => productType.uuid == this.product.productTypeUuid)!;
@@ -143,4 +144,31 @@ export class ProductFormComponent {
         return productType?.name ?? '';
     }
     // endregion Autocomplete ProductType
+
+    onChangeDetail(index: number, detail: ProductMaintenanceStepInterface) {
+        if (this.product && this.product.productMaintenanceSteps && this.product.productMaintenanceSteps[index]) {
+            this.product.productMaintenanceSteps[index] = detail;
+            // if (this.total || this.total == 0 || `${this.total}` == 'NaN') {
+            //     this.total = this.onTotal();
+            // }
+        }
+    }
+
+    onDeleteDetail(index: number, detail: ProductMaintenanceStepInterface) {
+        if (this.product && this.product.productMaintenanceSteps) {
+            this.product.productMaintenanceSteps.splice(index, 1);
+            // if (this.total || this.total == 0 || `${this.total}` == 'NaN') this.total = this.onTotal();
+        }
+    }
+
+    onAddDetail() {
+        if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({} as any);
+        else this.product.productMaintenanceStepDetails = [{} as any];
+
+        // this.total = this.onTotal();
+    }
+
+    onSave(): any {
+        console.log("🚀 ~ file: product-form.component.ts:173 ~ ProductFormComponent ~ onSave ~ this.product:", this.product)
+    }
 }

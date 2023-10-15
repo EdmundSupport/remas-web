@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { SuperpositionLoadingComponent } from "src/app/shared/component/superposition-loading/infrastructure/component/superposition-loading.component";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ProductMaintenanceStepDetailComponent } from "./infrastructure/component/product-maintenance-step-detail.component";
+import { ButtonFloatComponent } from "src/app/shared/component/button-float/infrastructure/component/button-float.component";
 @NgModule({
     declarations: [
         ProductComponent,
@@ -43,6 +44,7 @@ import { ProductMaintenanceStepDetailComponent } from "./infrastructure/componen
         MatProgressSpinnerModule,
         MatExpansionModule,
         SuperpositionLoadingComponent,
+        ButtonFloatComponent,
     ]
 })
 export class ProductModule { }
