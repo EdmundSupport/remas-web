@@ -39,7 +39,7 @@ export class ProductMaintenanceStepDetailComponent {
         private elementRef: ElementRef,
         private renderer: Renderer2,
         private matSnackBar: MatSnackBar,
-        private productService: MeasureUnitService,
+        private productService: ProductService,
         private measureUnitService: MeasureUnitService,
     ) {
 
@@ -52,9 +52,10 @@ export class ProductMaintenanceStepDetailComponent {
                     this.product = this.products.find((product) => product.uuid == this.detail.productUuid)!;
                 });
 
-            if (this.detail.measureUnitUuid) this.onLoadProduct({ uuid: this.detail.measureUnitUuid })
+            if (this.detail.measureUnitUuid) this.onLoadMeasureUnit({ uuid: this.detail.measureUnitUuid })
                 .add(() => {
                     this.measureUnit = this.measuresUnit.find((measureUnit) => measureUnit.uuid == this.detail.measureUnitUuid)!;
+                
                 });
         }
 

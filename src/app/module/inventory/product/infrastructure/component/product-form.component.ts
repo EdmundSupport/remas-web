@@ -65,8 +65,7 @@ export class ProductFormComponent {
                         return;
                     }
 
-                    const product = result;
-                    this.product = product;
+                    this.product = result;
 
                     if (this.product.measureUuid) this.onLoadMeasure({ uuid: this.product.measureUuid })
                         .add(() => {

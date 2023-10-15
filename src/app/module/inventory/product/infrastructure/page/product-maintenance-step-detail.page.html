@@ -15,8 +15,8 @@
         </div>
         <div class="product">
             <mat-form-field [subscriptSizing]="'dynamic'">
-                <mat-label>Product</mat-label>
-                <input type="text" placeholder="Product" matInput [(ngModel)]="product!"
+                <mat-label>Producto</mat-label>
+                <input type="text" placeholder="Producto" matInput [(ngModel)]="product!"
                     (ngModelChange)="onChangeProduct($event)" [matAutocomplete]="productA" />
                 <mat-autocomplete #productA="matAutocomplete" [displayWith]="onShowProduct">
                     <mat-option *ngFor="let item of products" [value]="onShowProduct(item)"

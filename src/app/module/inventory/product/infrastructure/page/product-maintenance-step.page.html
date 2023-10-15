@@ -30,8 +30,8 @@
                     </mat-expansion-panel-header>
                     <ng-container *ngFor="let item of detail.productMaintenanceStepDetails; let i = index">
                         <app-product-maintenance-step-detail 
-                        (onDelete)="onDeleteDetail(i, item)"
-                        (onChange)="onChangeDetail(i, item)"
+                        (onDelete)="onDeleteDetail(i, $event)"
+                        (onChange)="onChangeDetail(i, $event)"
                         [detail]="item"
                         ></app-product-maintenance-step-detail>
                     </ng-container>
