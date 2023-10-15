@@ -2,16 +2,31 @@
     <mat-spinner></mat-spinner>
 </app-superposition-loading>
 <div>
-    <mat-form-field [subscriptSizing]="'dynamic'">
-        <mat-label>Tipo de Medida</mat-label>
-        <input type="text" placeholder="Tipo de Medida" matInput [(ngModel)]="measure!"
-            (ngModelChange)="onChangeMeasure($event)" [matAutocomplete]="measureA" />
-        <mat-autocomplete #measureA="matAutocomplete" [displayWith]="onShowMeasure">
-            <mat-option *ngFor="let item of measures" [value]="onShowMeasure(item)" (click)="onSelectMeasure(item)">
-                {{ onShowMeasure(item) }}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+    <div class="measure">
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Tipo de Medida</mat-label>
+            <input type="text" placeholder="Tipo de Medida" matInput [(ngModel)]="measure!"
+                (ngModelChange)="onChangeMeasure($event)" [matAutocomplete]="measureA" />
+            <mat-autocomplete #measureA="matAutocomplete" [displayWith]="onShowMeasure">
+                <mat-option *ngFor="let item of measures" [value]="onShowMeasure(item)" (click)="onSelectMeasure(item)">
+                    {{ onShowMeasure(item) }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="product-type">
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Tipo de Medida</mat-label>
+            <input type="text" placeholder="Tipo de Medida" matInput [(ngModel)]="productType!"
+                (ngModelChange)="onChangeProductType($event)" [matAutocomplete]="productTypeA" />
+            <mat-autocomplete #productTypeA="matAutocomplete" [displayWith]="onShowProductType">
+                <mat-option *ngFor="let item of productTypes" [value]="onShowProductType(item)" (click)="onSelectProductType(item)">
+                    {{ onShowProductType(item) }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+    </div>
 </div>
 <!-- <app-button-float [iconName]="'add'" (onClick)="onAddDetail()" /> -->
 <!-- <app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" /> -->

@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 import { MeasureInterface } from 'src/app/datasource/remas/domain/interface/measure.interface';
 import { MeasureService } from 'src/app/datasource/remas/application/service/measure.service';
+import { ProductTypeInterface } from 'src/app/datasource/remas/domain/interface/product-type.interface';
+import { ProductTypeService } from 'src/app/datasource/remas/application/service/product-type.service';
 
 @Component({
     selector: 'app-product-form',
@@ -35,13 +37,18 @@ export class ProductFormComponent {
     measure!: MeasureInterface;
     measures: MeasureInterface[] = [];
     measureTimer: any;
+    
+    productType!: ProductTypeInterface;
+    productTypes: ProductTypeInterface[] = [];
+    productTypeTimer: any;
 
     constructor(
         private matSnackBar: MatSnackBar,
         private elementRef: ElementRef,
         private router: Router,
         private route: ActivatedRoute,
-        private measureService: MeasureService
+        private measureService: MeasureService,
+        private productTypeService: ProductTypeService,
     ) {
     }
 
@@ -75,4 +82,32 @@ export class ProductFormComponent {
         return measure?.name ?? '';
     }
     // endregion Autocomplete Measure
+
+    // region Autocomplete ProductType
+    onChangeProductType(textProductType: string) {
+        if (this.productTypeTimer) clearTimeout(this.productTypeTimer);
+
+        this.productTypeTimer = setTimeout(() => {
+            if (textProductType) {
+                this.onLoadProductType({ name: textProductType });
+            }
+        }, 400);
+    }
+
+    onSelectProductType(productType: ProductTypeInterface) {
+        this.productType = productType;
+        this.product.productTypeUuid = this.productType.uuid;
+    }
+
+    onLoadProductType(filter: Partial<ProductTypeInterface>) {
+        const payload = { pagination: { offset: 0, limit: 5 } };
+        Object.assign(payload, filter);
+        return this.productTypeService.onFind(payload)
+            .subscribe((data) => this.productTypes = data);
+    }
+
+    onShowProductType(productType: ProductTypeInterface) {
+        return productType?.name ?? '';
+    }
+    // endregion Autocomplete ProductType
 }
