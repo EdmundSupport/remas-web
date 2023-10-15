@@ -1,34 +1,42 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsDate, IsOptional, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsDate, IsObject, IsOptional, IsString } from "class-validator";
+import { ProductDto } from "./product.dto";
+import { MeasureUnitDto } from "./measure-unit.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
 export class MeasureDto {
     @IsString()
     @IsOptional()
-    @ApiPropertyOptional()
     uuid: string;
 
     @IsString()
     @IsOptional()
-    @ApiPropertyOptional()
     keyName: string;
 
     @IsString()
     @IsOptional()
-    @ApiPropertyOptional()
     name: string;
 
     @IsBoolean()
     @IsOptional()
-    @ApiPropertyOptional()
     condition: boolean;
 
     @IsDate()
     @IsOptional()
-    @ApiPropertyOptional()
     createdAt: Date;
 
     @IsDate()
     @IsOptional()
-    @ApiPropertyOptional()
     updatedAt: Date;
+
+    @IsOptional()
+    @IsArray()
+    products: ProductDto[];
+
+    @IsOptional()
+    @IsArray()    
+    measureUnits: MeasureUnitDto[];
+
+    @IsOptional()
+    @IsObject()
+    pagination: PaginationDto;
 }
