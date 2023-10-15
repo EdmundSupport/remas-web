@@ -8,7 +8,7 @@ import { MeasureDto } from "src/api/v1/datasource/remas/shared/domain/dto/measur
 @Injectable()
 export class MeasureService {
     constructor(
-        @Inject('MEASURE_UNIT_REPOSITORY')
+        @Inject('MEASURE_REPOSITORY')
         private measureService: typeof Measure,
     ) { }
 

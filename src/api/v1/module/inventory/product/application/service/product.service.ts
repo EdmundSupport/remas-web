@@ -82,4 +82,10 @@ export class ProductService {
             ...pagination,
         })
     }
+
+    findOne(uuid: string) {
+        return this.productService.findOne({
+            where: { uuid }
+        })
+    }
 }
