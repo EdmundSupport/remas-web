@@ -156,7 +156,7 @@ export class ProductService {
         for (let index = 0; index < productMaintenanceSteps.length; index++) {
             const productMaintenanceStep = productMaintenanceSteps[index];
             if (productMaintenanceStep?.uuid) await this.productMantenanceStepService.update(productMaintenanceStep, { where: { uuid: productMaintenanceStep.uuid } })
-            else productMaintenanceStep.uuid = (await this.productMantenanceStepService.create(productMaintenanceStep as any)).uuid;
+            else await this.productMantenanceStepService.create(productMaintenanceStep as any);
 
             const productMaintenanceStepDetails = StructureHelper.searchProperty(productMaintenanceStep, 'productMaintenanceStepDetails')[0] as ProductMaintenanceStepDetail[] | undefined;
             for (let indexDetail = 0; indexDetail < productMaintenanceStepDetails?.length; indexDetail++) {
