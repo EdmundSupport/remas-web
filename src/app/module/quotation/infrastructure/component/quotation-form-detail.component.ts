@@ -10,6 +10,7 @@ import { PriceCategoryService } from 'src/app/datasource/remas/application/servi
 import { MeasureUnitService } from 'src/app/datasource/remas/application/service/measure-unit.service';
 import { ProductService } from 'src/app/datasource/remas/application/service/inventory-product.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-quotation-form-detail',
@@ -39,6 +40,7 @@ export class QuotationFormDetailComponent {
         private productService: ProductService,
         private measureUnitService: MeasureUnitService,
         private priceCategoryService: PriceCategoryService,
+        private matSnackBar: MatSnackBar,
         private elementRef: ElementRef,
         private renderer: Renderer2
     ) {
@@ -104,7 +106,13 @@ export class QuotationFormDetailComponent {
         const payload = { pagination: { offset: 0, limit: 5 } };
         Object.assign(payload, filter);
         return this.productService.onFind(payload)
-            .subscribe((data) => this.products = data);
+            .subscribe((result) =>{ 
+                if (result?.statusCode && result?.statusCode != 200) {
+                    this.matSnackBar.open(result?.message ?? 'Ocurrio un error al filtrar el servidor.');
+                    return;
+                }
+                this.products = result;
+            });
     }
 
     onShowProduct(product: ProductInterface) {

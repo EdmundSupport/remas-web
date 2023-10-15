@@ -26,7 +26,6 @@ export class ProductTypeService {
                 observer.complete();
             })),
             map((result: any) => {
-                console.log("🚀 ~ file: product-type.service.ts:29 ~ ProductTypeService ~ map ~ result:", result)
                 if (result?.statusCode != 200) {
                     return [];
                 }

@@ -2,11 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environment";
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
-import { CreateProductInterface } from "../../domain/interface/create-product.interface";
+import { catchError, finalize, map } from 'rxjs/operators';
+import { CreateProductInterface } from "../../../../module/inventory/product/domain/interface/create-product.interface";
 import { SerializeHelper } from "src/app/shared/serialize/application/helper/serialize.helper";
 import { ProductInterface } from "src/app/datasource/remas/domain/interface/product.interface";
-import { FindProductInterface } from "../../domain/interface/find-product.interface";
+import { FindProductInterface } from "../../../../module/inventory/product/domain/interface/find-product.interface";
 
 @Injectable({
     providedIn: 'root',
@@ -33,7 +33,14 @@ export class ProductService {
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
-            }))
+            })),
+            map((result: any) => {
+                if (result?.statusCode != 200) {
+                    return result;
+                }
+
+                return result?.data;
+            }),
         );
     }
 

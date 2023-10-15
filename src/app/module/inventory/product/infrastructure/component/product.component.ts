@@ -59,6 +59,10 @@ export class ProductComponent implements AfterViewInit {
 
     onLoadProducts(filter: Partial<ProductInterface>) {
         return this.productService.onFind(filter).subscribe((result) => {
+            if (result?.statusCode && result?.statusCode != 200) {
+                this.matSnackBar.open(result?.message ?? 'Ocurrio un error al filtrar el servidor.');
+                return;
+            }
             const newData: ProductInterface[] = [...this.dataSource?.data ?? [], ...result];
             newData.map((item, index, array) => {
                 const arrayIndex = array.findIndex((arrayItem) => arrayItem.uuid == item.uuid);
