@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Quotation } from './quotation';
 
-@Table({ tableName: 'quotation_status', timestamps: false })
+@Table({schema: 'billing', tableName: 'quotation_status', timestamps: false })
 export class QuotationStatus extends Model {
   @Column({
     primaryKey: true,

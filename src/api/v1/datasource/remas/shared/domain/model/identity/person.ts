@@ -8,7 +8,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-@Table({ tableName: 'person', timestamps: false })
+@Table({schema: 'identity', tableName: 'person', timestamps: false })
 export class Person extends Model {
   @Column({
     primaryKey: true,

@@ -11,7 +11,7 @@ import {
 import { Product } from './product';
 import { MeasureUnit } from './measure_unit';
 
-@Table({ tableName: 'measure', timestamps: false })
+@Table({schema: 'inventory', tableName: 'measure', timestamps: false })
 export class Measure extends Model {
   @Column({
     primaryKey: true,

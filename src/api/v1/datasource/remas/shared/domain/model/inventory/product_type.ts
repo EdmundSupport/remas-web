@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Product } from './product';
 
-@Table({ tableName: 'product_type', timestamps: false })
+@Table({schema: 'inventory', tableName: 'product_type', timestamps: false })
 export class ProductType extends Model {
   @Column({
     primaryKey: true,

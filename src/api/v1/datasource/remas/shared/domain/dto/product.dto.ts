@@ -3,62 +3,83 @@ import { MeasureDto } from "./measure.dto";
 import { ProductTypeDto } from "./product-type.dto";
 import { Type } from "class-transformer";
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
+import { ProductPriceDto } from "./product-price.dto";
+import { PriceCategoryDto } from "./price-category.dto";
+import { ProductMaintenanceStepDto } from "./product-maintenance-step.dto";
+import { ProductMaintenanceStepDetailDto } from "./product-maintenance-step-detail.dto";
 export class ProductDto {
-        @IsString()
+        
         @IsOptional()
-        uuid: string;
-
         @IsString()
+        uuid?: string;
+        
         @IsOptional()
-        sku: string;
-
         @IsString()
+        sku?: string;
+        
         @IsOptional()
-        name: string;
-
         @IsString()
+        name?: string;
+        
         @IsOptional()
-        description: string;
-
         @IsString()
+        description?: string;
+        
         @IsOptional()
-        parentUuid: string;
-
         @IsString()
+        parentUuid?: string;
+        
         @IsOptional()
-        measureUuid: string;
-
         @IsString()
+        measureUuid?: string;
+        
         @IsOptional()
-        productTypeUuid: string;
-
+        @IsString()
+        productTypeUuid?: string;
+        
+        @IsOptional()
         @IsBoolean()
+        condition?: boolean;
+        
         @IsOptional()
-        condition: boolean;
-
         @IsDate()
+        createdAt?: Date;
+        
         @IsOptional()
-        createdAt: Date;
-
         @IsDate()
-        @IsOptional()
-        updatedAt: Date;
-
+        updatedAt?: Date;
+        
         @IsOptional()
         @IsArray()
-        productChild: ProductDto[];
-
+        products?: ProductDto[];
+        
         @IsOptional()
         @IsObject()
-        productParent: ProductDto;
-
+        product?: ProductDto;
+        
         @IsOptional()
         @IsObject()
-        measure: MeasureDto;
-
+        measure?: MeasureDto;
+        
         @IsOptional()
         @IsObject()
-        productType: ProductTypeDto;
+        productType?: ProductTypeDto;
+        
+        @IsOptional()
+        @IsArray()
+        productPrices?: ProductPriceDto[];
+        
+        @IsOptional()
+        @IsObject()
+        priceCategories?: PriceCategoryDto[];
+        
+        @IsOptional()
+        @IsArray()
+        productMaintenanceSteps?: ProductMaintenanceStepDto[];
+        
+        @IsOptional()
+        @IsArray()
+        productMaintenanceStepDetails?: ProductMaintenanceStepDetailDto[];
 
         @IsOptional()
         @IsObject()

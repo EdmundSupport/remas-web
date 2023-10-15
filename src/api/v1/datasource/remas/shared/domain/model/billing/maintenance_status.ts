@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Maintenance } from './maintenance';
 
-@Table({ tableName: 'maintenance_status', timestamps: false })
+@Table({schema: 'billing', tableName: 'maintenance_status', timestamps: false })
 export class MaintenanceStatus extends Model {
   @Column({
     primaryKey: true,

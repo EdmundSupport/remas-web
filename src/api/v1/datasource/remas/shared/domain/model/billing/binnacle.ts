@@ -8,7 +8,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-@Table({ tableName: 'binnacle', timestamps: false })
+@Table({schema: 'billing', tableName: 'binnacle', timestamps: false })
 export class Binnacle extends Model {
   @Column({
     primaryKey: true,

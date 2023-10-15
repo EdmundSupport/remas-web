@@ -11,7 +11,7 @@ import {
 import { Company } from './company';
 import { Client } from './../billing';
 
-@Table({ schema: 'identity', tableName: 'tribute', timestamps: false })
+@Table({schema: 'identity', tableName: 'tribute', timestamps: false })
 export class Tribute extends Model {
   @Column({
     primaryKey: true,

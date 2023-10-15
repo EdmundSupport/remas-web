@@ -12,7 +12,7 @@ import { Product } from './product';
 import { MeasureUnit } from './measure_unit';
 import { PriceCategory } from './price_category';
 
-@Table({ tableName: 'product_price', timestamps: false })
+@Table({schema: 'inventory', tableName: 'product_price', timestamps: false })
 export class ProductPrice extends Model {
   @ForeignKey(() => Product)
   @Column({

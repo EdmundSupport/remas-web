@@ -12,7 +12,7 @@ import {
 import { ProductPrice } from './product_price';
 import { Product } from './product';
 
-@Table({ tableName: 'price_category', timestamps: false })
+@Table({schema: 'inventory', tableName: 'price_category', timestamps: false })
 export class PriceCategory extends Model {
   @Column({
     primaryKey: true,

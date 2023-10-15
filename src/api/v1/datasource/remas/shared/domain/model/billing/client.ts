@@ -12,7 +12,7 @@ import {
 import { Quotation } from './quotation';
 import { Tribute } from '../identity/tribute';
 
-@Table({ tableName: 'client', timestamps: false })
+@Table({schema: 'billing', tableName: 'client', timestamps: false })
 export class Client extends Model {
   @Column({
     primaryKey: true,

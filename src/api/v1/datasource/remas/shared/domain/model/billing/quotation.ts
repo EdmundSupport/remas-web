@@ -13,7 +13,7 @@ import { Client } from './client';
 import { QuotationStatus } from './quotation_status';
 import { QuotationDetail } from './quotation_detail';
 
-@Table({ tableName: 'quotation', timestamps: false })
+@Table({schema: 'billing', tableName: 'quotation', timestamps: false })
 export class Quotation extends Model {
   @Column({
     primaryKey: true,

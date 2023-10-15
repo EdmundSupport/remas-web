@@ -14,7 +14,7 @@ import { Product } from '../inventory/product';
 import { ProductMaintenanceStep } from '../inventory/product_maintenance_step';
 import { MaintenanceStepDetail } from './maintenance_step_detail';
 
-@Table({ tableName: 'maintenance_step', timestamps: false })
+@Table({schema: 'billing', tableName: 'maintenance_step', timestamps: false })
 export class MaintenanceStep extends Model {
   @Column({
     primaryKey: true,

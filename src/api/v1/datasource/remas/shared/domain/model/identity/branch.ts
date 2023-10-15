@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Company } from './company';
 
-@Table({ tableName: 'branch', timestamps: false })
+@Table({schema: 'identity', tableName: 'branch', timestamps: false })
 export class Branch extends Model {
   @Column({
     primaryKey: true,

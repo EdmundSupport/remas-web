@@ -12,7 +12,7 @@ import {
 import { Product } from './product';
 import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
 
-@Table({ tableName: 'product_maintenance_step', timestamps: false })
+@Table({schema: 'inventory', tableName: 'product_maintenance_step', timestamps: false })
 export class ProductMaintenanceStep extends Model {
   @Column({
     primaryKey: true,

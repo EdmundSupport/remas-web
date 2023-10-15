@@ -3,7 +3,7 @@ import { Client, Quotation, QuotationDetail } from "src/api/v1/datasource/remas/
 // import { ProductCreateInterface as CreateInterface } from "../../domain/interface/product-create.interface";
 // import { ProductInterface as FindInterface } from "src/api/v1/datasource/remas/shared/domain/interface/product.interface";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
-import { Measure, Product, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
+import { Measure, Product, ProductMaintenanceStep, ProductMaintenanceStepDetail, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
 import { ProductDto } from "src/api/v1/datasource/remas/shared/domain/dto/product.dto";
 import { Op, WhereOptions } from "sequelize";
 
@@ -34,7 +34,27 @@ export class ProductService {
         if (data?.description) Object.assign(data, { description: { [Op.like]: `%${data.description}%` } });
         if (data?.sku) Object.assign(data, { sku: { [Op.like]: `%${data.sku}%` } });
 
+        if(!data?.condition){
+            Object.assign(data, {condition: true});
+        }
+
+        const productMaintenanceStep = StructureHelper.searchProperty(data, 'productMaintenanceStep', true)[0];
+
         const include = [];
+        if (productMaintenanceStep) {
+            const productMaintenanceStepDetail = StructureHelper.searchProperty(productMaintenanceStep, 'productMaintenanceStepDetail', true)[0];
+            const productMaintenanceStepDetailInclude = [];
+            if (productMaintenanceStepDetail) productMaintenanceStepDetailInclude.push({
+                model: ProductMaintenanceStepDetail,
+                where: productMaintenanceStepDetail
+            });
+
+            include.push({
+                model: ProductMaintenanceStep,
+                where: productMaintenanceStep,
+                include: productMaintenanceStepDetailInclude,
+            });
+        }
         if (productChild) include.push({
             model: Product,
             as: 'productChild',

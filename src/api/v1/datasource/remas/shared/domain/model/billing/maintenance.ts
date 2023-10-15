@@ -13,7 +13,7 @@ import { User } from '../aaa/user';
 import { MaintenanceStatus } from './maintenance_status';
 import { MaintenanceStep } from './maintenance_step';
 
-@Table({ tableName: 'maintenance', timestamps: false })
+@Table({schema: 'billing', tableName: 'maintenance', timestamps: false })
 export class Maintenance extends Model {
   @Column({
     primaryKey: true,
