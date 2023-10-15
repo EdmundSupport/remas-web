@@ -34,8 +34,8 @@ export class ProductService {
         if (data?.description) Object.assign(data, { description: { [Op.like]: `%${data.description}%` } });
         if (data?.sku) Object.assign(data, { sku: { [Op.like]: `%${data.sku}%` } });
 
-        if(!data?.condition){
-            Object.assign(data, {condition: true});
+        if (!data?.condition) {
+            Object.assign(data, { condition: true });
         }
 
         const productMaintenanceStep = StructureHelper.searchProperty(data, 'productMaintenanceStep', true)[0];
@@ -85,7 +85,8 @@ export class ProductService {
 
     findOne(uuid: string) {
         return this.productService.findOne({
-            where: { uuid }
+            where: { uuid },
+            include: [{ model: ProductMaintenanceStep, include: [{ model: ProductMaintenanceStepDetail }] }]
         })
     }
 }
