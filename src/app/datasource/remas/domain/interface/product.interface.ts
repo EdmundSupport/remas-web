@@ -8,23 +8,23 @@ import { ProductTypeInterface } from "./product-type.interface";
 
 export interface ProductInterface {
         
-        uuid?: string;
-        sku?: string;
-        name?: string;
-        description?: string;
-        parentUuid?: string;
-        measureUuid?: string;
-        productTypeUuid?: string;
-        condition?: boolean;
-        createdAt?: Date;
-        updatedAt?: Date;
-        products?: ProductInterface[];
-        product?: ProductInterface;
-        measure?: MeasureInterface;
-        productType?: ProductTypeInterface;
-        productPrices?: ProductPriceInterface[];
-        priceCategories?: PriceCategoryInterface[];
-        productMaintenanceSteps?: ProductMaintenanceStepInterface[];
-        productMaintenanceStepDetails?: ProductMaintenanceStepDetailInterface[];
+        uuid: string;
+        sku: string;
+        name: string;
+        description: string;
+        parentUuid: string;
+        measureUuid: string;
+        productTypeUuid: string;
+        condition: boolean;
+        createdAt: Date;
+        updatedAt: Date;
+        products: ProductInterface[];
+        product: ProductInterface;
+        measure: MeasureInterface;
+        productType: ProductTypeInterface;
+        productPrices: ProductPriceInterface[];
+        priceCategories: PriceCategoryInterface[];
+        productMaintenanceSteps: ProductMaintenanceStepInterface[];
+        productMaintenanceStepDetails: ProductMaintenanceStepDetailInterface[];
         pagination: PaginationInterface;
 }

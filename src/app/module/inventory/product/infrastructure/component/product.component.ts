@@ -38,7 +38,7 @@ export class ProductComponent implements AfterViewInit {
     ngOnInit() {
         this.onLoadProducts({
             pagination: { limit: 5, offset: 0 }
-        });
+        } as any);
     }
 
     ngAfterViewInit() {
@@ -57,7 +57,7 @@ export class ProductComponent implements AfterViewInit {
     onLoad() {
     }
 
-    onLoadProducts(filter: ProductInterface) {
+    onLoadProducts(filter: Partial<ProductInterface>) {
         return this.productService.onFind(filter).subscribe((result) => {
             const newData: ProductInterface[] = [...this.dataSource?.data ?? [], ...result];
             newData.map((item, index, array) => {
@@ -83,7 +83,7 @@ export class ProductComponent implements AfterViewInit {
                     const value = this.displayedColumns[index];
                     if (this.dataSource.filteredData.length > 0) return;
 
-                    const payload: ProductInterface = { pagination: { offset: 0, limit: 5 } };
+                    const payload: Partial<ProductInterface> = { pagination: { offset: 0, limit: 5 } };
                     if (value == 'sku') payload.sku = filter;
                     if (value == 'name') payload.name = filter;
 
