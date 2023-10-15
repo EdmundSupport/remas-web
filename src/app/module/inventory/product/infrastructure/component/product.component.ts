@@ -8,6 +8,7 @@ import { ProductInterface } from 'src/app/datasource/remas/domain/interface/prod
 import { ProductService } from 'src/app/datasource/remas/application/service/inventory-product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 type DisplayColumnsInterface = keyof ProductInterface | 'action';
 @Component({
@@ -27,6 +28,7 @@ export class ProductComponent implements AfterViewInit {
     constructor(
         private productService: ProductService,
         private matSnackBar: MatSnackBar,
+        private router: Router,
     ) {
         // Create 100 users
         // const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
@@ -46,8 +48,12 @@ export class ProductComponent implements AfterViewInit {
         if (this.dataSource?.sort) this.dataSource.sort = this.sort;
     }
 
-    onEdit(product: ProductInterface) {
+    onAdd(){
+        this.router.navigate(['/app/inventory/product/new']);
+    }
 
+    onEdit(product: ProductInterface) {
+        this.router.navigate(['/app/inventory/product/'+product.uuid]);
     }
 
     onDelete(product: ProductInterface) {
@@ -66,7 +72,7 @@ export class ProductComponent implements AfterViewInit {
             const newData: ProductInterface[] = [...this.dataSource?.data ?? [], ...result];
             newData.map((item, index, array) => {
                 const arrayIndex = array.findIndex((arrayItem) => arrayItem.uuid == item.uuid);
-                if (arrayIndex == -1)
+                if (arrayIndex != -1 && index != arrayIndex)
                     array.splice(arrayIndex, 1);
 
                 return item;
@@ -78,7 +84,7 @@ export class ProductComponent implements AfterViewInit {
 
     async applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
-        const filter = filterValue.trim().toLowerCase();
+        const filter = filterValue.trim();
         if (this.dataSource) {
             this.dataSource.filter = filter;
 

@@ -161,8 +161,8 @@ export class ProductFormComponent {
     }
 
     onAddDetail() {
-        if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({ productMaintenanceStepUuid: this?.product?.uuid } as any);
-        else this.product.productMaintenanceStepDetails = [{ productMaintenanceStepUuid: this?.product?.uuid } as any];
+        if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any);
+        else this.product.productMaintenanceSteps = [{ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any];
 
         // this.total = this.onTotal();
     }
