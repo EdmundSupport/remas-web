@@ -2,6 +2,24 @@
     <mat-spinner></mat-spinner>
 </app-superposition-loading>
 <div>
+    <div class="sku">
+        <mat-form-field appearance="fill">
+            <mat-label>SKU</mat-label>
+            <input type="text" [(ngModel)]="product.sku!" matInput placeholder="SKU">
+        </mat-form-field>
+    </div>
+    <div class="name">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre del Producto</mat-label>
+            <input type="text" [(ngModel)]="product.name!" matInput placeholder="Nombre del Producto">
+        </mat-form-field>
+    </div>
+    <div class="description">
+        <mat-form-field appearance="fill">
+            <mat-label>Descripción del Producto</mat-label>
+            <textarea [(ngModel)]="product.description!" matInput></textarea>
+        </mat-form-field>
+    </div>
     <div class="measure">
         <mat-form-field [subscriptSizing]="'dynamic'">
             <mat-label>Tipo de Medida</mat-label>
@@ -16,8 +34,8 @@
     </div>
     <div class="product-type">
         <mat-form-field [subscriptSizing]="'dynamic'">
-            <mat-label>Tipo de Medida</mat-label>
-            <input type="text" placeholder="Tipo de Medida" matInput [(ngModel)]="productType!"
+            <mat-label>Tipo de Producto</mat-label>
+            <input type="text" placeholder="Tipo de Producto" matInput [(ngModel)]="productType!"
                 (ngModelChange)="onChangeProductType($event)" [matAutocomplete]="productTypeA" />
             <mat-autocomplete #productTypeA="matAutocomplete" [displayWith]="onShowProductType">
                 <mat-option *ngFor="let item of productTypes" [value]="onShowProductType(item)" (click)="onSelectProductType(item)">

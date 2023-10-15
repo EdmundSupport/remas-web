@@ -41,4 +41,20 @@ export class ProductService {
             })
         );
     }
+
+    onFindOne(uuid: string): Observable<any> {
+        return this.httpService.get(this.url + '/v1/product/' + uuid).pipe(
+            catchError((result) => new Observable(observer => {
+                observer.next(result?.error);
+                observer.complete();
+            })),
+            map((result: any) => {
+                console.log("🚀 ~ file: inventory-product.service.ts:52 ~ ProductService ~ map ~ result:", result)
+                if (result?.statusCode != 200) {
+                    return result;
+                }
+                return result?.data;
+            })
+        );
+    }
 }

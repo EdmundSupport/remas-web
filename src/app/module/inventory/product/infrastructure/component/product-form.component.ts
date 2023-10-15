@@ -9,6 +9,8 @@ import { MeasureInterface } from 'src/app/datasource/remas/domain/interface/meas
 import { MeasureService } from 'src/app/datasource/remas/application/service/measure.service';
 import { ProductTypeInterface } from 'src/app/datasource/remas/domain/interface/product-type.interface';
 import { ProductTypeService } from 'src/app/datasource/remas/application/service/product-type.service';
+import { SerializeHelper } from 'src/app/shared/serialize/application/helper/serialize.helper';
+import { ProductService } from 'src/app/datasource/remas/application/service/inventory-product.service';
 
 @Component({
     selector: 'app-product-form',
@@ -16,9 +18,8 @@ import { ProductTypeService } from 'src/app/datasource/remas/application/service
     styleUrls: ['../style/product-form.style.scss'],
 })
 export class ProductFormComponent {
-    
+
     product: Partial<ProductInterface> = {
-        uuid: '',
         sku: '',
         name: '',
         description: '',
@@ -28,7 +29,7 @@ export class ProductFormComponent {
         productPrices: [],
         productMaintenanceSteps: [],
     };
-    
+
     total!: number;
 
     onSaveLoading$ = new BehaviorSubject<boolean>(false);
@@ -37,7 +38,7 @@ export class ProductFormComponent {
     measure!: MeasureInterface;
     measures: MeasureInterface[] = [];
     measureTimer: any;
-    
+
     productType!: ProductTypeInterface;
     productTypes: ProductTypeInterface[] = [];
     productTypeTimer: any;
@@ -47,16 +48,48 @@ export class ProductFormComponent {
         private elementRef: ElementRef,
         private router: Router,
         private route: ActivatedRoute,
+        private productService: ProductService,
         private measureService: MeasureService,
         private productTypeService: ProductTypeService,
     ) {
+        this.product.uuid = this.route.snapshot.paramMap.get('uuid')!;
     }
 
     ngOnInit() {
+        if (SerializeHelper.isUUID(this.product.uuid!)) {
+            this.productService.onFindOne(this?.product?.uuid!)
+                .subscribe((result) => {
+                    if (result?.statusCode && result?.statusCode != 200) {
+                        this.matSnackBar.open('Ocurrio un error al obtener el producto.');
+                        return;
+                    }
+
+                    const product = result;
+                    this.product = product;
+
+                    if (this.product.measureUuid) this.onLoadMeasure({ uuid: this.product.measureUuid })
+                        .add(() => {
+                            this.measure = this.measures.find((measure) => measure.uuid == this.product.measureUuid)!;
+                        });
+                        
+                    if (this.product.productTypeUuid) this.onLoadProductType({ uuid: this.product.productTypeUuid })
+                        .add(() => {
+                            this.productType = this.productTypes.find((productType) => productType.uuid == this.product.productTypeUuid)!;
+                        });
+
+                    // this.total = this.onTotal();
+                    this.onStopSaveLoading();
+                });
+        }
     }
 
-     // region Autocomplete Measure
-     onChangeMeasure(textMeasure: string) {
+    onStopSaveLoading() {
+        this.onSaveLoading$.next(false)
+        clearTimeout(this.timeSaveLoading);
+    }
+
+    // region Autocomplete Measure
+    onChangeMeasure(textMeasure: string) {
         if (this.measureTimer) clearTimeout(this.measureTimer);
 
         this.measureTimer = setTimeout(() => {
