@@ -117,11 +117,33 @@ export class ProductService {
         })
     }
 
-    findOne(uuid: string) {
-        return this.productService.findOne({
+    async findOne(uuid: string) {
+        const product = JSON.parse(JSON.stringify(await this.productService.findOne({
             where: { uuid },
-            include: [{ model: ProductMaintenanceStep, include: [{ model: ProductMaintenanceStepDetail }] }]
-        })
+            include: [{
+                model: ProductMaintenanceStep,
+                include: [{
+                    model: ProductMaintenanceStepDetail
+                }]
+            }]
+        })));
+        product.productMaintenanceSteps = product.productMaintenanceSteps.map((productMaintenanceStep) => {
+            productMaintenanceStep.productMaintenanceStepDetails =
+                productMaintenanceStep.productMaintenanceStepDetails.map((productMaintenanceDetail) => {
+                    const productMaintenanceDetailFormat = {
+                        ...productMaintenanceDetail,
+                        productMaintenanceStepUuid: productMaintenanceDetail['productMa'],
+                        productUuid: productMaintenanceDetail['productUu'],
+                        measureUnitUuid: productMaintenanceDetail['measureUn'],
+                    }
+                    delete productMaintenanceDetailFormat['productMa'];
+                    delete productMaintenanceDetailFormat['productUu'];
+                    delete productMaintenanceDetailFormat['measureUn'];
+                    return productMaintenanceDetailFormat;
+                });
+            return productMaintenanceStep;
+        });
+        return product;
     }
 
     async update(uuid: string, data: CreateProductDto) {
