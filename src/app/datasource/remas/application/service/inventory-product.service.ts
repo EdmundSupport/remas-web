@@ -49,7 +49,6 @@ export class ProductService {
                 observer.complete();
             })),
             map((result: any) => {
-                console.log("🚀 ~ file: inventory-product.service.ts:52 ~ ProductService ~ map ~ result:", result)
                 if (result?.statusCode != 200) {
                     return result;
                 }

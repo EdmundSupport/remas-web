@@ -49,7 +49,14 @@ export class ProductService {
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
-            }))
+            })),
+            map((result: any) => {
+                if (result?.statusCode != 200) {
+                    return result;
+                }
+
+                return result?.data;
+            }),
         );
     }
 

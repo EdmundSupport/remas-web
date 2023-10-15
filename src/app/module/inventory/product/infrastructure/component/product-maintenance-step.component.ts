@@ -54,15 +54,14 @@ export class ProductMaintenanceStepComponent {
     }
 
     onAddDetail() {
-        if (this.detail && this.detail.productMaintenanceStepDetails) this.detail.productMaintenanceStepDetails.push({} as any);
-        else this.detail.productMaintenanceStepDetails = [{} as any];
+        if (this.detail && this.detail.productMaintenanceStepDetails) this.detail.productMaintenanceStepDetails.push({ productMaintenanceStepUuid: this?.detail?.uuid } as any);
+        else this.detail.productMaintenanceStepDetails = [{ productMaintenanceStepUuid: this?.detail?.uuid } as any];
 
         // this.total = this.onTotal();
     }
 
     // onAdd(event: any){
     //     this.panelOpenState = true;
-    //     console.log("🚀 ~ file: product-maintenance-step.component.ts:36 ~ ProductMaintenanceStepComponent ~ onAdd ~ onAdd:")
 
     // }
 }
