@@ -1,0 +1,57 @@
+<div class="detail">
+    <div class="row">
+        <div class="amount">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Cant.</mat-label>
+                <input type="text" placeholder="Cant." [(ngModel)]="detail.amount" matInput />
+            </mat-form-field>
+        </div>
+        <div class="product">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Descripcion</mat-label>
+                <input type="text" placeholder="Descripcion" matInput [(ngModel)]="product"
+                    (ngModelChange)="onChangeProduct($event)" [matAutocomplete]="productA" />
+                <mat-autocomplete #productA="matAutocomplete" [displayWith]="onShowProduct">
+                    <mat-option *ngFor="let item of products" [value]="onShowProduct(item)"
+                        (click)="onSelectProduct(item)">
+                        {{ onShowProduct(item) }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="measure">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Medida</mat-label>
+                <input type="text" placeholder="Medida" matInput [(ngModel)]="measureUnit"
+                    (ngModelChange)="onChangeMeasureUnit($event)" [matAutocomplete]="measure" />
+                <mat-autocomplete #measure="matAutocomplete" [displayWith]="onShowMeasureUnit">
+                    <mat-option *ngFor="let item of measuresUnit" [value]="onShowMeasureUnit(item)"
+                        (click)="onSelectMeasureUnit(item)">
+                        {{ onShowMeasureUnit(item) }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <div class="total">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Importe</mat-label>
+                <input type="text" placeholder="Importe" disabled [value]="onImporteSum()" matInput />
+            </mat-form-field>
+        </div>
+        <div class="control">
+            <button (click)="delete()" mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button (click)="onAddDetail()" mat-icon-button color="warn">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <ng-container *ngFor="let item of detail.dischargeDetails; let i = index">
+            <app-discharge-form-detail (onChange)="onChangeDetail(i, $event)" [detail]="item"></app-discharge-form-detail>
+        </ng-container>
+    </div>
+</div>

@@ -5,28 +5,28 @@ import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
 import { parseISO } from 'date-fns';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { colors } from 'src/app/shared/color/domain/constant/color.constant';
-import { ChargeInterface } from 'src/app/datasource/remas/domain/interface/charge.interface';
+import { DischargeInterface } from 'src/app/datasource/remas/domain/interface/discharge.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarEventEditInterface } from '../../domain/interface/calendar-event-edit.interface';
 import { Store } from '@ngrx/store';
 import { increment } from 'src/app/shared/component/tool_bar/application/action/tool_bar.action';
 import { Observable } from 'rxjs';
-import { ChargeService } from 'src/app/datasource/remas/application/service/charge.service';
+import { DischargeService } from 'src/app/datasource/remas/application/service/discharge.service';
 
 @Component({
-    selector: 'app-charge',
-    templateUrl: '../page/charge.page.html',
-    styleUrls: ['../style/charge.style.scss'],
+    selector: 'app-discharge',
+    templateUrl: '../page/discharge.page.html',
+    styleUrls: ['../style/discharge.style.scss'],
 })
-export class ChargeComponent {
+export class DischargeComponent {
     title: string = 'Cotizaciones';
     actions: CalendarEventAction[] = [
         {
             label: 'Editar',
             a11yLabel: 'Edit',
             onClick: ({ event }: { event: Partial<CalendarEventEditInterface> }): void => {
-                const charge = event.charge;
-                const route = ['/app/charge', charge?.uuid];
+                const discharge = event.discharge;
+                const route = ['/app/discharge', discharge?.uuid];
                 this.router.navigate(route);
             },
         },
@@ -34,10 +34,10 @@ export class ChargeComponent {
 
     events: CalendarEvent[] = [];
 
-    charges: ChargeInterface[] = [];
+    discharges: DischargeInterface[] = [];
     count$!: Observable<number>;
     constructor(
-        private chargeService: ChargeService,
+        private dischargeService: DischargeService,
         private matSnackBar: MatSnackBar,
         private router: Router,
         private route: ActivatedRoute,
@@ -47,36 +47,36 @@ export class ChargeComponent {
     }
 
     ngOnInit() {
-        const filter: ChargeInterface | {} = {};
+        const filter: DischargeInterface | {} = {};
         Object.assign(filter, { pagination: { offset: 0, limit: 5 } });
-        this.onLoadCharges(filter as ChargeInterface);
+        this.onLoadDischarges(filter as DischargeInterface);
     }
 
     onAdd() {
-        const route = ['/app/charge', 'new'];
+        const route = ['/app/discharge', 'new'];
         this.router.navigate(route);
         this.store.dispatch(increment());
     }
 
     onChangeRange(range: { startDate: Date; endDate: Date }) {
-        const filter: ChargeInterface | {} = {};
+        const filter: DischargeInterface | {} = {};
         Object.assign(filter, { dateStartScheduled: [range.startDate, range.endDate] });
-        this.onLoadCharges(filter as ChargeInterface);
+        this.onLoadDischarges(filter as DischargeInterface);
     }
 
-    onLoadCharges(filter: ChargeInterface) {
-        this.chargeService.onFind(filter).subscribe((result) => {
+    onLoadDischarges(filter: DischargeInterface) {
+        this.dischargeService.onFind(filter).subscribe((result) => {
             if (result?.statusCode != 200) this.matSnackBar.open(result?.message, 'Cancelar');
-            this.charges = result?.data;
-            this.onChargesToEvent();
+            this.discharges = result?.data;
+            this.onDischargesToEvent();
         });
     }
 
-    onChargesToEvent() {
-        this.events = this.charges?.map!((charge) => ({
-            start: parseISO(`${charge.dateStartScheduled}`),
-            // end: charge.date,
-            title: charge.number,
+    onDischargesToEvent() {
+        this.events = this.discharges?.map!((discharge) => ({
+            start: parseISO(`${discharge.dateStartScheduled}`),
+            // end: discharge.date,
+            title: discharge.number,
             color: { ...colors['yellow'] },
             actions: this.actions,
             resizable: {
@@ -84,7 +84,7 @@ export class ChargeComponent {
                 afterEnd: true,
             },
             draggable: true,
-            charge,
+            discharge,
         }));
     }
 }

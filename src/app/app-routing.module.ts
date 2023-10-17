@@ -4,6 +4,11 @@ import { AuthGuard } from './shared/auth/infrastructure/guard/auth.guard';
 
 const routes: Routes = [
   {
+    path: 'app/discharge',
+    loadChildren: () => import('./module/inventory/discharge/discharge.module').then((m) => m.DischargeModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'app/charge',
     loadChildren: () => import('./module/inventory/charge/charge.module').then((m) => m.ChargeModule),
     canActivate: [AuthGuard]

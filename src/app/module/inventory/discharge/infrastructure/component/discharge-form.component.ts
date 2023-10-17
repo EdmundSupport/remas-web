@@ -4,26 +4,26 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientService } from 'src/app/module/client/application/service/client.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
-import { ChargeInterface } from 'src/app/datasource/remas/domain/interface/charge.interface';
-import { ChargeDetailScheduledInterface } from 'src/app/datasource/remas/domain/interface/charge-detail-scheduled.interface';
+import { DischargeInterface } from 'src/app/datasource/remas/domain/interface/discharge.interface';
+import { DischargeDetailScheduledInterface } from 'src/app/datasource/remas/domain/interface/discharge-detail-scheduled.interface';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SerializeHelper } from 'src/app/shared/serialize/application/helper/serialize.helper';
-import { ChargeService } from 'src/app/datasource/remas/application/service/charge.service';
+import { DischargeService } from 'src/app/datasource/remas/application/service/discharge.service';
 import { ProductInterface } from '../../../product/domain/interface/product.interface';
 
 @Component({
-    selector: 'app-charge-form',
-    templateUrl: '../page/charge-form.page.html',
-    styleUrls: ['../style/charge-form.style.scss'],
+    selector: 'app-discharge-form',
+    templateUrl: '../page/discharge-form.page.html',
+    styleUrls: ['../style/discharge-form.style.scss'],
 })
-export class ChargeFormComponent {
-    charge: Partial<ChargeInterface> = {
+export class DischargeFormComponent {
+    discharge: Partial<DischargeInterface> = {
         dateStartScheduled: new Date(),
         dateEndScheduled: new Date(),
         dateStart: new Date(),
         dateEnd: new Date(),
-        chargeDetailScheduleds: [],
+        dischargeDetailScheduleds: [],
     };
 
     total!: number;
@@ -31,25 +31,25 @@ export class ChargeFormComponent {
     onSaveLoading$ = new BehaviorSubject<boolean>(false);
     timeSaveLoading: any;
     constructor(
-        private chargeService: ChargeService,
+        private dischargeService: DischargeService,
         public clientService: ClientService,
         private matSnackBar: MatSnackBar,
         private elementRef: ElementRef,
         private router: Router,
         private route: ActivatedRoute,
     ) {
-        this.charge.uuid = this.route.snapshot.paramMap.get('uuid')!;
+        this.discharge.uuid = this.route.snapshot.paramMap.get('uuid')!;
     }
 
     ngOnInit() {
-        if (SerializeHelper.isUUID(this.charge.uuid!)) {
-            this.chargeService.onFindOne(this?.charge?.uuid!)
+        if (SerializeHelper.isUUID(this.discharge.uuid!)) {
+            this.dischargeService.onFindOne(this?.discharge?.uuid!)
                 .subscribe((result) => {
                     if (result.statusCode != 200) {
                         this.matSnackBar.open('Ocurrio un error al obtener la cotización.');
                     } else {
-                        const charge = result.data;
-                        this.charge = charge;
+                        const discharge = result.data;
+                        this.discharge = discharge;
 
                         
 
@@ -89,16 +89,16 @@ export class ChargeFormComponent {
         //     this.onSaveLoading$.next(false);
         // }, timeMs);
 
-        this.charge
-        console.log("🚀 ~ file: charge-form.component.ts:89 ~ ChargeFormComponent ~ onSave ~ this.charge:", this.charge)
-        if (!(this.charge && this.charge.number))
+        this.discharge
+        console.log("🚀 ~ file: discharge-form.component.ts:89 ~ DischargeFormComponent ~ onSave ~ this.discharge:", this.discharge)
+        if (!(this.discharge && this.discharge.number))
             return this.matSnackBar.open('Debes escribir un número.', 'Ok') && this.onStopSaveLoading();
 
-        if (!(this.charge && this.charge.chargeDetailScheduleds && this.charge.chargeDetailScheduleds.length > 0))
+        if (!(this.discharge && this.discharge.dischargeDetailScheduleds && this.discharge.dischargeDetailScheduleds.length > 0))
             return this.matSnackBar.open('Debes agregar el detalle de los productos.', 'Ok') && this.onStopSaveLoading();
 
-        for (let index = 0; index < this.charge.chargeDetailScheduleds.length; index++) {
-            const detail = this.charge.chargeDetailScheduleds[index];
+        for (let index = 0; index < this.discharge.dischargeDetailScheduleds.length; index++) {
+            const detail = this.discharge.dischargeDetailScheduleds[index];
 
            
             if (!(detail && detail.amount && detail.amount != ''))
@@ -110,13 +110,13 @@ export class ChargeFormComponent {
             if (!(detail && detail.measureUnitUuid))
                 return this.matSnackBar.open(`Debes elegir una unidad de medida en el producto .`, 'Ok') && this.onStopSaveLoading();
 
-            if(!detail.chargeDetails){
-                this.charge.chargeDetailScheduleds[index].chargeDetails = [];
+            if(!detail.dischargeDetails){
+                this.discharge.dischargeDetailScheduleds[index].dischargeDetails = [];
             }
         }
 
-        if (!(this.charge && this.charge.uuid && this.charge.uuid != '' && SerializeHelper.isUUID(this.charge.uuid))) {
-            this.chargeService.onCreate(this.charge as any).pipe(
+        if (!(this.discharge && this.discharge.uuid && this.discharge.uuid != '' && SerializeHelper.isUUID(this.discharge.uuid))) {
+            this.dischargeService.onCreate(this.discharge as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
                 .subscribe((result: any) => {
                     if (result.statusCode != 201){
@@ -130,8 +130,8 @@ export class ChargeFormComponent {
             return;
         }
 
-        if ((this.charge && this.charge.uuid && this.charge.uuid != '' && SerializeHelper.isUUID(this.charge.uuid))) {
-            this.chargeService.onUpdate(this.charge.uuid, this.charge as any).pipe(
+        if ((this.discharge && this.discharge.uuid && this.discharge.uuid != '' && SerializeHelper.isUUID(this.discharge.uuid))) {
+            this.dischargeService.onUpdate(this.discharge.uuid, this.discharge as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
                 .subscribe((result: any) => {
                     if (result.statusCode != 200) {
@@ -146,9 +146,9 @@ export class ChargeFormComponent {
     }
 
 
-    onChangeDetail(index: number, detail: ChargeDetailScheduledInterface) {
-        if (this.charge && this.charge.chargeDetailScheduleds && this.charge.chargeDetailScheduleds[index]) {
-            this.charge.chargeDetailScheduleds[index] = detail;
+    onChangeDetail(index: number, detail: DischargeDetailScheduledInterface) {
+        if (this.discharge && this.discharge.dischargeDetailScheduleds && this.discharge.dischargeDetailScheduleds[index]) {
+            this.discharge.dischargeDetailScheduleds[index] = detail;
             if (this.total || this.total == 0 || `${this.total}` == 'NaN') {
                 this.total = this.onTotal();
             }
@@ -156,25 +156,25 @@ export class ChargeFormComponent {
 
     }
 
-    onDeleteDetail(index: number, detail: ChargeDetailScheduledInterface) {
-        if (this.charge && this.charge.chargeDetailScheduleds) {
-            this.charge.chargeDetailScheduleds.splice(index, 1);
+    onDeleteDetail(index: number, detail: DischargeDetailScheduledInterface) {
+        if (this.discharge && this.discharge.dischargeDetailScheduleds) {
+            this.discharge.dischargeDetailScheduleds.splice(index, 1);
             if (this.total || this.total == 0 || `${this.total}` == 'NaN') this.total = this.onTotal();
         }
     }
 
     onAddDetail() {
-        if (this.charge && this.charge.chargeDetailScheduleds) this.charge.chargeDetailScheduleds.push({} as any);
-        else this.charge.chargeDetailScheduleds = [{} as any];
+        if (this.discharge && this.discharge.dischargeDetailScheduleds) this.discharge.dischargeDetailScheduleds.push({} as any);
+        else this.discharge.dischargeDetailScheduleds = [{} as any];
 
         this.total = this.onTotal();
     }
 
     onTotal() {
-        if (this.charge && this.charge.chargeDetailScheduleds) {
-            return this.charge.chargeDetailScheduleds.reduce((total, chargeDetailScheduled) => {
-                if (chargeDetailScheduled && chargeDetailScheduled.amount) {
-                    const amount = Number.isNaN(chargeDetailScheduled.amount) ? 0 : Number(chargeDetailScheduled.amount);
+        if (this.discharge && this.discharge.dischargeDetailScheduleds) {
+            return this.discharge.dischargeDetailScheduleds.reduce((total, dischargeDetailScheduled) => {
+                if (dischargeDetailScheduled && dischargeDetailScheduled.amount) {
+                    const amount = Number.isNaN(dischargeDetailScheduled.amount) ? 0 : Number(dischargeDetailScheduled.amount);
                     const op = total + (amount);
                     return op;
                 } else return total + 0;
