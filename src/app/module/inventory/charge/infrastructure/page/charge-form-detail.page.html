@@ -1,0 +1,42 @@
+<div class="detail">
+    <div class="row">
+        <div class="amount">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Cant.</mat-label>
+                <input type="text" placeholder="Cant." [(ngModel)]="detail.amount" matInput />
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="measure">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Medida</mat-label>
+                <input type="text" placeholder="Medida" matInput [(ngModel)]="measureUnit"
+                    (ngModelChange)="onChangeMeasureUnit($event)" [matAutocomplete]="measure" />
+                <mat-autocomplete #measure="matAutocomplete" [displayWith]="onShowMeasureUnit">
+                    <mat-option *ngFor="let item of measuresUnit" [value]="onShowMeasureUnit(item)"
+                        (click)="onSelectMeasureUnit(item)">
+                        {{ onShowMeasureUnit(item) }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <div class="price">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Precio</mat-label>
+                <input type="number" placeholder="Precio" [(ngModel)]="detail.price" matInput />
+            </mat-form-field>
+        </div>
+        <div class="total">
+            <mat-form-field [subscriptSizing]="'dynamic'">
+                <mat-label>Importe</mat-label>
+                <input type="text" placeholder="Importe" disabled [value]="onImporteSum()" matInput />
+            </mat-form-field>
+        </div>
+        <!-- <div class="control">
+            <button (click)="delete()" mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div> -->
+    </div>
+</div>

@@ -1,6 +1,7 @@
 import { UserInterface } from "./user.interface";
 import { ChargeStatusInterface } from "./charge-status.interface";
 import { ChargeDetailScheduledInterface } from "./charge-detail-scheduled.interface";
+import { PaginationInterface } from "./pagination.interface";
 
 export interface ChargeInterface {
 
@@ -31,4 +32,6 @@ export interface ChargeInterface {
         user: UserInterface;
 
         chargeDetailScheduleds: ChargeDetailScheduledInterface[];
+
+        pagination: PaginationInterface;
 }

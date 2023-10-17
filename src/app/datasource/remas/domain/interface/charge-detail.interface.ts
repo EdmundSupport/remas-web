@@ -2,12 +2,13 @@ import { ChargeInterface } from "./charge.interface";
 import { ProductInterface } from "./product.interface";
 import { MeasureUnitInterface } from "./measure-unit.interface";
 import { ChargeDetailScheduledInterface } from "./charge-detail-scheduled.interface";
+import { PaginationInterface } from "./pagination.interface";
 
 export interface ChargeDetailInterface {
 
     uuid: string;
 
-    chargeUuid: string;
+    chargeDetailScheduledUuid: string;
 
     amount: string;
 
@@ -26,4 +27,6 @@ export interface ChargeDetailInterface {
     measureUnit: MeasureUnitInterface;
 
     chargeDetailScheduled: ChargeDetailScheduledInterface;
+
+    pagination: PaginationInterface;
 }

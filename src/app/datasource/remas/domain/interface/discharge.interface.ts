@@ -1,6 +1,7 @@
 import { UserInterface } from "./user.interface";
 import { DischargeStatusInterface } from "./discharge-status.interface";
 import { DischargeDetailScheduledInterface } from "./discharge-detail-scheduled.interface";
+import { PaginationInterface } from "./pagination.interface";
 
 export interface DischargeInterface {
 
@@ -31,4 +32,6 @@ export interface DischargeInterface {
         user: UserInterface;
 
         dischargeDetailScheduleds: DischargeDetailScheduledInterface[];
+
+        pagination: PaginationInterface;
 }

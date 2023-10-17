@@ -1,4 +1,5 @@
 import { DischargeInterface } from "./discharge.interface";
+import { PaginationInterface } from "./pagination.interface";
 
 export interface DischargeStatusInterface {
 
@@ -15,4 +16,6 @@ export interface DischargeStatusInterface {
         updatedAt: Date;
 
         discharges: DischargeInterface[];
+
+        pagination: PaginationInterface;
 }

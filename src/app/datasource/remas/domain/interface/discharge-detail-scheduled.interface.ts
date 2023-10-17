@@ -2,6 +2,7 @@ import { DischargeInterface } from "./discharge.interface";
 import { ProductInterface } from "./product.interface";
 import { MeasureUnitInterface } from "./measure-unit.interface";
 import { DischargeDetailInterface } from "./discharge-detail.interface";
+import { PaginationInterface } from "./pagination.interface";
 
 export interface DischargeDetailScheduledInterface {
 
@@ -30,4 +31,6 @@ export interface DischargeDetailScheduledInterface {
         measureUnit: MeasureUnitInterface;
 
         dischargeDetails: DischargeDetailInterface[];
+
+        pagination: PaginationInterface;
 }

@@ -1,0 +1,53 @@
+<app-superposition-loading *ngIf="onSaveLoading$ | async">
+    <mat-spinner></mat-spinner>
+</app-superposition-loading>
+<div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Número</mat-label>
+            <input type="number" [(ngModel)]="charge.number!" matInput placeholder="Número">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Fecha de Inicio Programada
+            </mat-label>
+            <input matInput [matDatepicker]="dateStartSceduledA" [(ngModel)]="charge.dateStartScheduled">
+            <mat-datepicker-toggle matIconSuffix [for]="dateStartSceduledA"></mat-datepicker-toggle>
+            <mat-datepicker #dateStartSceduledA></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Fecha de Fin Programada
+            </mat-label>
+            <input matInput [matDatepicker]="dateEndScheduledA" [(ngModel)]="charge.dateEndScheduled">
+            <mat-datepicker-toggle matIconSuffix [for]="dateEndScheduledA"></mat-datepicker-toggle>
+            <mat-datepicker #dateEndScheduledA></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Fecha Inicio
+            </mat-label>
+            <input matInput [matDatepicker]="dateStartA" [(ngModel)]="charge.dateStart">
+            <mat-datepicker-toggle matIconSuffix [for]="dateStartA"></mat-datepicker-toggle>
+            <mat-datepicker #dateStartA></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Fecha Fin
+            </mat-label>
+            <input matInput [matDatepicker]="dateEndA" [(ngModel)]="charge.dateEnd">
+            <mat-datepicker-toggle matIconSuffix [for]="dateEndA"></mat-datepicker-toggle>
+            <mat-datepicker #dateEndA></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <ng-container *ngFor="let detail of charge.chargeDetailScheduleds; let i = index">
+        <app-charge-form-scheduled (onLoad)="onLoad(i)" [attr.id]="'detail' + i" [detail]="detail" (onDelete)="onDeleteDetail(i, $event)"
+            (onChange)="onChangeDetail(i, $event)"></app-charge-form-scheduled>
+    </ng-container>
+</div>
+<app-button-float [iconName]="'add'" (onClick)="onAddDetail()" />
+<app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" />
