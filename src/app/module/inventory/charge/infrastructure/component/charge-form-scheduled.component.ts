@@ -24,7 +24,6 @@ export class ChargeFormScheduledComponent {
     @Output('onLoad') onLoad = new EventEmitter();
     @Input('detail') detail: Partial<ChargeDetailScheduledInterface> = {
         amount: '',
-        price: '',
         productUuid: '',
         measureUnitUuid: '',
         chargeDetails: []
@@ -166,8 +165,7 @@ export class ChargeFormScheduledComponent {
 
     onImporteSum() {
         const amount = Number.isNaN(this.detail.amount) ? 0 : Number(this.detail.amount);
-        const price = Number.isNaN(this.detail.price) ? 0 : Number(this.detail.price);
-        return amount * price;
+        return amount;
     }
 
     delete() {

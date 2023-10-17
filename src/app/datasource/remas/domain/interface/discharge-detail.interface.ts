@@ -12,7 +12,6 @@ export interface DischargeDetailInterface {
 
     amount: string;
 
-    price: string;
 
     measureUnitUuid: string;
 

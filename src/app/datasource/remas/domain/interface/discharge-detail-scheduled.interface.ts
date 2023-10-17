@@ -12,7 +12,6 @@ export interface DischargeDetailScheduledInterface {
 
         amount: string;
 
-        price: string;
 
         productUuid: string;
 

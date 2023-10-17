@@ -104,9 +104,6 @@ export class ChargeFormComponent {
             if (!(detail && detail.amount && detail.amount != ''))
                 return this.matSnackBar.open(`Debes agregar la cantidad en el producto .`, 'Ok') && this.onStopSaveLoading();
 
-            if (!(detail && detail.price && detail.price != ''))
-                return this.matSnackBar.open(`Debes agregar el precio en el producto .`, 'Ok') && this.onStopSaveLoading();
-
             if (!(detail && detail.productUuid))
                 return this.matSnackBar.open(`Hay un producto que tiene descripción, pero no se seleccionó el producto origen.`, 'Ok') && this.onStopSaveLoading();
 
@@ -176,10 +173,9 @@ export class ChargeFormComponent {
     onTotal() {
         if (this.charge && this.charge.chargeDetailScheduleds) {
             return this.charge.chargeDetailScheduleds.reduce((total, chargeDetailScheduled) => {
-                if (chargeDetailScheduled && chargeDetailScheduled.amount && chargeDetailScheduled.price) {
+                if (chargeDetailScheduled && chargeDetailScheduled.amount) {
                     const amount = Number.isNaN(chargeDetailScheduled.amount) ? 0 : Number(chargeDetailScheduled.amount);
-                    const price = Number.isNaN(chargeDetailScheduled.price) ? 0 : Number(chargeDetailScheduled.price);
-                    const op = total + (amount * price);
+                    const op = total + (amount);
                     return op;
                 } else return total + 0;
             }, 0);

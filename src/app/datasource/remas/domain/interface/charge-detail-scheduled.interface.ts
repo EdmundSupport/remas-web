@@ -12,7 +12,6 @@ export interface ChargeDetailScheduledInterface {
 
         amount: string;
 
-        price: string;
 
         productUuid: string;
 

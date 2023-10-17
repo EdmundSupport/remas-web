@@ -103,8 +103,7 @@ export class ChargeFormDetailComponent {
 
     onImporteSum() {
         const amount = Number.isNaN(this.detail.amount) ? 0 : Number(this.detail.amount);
-        const price = Number.isNaN(this.detail.price) ? 0 : Number(this.detail.price);
-        return amount * price;
+        return amount;
     }
 
     delete() {

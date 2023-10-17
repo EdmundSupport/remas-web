@@ -5,14 +5,12 @@ import { ChargeInterface } from "src/app/datasource/remas/domain/interface/charg
 export interface CreateChargeDetailInterface extends Partial<Omit<ChargeDetailInterface, 'amount'| 'price'| 'measureUnitUuid'>> {
     amount: string;
 
-    price: string;
 
     measureUnitUuid: string;
 }
 export interface CreateChargeDetailScheduledInterface extends Partial<Omit<ChargeDetailScheduledInterface, 'amount'| 'price'| 'productUuid'| 'measureUnitUuid'| 'chargeDetails'>> {
     amount: string;
 
-    price: string;
 
     productUuid: string;
 
