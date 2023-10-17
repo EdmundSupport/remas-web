@@ -10,10 +10,10 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { ChargeStatus } from './charge_status';
-import { User } from './user';
+import { User } from '../aaa/user';
 import { ChargeDetailScheduled } from './charge_detail_scheduled';
 
-@Table({ tableName: 'charge', timestamps: false })
+@Table({schema: 'inventory', tableName: 'charge', timestamps: false })
 export class Charge extends Model {
   @Column({
     primaryKey: true,

@@ -12,6 +12,8 @@ import {
 import { Measure } from './measure';
 import { ProductPrice } from './product_price';
 import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
+import { ChargeDetailScheduled } from './charge_detail_scheduled';
+import { ChargeDetail } from './charge_detail';
 
 @Table({schema: 'inventory', tableName: 'measure_unit', timestamps: false })
 export class MeasureUnit extends Model {
@@ -97,4 +99,10 @@ export class MeasureUnit extends Model {
 
   @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid' })
   productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
+
+  @HasMany(() => ChargeDetailScheduled, { sourceKey: 'uuid' })
+  ChargeDetailsScheduled?: ChargeDetailScheduled[];
+
+  @HasMany(() => ChargeDetail, { sourceKey: 'uuid' })
+  ChargeDetails?: ChargeDetail[];
 }

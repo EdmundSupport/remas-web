@@ -14,8 +14,9 @@ import { Session } from './session';
 import { Role } from './role';
 import { UserPerson } from './user_person';
 import { Person } from '../identity';
+import { Charge } from '../inventory/charge';
 
-@Table({schema: 'aaa', tableName: 'user', timestamps: false })
+@Table({ schema: 'aaa', tableName: 'user', timestamps: false })
 export class User extends Model {
   @Column({
     primaryKey: true,
@@ -72,4 +73,7 @@ export class User extends Model {
 
   @HasMany(() => UserPerson, { sourceKey: 'uuid' })
   userPersons?: UserPerson[];
+
+  @HasMany(() => Charge, { sourceKey: 'uuid' })
+  charges?: Charge[];
 }

@@ -11,7 +11,7 @@ import {
 import { ChargeDetailScheduled } from './charge_detail_scheduled';
 import { MeasureUnit } from './measure_unit';
 
-@Table({ tableName: 'charge_detail', timestamps: false })
+@Table({schema: 'inventory', tableName: 'charge_detail', timestamps: false })
 export class ChargeDetail extends Model {
   @Column({
     primaryKey: true,
