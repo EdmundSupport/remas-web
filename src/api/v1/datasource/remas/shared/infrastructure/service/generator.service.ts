@@ -6,12 +6,14 @@ const env = {};
 (async () => {
     const props: {
         schema?: string;
+        tables?: string[];
     } = {};
     
     const args = process.argv;
     args.forEach(function (item, index, array) {
         const parts = item.split('=');
         if (`${parts![0]}`.toLowerCase() == 'schema'.toLowerCase()) props['schema'] = `${parts![1] ?? ''}`.toLowerCase();
+    
     });
 
     if (props.schema) {
@@ -30,6 +32,10 @@ const env = {};
             writeFileSync(relationshipPath, '', { encoding: 'utf-8' });
         }
 
+        if(props.tables){
+            props.tables = `${props.tables}`.split(',');
+        }
+
         const config: IConfig = {
             connection: {
                 dialect: env['REMAS_DIALECT'],
@@ -42,6 +48,7 @@ const env = {};
             },
             metadata: {
                 schema: props.schema,
+                tables: props.tables,
                 case: {
                     model: 'PASCAL',
                     column: 'CAMEL',

@@ -30,7 +30,7 @@ export class MaintenanceService {
             const maintenanceStepDetailsInclude = [];
             const maintenanceStepDetails = StructureHelper.searchProperty(maintenanceSteps, 'maintenanceStepDetails')[0];
 
-            data.maintenanceSteps = data.maintenanceSteps.map((maintenanceStep)=>{
+            data.maintenanceSteps = data.maintenanceSteps.map((maintenanceStep) => {
                 maintenanceStep['msd'] = maintenanceStep.maintenanceStepDetails;
                 return maintenanceStep;
             });
@@ -102,13 +102,13 @@ export class MaintenanceService {
         const maintenanceSteps = StructureHelper.searchProperty(data, 'maintenanceSteps', true)[0];
         maintenanceSteps['uuid'] = uuid;
 
-        if (!(data?.maintenanceStatusUuid && data?.maintenanceStatusUuid != '')) {
-            const maintenanceStatus = await this.maintenanceStatusService.findOne({ where: { keyName: 'edited' } });
-            if (!maintenanceStatus)
-                throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado del mantenimiento.');
 
-            Object.assign(data, { maintenanceStatusUuid: maintenanceStatus.uuid });
-        }
+        const maintenanceStatus = await this.maintenanceStatusService.findOne({ where: { keyName: 'edited' } });
+        if (!maintenanceStatus)
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado del mantenimiento.');
+
+        Object.assign(data, { maintenanceStatusUuid: maintenanceStatus.uuid });
+
         for (let index = 0; index < maintenanceSteps.length; index++) {
             const maintenanceStep = maintenanceSteps[index];
             maintenanceStep['msd'] = maintenanceStep.maintenanceStepDetails;
@@ -118,7 +118,7 @@ export class MaintenanceService {
                 }]
             });
         }
-        
+
         await this.maintenanceStepService.update({ data } as any, { where: { uuid } });
         return true;
     }
