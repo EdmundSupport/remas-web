@@ -45,9 +45,6 @@ export class DischargeDetailScheduled extends Model {
   @Column({ allowNull: true, type: DataType.DECIMAL(65) })
   amount?: string;
 
-  @Column({ allowNull: true, type: DataType.DECIMAL(65) })
-  price?: string;
-
   @ForeignKey(() => Product)
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({

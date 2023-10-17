@@ -22,10 +22,6 @@ export class DischargeDetailDto{
 
     @IsOptional()
     @IsString()
-    price: string;
-
-    @IsOptional()
-    @IsString()
     measureUnitUuid: string;
 
     @IsOptional()

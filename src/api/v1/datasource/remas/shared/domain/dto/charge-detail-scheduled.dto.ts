@@ -22,10 +22,6 @@ export class ChargeDetailScheduledDto{
 
     @IsOptional()
     @IsString()
-    price: string;
-
-    @IsOptional()
-    @IsString()
     productUuid: string;
 
     @IsOptional()

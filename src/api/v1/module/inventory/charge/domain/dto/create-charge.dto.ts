@@ -5,27 +5,19 @@ import { ChargeDetailScheduledDto } from "src/api/v1/datasource/remas/shared/dom
 import { ChargeDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/charge-detail.dto";
 import { ChargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/charge.dto";
 
-export class CreateChargeDetailDto extends PartialType(OmitType(ChargeDetailDto, ['amount', 'price', 'measureUnitUuid'])) {
+export class CreateChargeDetailDto extends PartialType(OmitType(ChargeDetailDto, ['amount', 'measureUnitUuid'])) {
     @IsNotEmpty()
     @IsString()
     amount: string;
-
-    @IsNotEmpty()
-    @IsString()
-    price: string;
 
     @IsNotEmpty()
     @IsString()
     measureUnitUuid: string;
 }
-export class CreateChargeDetailScheduledDto extends PartialType(OmitType(ChargeDetailScheduledDto, ['amount', 'price', 'productUuid', 'measureUnitUuid', 'chargeDetails'])) {
+export class CreateChargeDetailScheduledDto extends PartialType(OmitType(ChargeDetailScheduledDto, ['amount', 'productUuid', 'measureUnitUuid', 'chargeDetails'])) {
     @IsNotEmpty()
     @IsString()
     amount: string;
-
-    @IsNotEmpty()
-    @IsString()
-    price: string;
 
     @IsNotEmpty()
     @IsString()

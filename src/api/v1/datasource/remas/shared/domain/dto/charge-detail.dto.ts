@@ -22,10 +22,6 @@ export class ChargeDetailDto{
 
     @IsOptional()
     @IsString()
-    price: string;
-
-    @IsOptional()
-    @IsString()
     measureUnitUuid: string;
 
     @IsOptional()

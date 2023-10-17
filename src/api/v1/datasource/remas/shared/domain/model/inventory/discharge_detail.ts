@@ -38,9 +38,6 @@ export class DischargeDetail extends Model {
   @Column({ allowNull: true, type: DataType.DECIMAL(65) })
   amount?: string;
 
-  @Column({ allowNull: true, type: DataType.DECIMAL(65) })
-  price?: string;
-
   @ForeignKey(() => MeasureUnit)
   @Column({ field: 'measure_unit_uuid', allowNull: true, type: DataType.UUID })
   @Index({

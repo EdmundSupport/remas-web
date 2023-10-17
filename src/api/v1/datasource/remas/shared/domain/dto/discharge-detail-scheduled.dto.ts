@@ -22,10 +22,6 @@ export class DischargeDetailScheduledDto{
 
     @IsOptional()
     @IsString()
-    price: string;
-
-    @IsOptional()
-    @IsString()
     productUuid: string;
 
     @IsOptional()
