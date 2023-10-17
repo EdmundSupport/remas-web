@@ -4,6 +4,7 @@ import { ProductDto } from "./product.dto";
 import { MeasureUnitDto } from "./measure-unit.dto";
 import { Type } from "class-transformer";
 import { DischargeDetailScheduledDto } from "./discharge-detail-scheduled.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
 export class DischargeDetailDto{
 
@@ -13,7 +14,7 @@ export class DischargeDetailDto{
 
     @IsOptional()
     @IsString()
-    dischargeUuid: string;
+    dischargeDetailScheduledUuid: string;
 
     @IsOptional()
     @IsString()
@@ -50,4 +51,8 @@ export class DischargeDetailDto{
     @IsOptional()
     @IsObject()
     dischargeDetailScheduled: DischargeDetailScheduledDto;
+
+    @IsOptional()
+    @IsObject()
+    pagination: PaginationDto;
 }

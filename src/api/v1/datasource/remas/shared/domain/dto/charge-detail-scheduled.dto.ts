@@ -4,6 +4,7 @@ import { ProductDto } from "./product.dto";
 import { MeasureUnitDto } from "./measure-unit.dto";
 import { Type } from "class-transformer";
 import { ChargeDetailDto } from "./charge-detail.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
 export class ChargeDetailScheduledDto{
 
@@ -60,4 +61,8 @@ export class ChargeDetailScheduledDto{
     @ValidateNested({each: true})
     @Type(()=>ChargeDetailDto)
     chargeDetails: ChargeDetailDto[];
+
+    @IsOptional()
+    @IsObject()
+    pagination: PaginationDto;
 }

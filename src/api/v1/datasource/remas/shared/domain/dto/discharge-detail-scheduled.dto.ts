@@ -4,6 +4,7 @@ import { ProductDto } from "./product.dto";
 import { MeasureUnitDto } from "./measure-unit.dto";
 import { Type } from "class-transformer";
 import { DischargeDetailDto } from "./discharge-detail.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
 export class DischargeDetailScheduledDto{
 
@@ -60,4 +61,8 @@ export class DischargeDetailScheduledDto{
     @ValidateNested({each: true})
     @Type(()=>DischargeDetailDto)
     dischargeDetails: DischargeDetailDto[];
+
+    @IsOptional()
+    @IsObject()
+    pagination: PaginationDto;
 }

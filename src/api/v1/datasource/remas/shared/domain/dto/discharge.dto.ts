@@ -3,6 +3,7 @@ import { IsArray, IsBoolean, IsDate, IsObject, IsOptional, IsString, ValidateNes
 import { UserDto } from "./user.dto";
 import { DischargeStatusDto } from "./discharge-status.dto";
 import { DischargeDetailScheduledDto } from "./discharge-detail-scheduled.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
 export class DischargeDto{
 
@@ -63,4 +64,8 @@ export class DischargeDto{
     @ValidateNested({each: true})
     @Type(()=>DischargeDetailScheduledDto)
     dischargeDetailScheduleds: DischargeDetailScheduledDto[];
+
+    @IsOptional()
+    @IsObject()
+    pagination: PaginationDto;
 }

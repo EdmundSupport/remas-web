@@ -4,6 +4,7 @@ import { ProductDto } from "./product.dto";
 import { MeasureUnitDto } from "./measure-unit.dto";
 import { Type } from "class-transformer";
 import { ChargeDetailScheduledDto } from "./charge-detail-scheduled.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
 export class ChargeDetailDto{
 
@@ -13,7 +14,7 @@ export class ChargeDetailDto{
 
     @IsOptional()
     @IsString()
-    chargeUuid: string;
+    chargeDetailScheduledUuid: string;
 
     @IsOptional()
     @IsString()
@@ -46,8 +47,13 @@ export class ChargeDetailDto{
     @IsOptional()
     @IsObject()
     measureUnit: MeasureUnitDto;
+    
 
     @IsOptional()
     @IsObject()
     chargeDetailScheduled: ChargeDetailScheduledDto;
+
+    @IsOptional()
+    @IsObject()
+    pagination: PaginationDto;
 }
