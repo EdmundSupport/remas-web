@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Discharge } from './discharge';
 
-@Table({ tableName: 'discharge_status', timestamps: false })
+@Table({ schema: 'inventory',  tableName: 'discharge_status', timestamps: false })
 export class DischargeStatus extends Model {
   @Column({
     primaryKey: true,

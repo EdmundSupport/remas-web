@@ -13,7 +13,7 @@ import { DischargeStatus } from './discharge_status';
 import { User } from '../aaa/user';
 import { DischargeDetailScheduled } from './discharge_detail_scheduled';
 
-@Table({ tableName: 'discharge', timestamps: false })
+@Table({ schema: 'inventory',  tableName: 'discharge', timestamps: false })
 export class Discharge extends Model {
   @Column({
     primaryKey: true,

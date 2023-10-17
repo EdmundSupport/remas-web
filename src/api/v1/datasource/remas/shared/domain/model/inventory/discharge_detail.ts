@@ -11,7 +11,7 @@ import {
 import { DischargeDetailScheduled } from './discharge_detail_scheduled';
 import { MeasureUnit } from './measure_unit';
 
-@Table({ tableName: 'discharge_detail', timestamps: false })
+@Table({ schema: 'inventory',  tableName: 'discharge_detail', timestamps: false })
 export class DischargeDetail extends Model {
   @Column({
     primaryKey: true,

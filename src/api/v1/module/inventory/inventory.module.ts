@@ -6,6 +6,7 @@ import { PriceCategoryModule } from './price-category/price-category.module';
 import { MeasureModule } from './measure/measure.module';
 import { ProductTypeModule } from './product-type/product-type.module';
 import { ChargeModule } from './charge/charge.module';
+import { DischargeModule } from './discharge/discharge.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { ChargeModule } from './charge/charge.module';
         MeasureModule,
         ProductTypeModule,
         ChargeModule,
+        DischargeModule,
     ],
     exports: [
         ProductModule,
@@ -25,6 +27,7 @@ import { ChargeModule } from './charge/charge.module';
         MeasureModule,
         ProductTypeModule,
         ChargeModule,
+        DischargeModule,
     ]
 })
 export class InventoryModule { }
