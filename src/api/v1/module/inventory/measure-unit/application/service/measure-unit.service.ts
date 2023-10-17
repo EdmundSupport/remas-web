@@ -53,4 +53,8 @@ export class MeasureUnitService {
             ...pagination,
         })
     }
+
+    findOne(uuid: string) {
+        return this.measureUnitService.findOne({ where: { uuid } });
+    }
 }

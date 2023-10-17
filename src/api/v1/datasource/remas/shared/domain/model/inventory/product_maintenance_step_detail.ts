@@ -7,10 +7,12 @@ import {
   Sequelize,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { Product } from './product';
 import { MeasureUnit } from './measure_unit';
 import { ProductMaintenanceStep } from './product_maintenance_step';
+import { MaintenanceStepDetail } from '../billing';
 
 @Table({schema: 'inventory', tableName: 'product_maintenance_step_detail', timestamps: false })
 export class ProductMaintenanceStepDetail extends Model {
@@ -99,4 +101,7 @@ export class ProductMaintenanceStepDetail extends Model {
 
   @BelongsTo(() => ProductMaintenanceStep)
   productMaintenanceStep?: ProductMaintenanceStep;
+
+  @HasMany(() => MaintenanceStepDetail)
+  maintenanceStepDetails?: MaintenanceStepDetail[];
 }

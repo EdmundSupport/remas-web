@@ -72,21 +72,21 @@ export class ProductService {
             Object.assign(data, { condition: true });
         }
 
-        const productMaintenanceStep = StructureHelper.searchProperty(data, 'productMaintenanceStep', true)[0];
+        const productMaintenanceSteps = StructureHelper.searchProperty(data, 'productMaintenanceSteps', true)[0];
 
         const include = [];
-        if (productMaintenanceStep) {
-            const productMaintenanceStepDetail = StructureHelper.searchProperty(productMaintenanceStep, 'productMaintenanceStepDetail', true)[0];
-            const productMaintenanceStepDetailInclude = [];
-            if (productMaintenanceStepDetail) productMaintenanceStepDetailInclude.push({
+        if (productMaintenanceSteps) {
+            const productMaintenanceStepDetails = StructureHelper.searchProperty(productMaintenanceSteps, 'productMaintenanceStepDetails', true)[0];
+            const productMaintenanceStepDetailsInclude = [];
+            if (productMaintenanceStepDetails) productMaintenanceStepDetailsInclude.push({
                 model: ProductMaintenanceStepDetail,
-                where: productMaintenanceStepDetail
+                where: productMaintenanceStepDetails
             });
 
             include.push({
                 model: ProductMaintenanceStep,
-                where: productMaintenanceStep,
-                include: productMaintenanceStepDetailInclude,
+                where: productMaintenanceSteps,
+                include: productMaintenanceStepDetailsInclude,
             });
         }
         if (productChild) include.push({
@@ -114,11 +114,12 @@ export class ProductService {
             where: data,
             include: include,
             ...pagination,
-        })
+        });
     }
 
     async findOne(uuid: string) {
-        const product = JSON.parse(JSON.stringify(await this.productService.findOne({
+        // const product = JSON.parse(JSON.stringify(
+        const product = JSON.parse(JSON.stringify((await this.productService.findOne({
             where: { uuid },
             include: [{
                 model: ProductMaintenanceStep,
@@ -126,21 +127,10 @@ export class ProductService {
                     model: ProductMaintenanceStepDetail
                 }]
             }]
-        })));
+        }))));
         product.productMaintenanceSteps = product.productMaintenanceSteps.map((productMaintenanceStep) => {
-            productMaintenanceStep.productMaintenanceStepDetails =
-                productMaintenanceStep.productMaintenanceStepDetails.map((productMaintenanceDetail) => {
-                    const productMaintenanceDetailFormat = {
-                        ...productMaintenanceDetail,
-                        productMaintenanceStepUuid: productMaintenanceDetail['productMa'],
-                        productUuid: productMaintenanceDetail['productUu'],
-                        measureUnitUuid: productMaintenanceDetail['measureUn'],
-                    }
-                    delete productMaintenanceDetailFormat['productMa'];
-                    delete productMaintenanceDetailFormat['productUu'];
-                    delete productMaintenanceDetailFormat['measureUn'];
-                    return productMaintenanceDetailFormat;
-                });
+            productMaintenanceStep.productMaintenanceStepDetails = productMaintenanceStep['pmsd'];
+            delete productMaintenanceStep['pmsd'];
             return productMaintenanceStep;
         });
         return product;

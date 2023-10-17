@@ -8,7 +8,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-@Table({ tableName: 'token_disabled', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'token_disabled', timestamps: false })
 export class TokenDisabled extends Model {
   @Column({
     allowNull: true,

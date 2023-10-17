@@ -15,7 +15,7 @@ import { Role } from './role';
 import { UserPerson } from './user_person';
 import { Person } from '../identity';
 
-@Table({ tableName: 'user', timestamps: false })
+@Table({schema: 'aaa', tableName: 'user', timestamps: false })
 export class User extends Model {
   @Column({
     primaryKey: true,

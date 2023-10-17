@@ -42,15 +42,6 @@ export class MaintenanceStep extends Model {
   })
   productMaintenanceStepUuid?: string;
 
-  @ForeignKey(() => Product)
-  @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
-  @Index({
-    name: 'maintenance_step_product_uuid_idx',
-    using: 'btree',
-    unique: false,
-  })
-  productUuid?: string;
-
   @Column({
     allowNull: true,
     type: DataType.BOOLEAN,
@@ -77,12 +68,9 @@ export class MaintenanceStep extends Model {
   @BelongsTo(() => Maintenance)
   maintenance?: Maintenance;
 
-  @BelongsTo(() => Product)
-  Product?: Product;
-
   @BelongsTo(() => ProductMaintenanceStep)
-  ProductMaintenanceStep?: ProductMaintenanceStep;
+  productMaintenanceStep?: ProductMaintenanceStep;
 
-  @HasMany(() => MaintenanceStepDetail, { sourceKey: 'uuid' })
+  @HasMany(() => MaintenanceStepDetail, { sourceKey: 'uuid', as: 'msd' })
   maintenanceStepDetails?: MaintenanceStepDetail[];
 }

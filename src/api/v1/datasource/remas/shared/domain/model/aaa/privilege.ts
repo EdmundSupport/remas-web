@@ -13,7 +13,7 @@ import { Role } from './role';
 import { Permission } from './permission';
 import { Module } from './module';
 
-@Table({ tableName: 'privilege', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'privilege', timestamps: false })
 export class Privilege extends Model {
   @Column({
     primaryKey: true,

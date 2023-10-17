@@ -19,15 +19,17 @@ export class ProductController {
         return this.productService.create(data);
     }
 
+    @Get('/:uuid')
+    findOne(@Param('uuid', NewOrUUIDValidationPipe) uuid: string) {
+        console.log("🚀 ~ file: product.controller.ts:29 ~ ProductController ~ findOne ~ uuid:", uuid)
+        return this.productService.findOne(uuid);
+    }
+    
     @Get()
     findAll(@Query() data: ProductDto) {
         return this.productService.findAll(data);
     }
 
-    @Get('/:uuid')
-    findOne(@Param('uuid', NewOrUUIDValidationPipe) uuid: string) {
-        return this.productService.findOne(uuid);
-    }
     
     @Patch('/:uuid')
     update(@Param('uuid', NewOrUUIDValidationPipe) uuid: string, @Body() data: CreateProductDto) {

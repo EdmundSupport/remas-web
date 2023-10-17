@@ -1,4 +1,4 @@
-import { IsBoolean, IsOptional, IsString, IsDate, IsArray, ValidateNested, IsObject } from "class-validator";
+import { IsBoolean, IsOptional, IsString, IsDate, IsArray, ValidateNested, IsObject, Validate } from "class-validator";
 import { MeasureDto } from "./measure.dto";
 import { ProductTypeDto } from "./product-type.dto";
 import { Type } from "class-transformer";
@@ -75,6 +75,8 @@ export class ProductDto {
         
         @IsOptional()
         @IsArray()
+        @ValidateNested({each: true})
+        @Type(()=>ProductMaintenanceStepDto)
         productMaintenanceSteps?: ProductMaintenanceStepDto[];
         
         @IsOptional()

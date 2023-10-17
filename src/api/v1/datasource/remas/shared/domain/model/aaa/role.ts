@@ -14,7 +14,7 @@ import { Privilege } from './privilege';
 import { Permission } from './permission';
 import { Module } from './module';
 
-@Table({ tableName: 'role', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'role', timestamps: false })
 export class Role extends Model {
   @Column({
     primaryKey: true,

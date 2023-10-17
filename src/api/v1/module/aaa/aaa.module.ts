@@ -5,6 +5,7 @@ import { AuthHelper, AuthService } from "./application";
 import { StructureHashTable } from "shared/structure/application/hash/structure.hash_table";
 import { AuthController } from "./infrastructure";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { UserModule } from "./user/user.module";
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
                 }
             },
         }),
+        UserModule,
     ],
     providers: [
         {
@@ -34,6 +36,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
     ],
     exports: [
         AuthService,
+        UserModule,
     ]
 })
 export class AAAModule { }

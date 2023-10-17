@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Session } from './session';
 
-@Table({ tableName: 'session_type', timestamps: false })
+@Table({ schema: 'aaa', tableName: 'session_type', timestamps: false })
 export class SessionType extends Model {
   @Column({
     primaryKey: true,

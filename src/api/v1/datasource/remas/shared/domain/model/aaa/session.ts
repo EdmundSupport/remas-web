@@ -11,7 +11,7 @@ import {
 import { SessionType } from './session_type';
 import { User } from './user';
 
-@Table({ tableName: 'session', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'session', timestamps: false })
 export class Session extends Model {
   @Column({
     primaryKey: true,

@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 import { Product } from './product';
 import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
+import { MaintenanceStep } from '../billing';
 
 @Table({schema: 'inventory', tableName: 'product_maintenance_step', timestamps: false })
 export class ProductMaintenanceStep extends Model {
@@ -72,6 +73,9 @@ export class ProductMaintenanceStep extends Model {
   @BelongsTo(() => Product)
   product?: Product;
 
-  @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid' })
+  @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid', as: 'pmsd' })
   productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
+
+  @HasMany(() => MaintenanceStep, { sourceKey: 'uuid' })
+  maintenanceSteps?: MaintenanceStep[];
 }

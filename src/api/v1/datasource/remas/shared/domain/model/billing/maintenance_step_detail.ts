@@ -11,6 +11,7 @@ import {
 import { MaintenanceStep } from './maintenance_step';
 import { Product } from '../inventory/product';
 import { MeasureUnit } from '../inventory/measure_unit';
+import { ProductMaintenanceStepDetail } from '../inventory';
 
 @Table({schema: 'billing', tableName: 'maintenance_step_detail', timestamps: false })
 export class MaintenanceStepDetail extends Model {
@@ -50,14 +51,14 @@ export class MaintenanceStepDetail extends Model {
   })
   maintenanceStepUuid?: string;
 
-  @ForeignKey(() => Product)
-  @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
+  @ForeignKey(() => ProductMaintenanceStepDetail)
+  @Column({ field: 'product_maintenance_step_detail_uuid', allowNull: true, type: DataType.UUID })
   @Index({
-    name: 'maintenance_step_detail_product_uuid_idx',
+    name: 'maintenance_step_detail_product_maintenance_step_detail_uuid_idx',
     using: 'btree',
     unique: false,
   })
-  productUuid?: string;
+  productMaintenanceStepDetailUuid?: string;
 
   @ForeignKey(() => MeasureUnit)
   @Column({ field: 'measure_unit_uuid', allowNull: true, type: DataType.UUID })
@@ -94,9 +95,9 @@ export class MaintenanceStepDetail extends Model {
   @BelongsTo(() => MaintenanceStep)
   maintenanceStep?: MaintenanceStep;
 
-  @BelongsTo(() => Product)
-  Product?: Product;
+  @BelongsTo(() => ProductMaintenanceStepDetail)
+  productMaintenanceStepDetails?: ProductMaintenanceStepDetail;
 
   @BelongsTo(() => MeasureUnit)
-  MeasureUnit?: MeasureUnit;
+  measureUnit?: MeasureUnit;
 }

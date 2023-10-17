@@ -12,6 +12,7 @@ import {
 import { User } from '../aaa/user';
 import { MaintenanceStatus } from './maintenance_status';
 import { MaintenanceStep } from './maintenance_step';
+import { Product } from '../inventory/product';
 
 @Table({schema: 'billing', tableName: 'maintenance', timestamps: false })
 export class Maintenance extends Model {
@@ -67,6 +68,15 @@ export class Maintenance extends Model {
   })
   maintenanceStatusUuid?: string;
 
+  @ForeignKey(()=>Product)
+  @Index({
+    name: 'maintenance_maintenance_product_uuid_idx',
+    using: 'btree',
+    unique: false,
+  })
+  @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
+  productUuid?: string;
+
   @Column({
     allowNull: true,
     type: DataType.BOOLEAN,
@@ -90,8 +100,11 @@ export class Maintenance extends Model {
   })
   updatedAt?: Date;
 
+  @BelongsTo(() => Product)
+  product?: Product;
+
   @BelongsTo(() => User)
-  User?: User;
+  user?: User;
 
   @BelongsTo(() => MaintenanceStatus)
   maintenanceStatus?: MaintenanceStatus;

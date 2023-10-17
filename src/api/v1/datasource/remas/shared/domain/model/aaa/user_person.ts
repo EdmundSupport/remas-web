@@ -11,7 +11,7 @@ import {
 import { User } from './user';
 import { Person } from '../identity';
 
-@Table({ tableName: 'user_person', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'user_person', timestamps: false })
 export class UserPerson extends Model {
   @Column({
     primaryKey: true,

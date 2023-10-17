@@ -1,11 +1,11 @@
-import { IsArray, IsBoolean, IsDate, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
-import { ProductDto } from "./product.dto";
-import { ProductMaintenanceStepDetailDto } from "./product-maintenance-step-detail.dto";
-import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
-import { MaintenanceStepDto } from "./maintenance-step.dto";
 import { Type } from "class-transformer";
+import { IsArray, IsBoolean, IsDate, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { MaintenanceDto } from "./maintenance.dto";
+import { ProductMaintenanceStepDto } from "./product-maintenance-step.dto";
+import { MaintenanceStepDetailDto } from "./maintenance-step-detail.dto";
+import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
 
-export class ProductMaintenanceStepDto {
+export class MaintenanceStepDto{
 
     @IsOptional()
     @IsString()
@@ -13,15 +13,11 @@ export class ProductMaintenanceStepDto {
 
     @IsOptional()
     @IsString()
-    order: string;
+    maintenanceUuid: string;
 
     @IsOptional()
     @IsString()
-    description: string;
-
-    @IsOptional()
-    @IsString()
-    productUuid: string;
+    productMaintenanceStepUuid: string;
 
     @IsOptional()
     @IsBoolean()
@@ -37,19 +33,17 @@ export class ProductMaintenanceStepDto {
 
     @IsOptional()
     @IsObject()
-    product: ProductDto;
+    maintenance: MaintenanceDto;
+
+    @IsOptional()
+    @IsObject()
+    productMaintenanceStep: ProductMaintenanceStepDto;
 
     @IsOptional()
     @IsArray()
     @ValidateNested({each: true})
-    @Type(()=>ProductMaintenanceStepDetailDto)
-    productMaintenanceStepDetails: ProductMaintenanceStepDetailDto[];
-
-    @IsOptional()
-    @IsArray()
-    @ValidateNested({each: true})
-    @Type(()=>MaintenanceStepDto)
-    maintenanceSteps: MaintenanceStepDto[];
+    @Type(()=>MaintenanceStepDetailDto)
+    maintenanceStepDetails: MaintenanceStepDetailDto[];
 
     @IsOptional()
     @IsObject()

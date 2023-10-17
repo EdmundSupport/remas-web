@@ -12,7 +12,7 @@ import { Role } from './role';
 import { Privilege } from './privilege';
 import { Module } from './module';
 
-@Table({ tableName: 'permission', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'permission', timestamps: false })
 export class Permission extends Model {
   @ForeignKey(() => Module)
   @Column({
