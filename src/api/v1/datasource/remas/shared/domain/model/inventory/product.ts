@@ -17,6 +17,7 @@ import { PriceCategory } from './price_category';
 import { ProductMaintenanceStep } from './product_maintenance_step';
 import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
 import { ChargeDetailScheduled } from './charge_detail_scheduled';
+import { DischargeDetailScheduled } from './discharge_detail_scheduled';
 
 @Table({schema: 'inventory', tableName: 'product', timestamps: false })
 export class Product extends Model {
@@ -118,5 +119,8 @@ export class Product extends Model {
   productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
 
   @HasMany(() => ChargeDetailScheduled, { sourceKey: 'uuid' })
-  ChargeDetailsScheduled?: ChargeDetailScheduled[];
+  chargeDetailsScheduled?: ChargeDetailScheduled[];
+
+  @HasMany(() => DischargeDetailScheduled, { sourceKey: 'uuid' })
+  dischargeDetailsScheduled?: DischargeDetailScheduled[];
 }

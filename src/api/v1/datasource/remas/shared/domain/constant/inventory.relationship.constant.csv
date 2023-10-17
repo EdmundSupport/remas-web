@@ -18,3 +18,10 @@ N:N, uuid, uuid, price_category, product, product_price
 1:N, uuid, measure_unit_uuid, measure_unit, charge_detail_scheduled
 1:N, uuid, charge_detail_scheduled_uuid, charge_detail_scheduled, charge_detail
 1:N, uuid, measure_unit_uuid, measure_unit, charge_detail
+1:N, uuid, discharge_status_uuid, discharge_status, discharge
+1:N, uuid, user_uuid, user, discharge
+1:N, uuid, discharge_uuid, discharge, discharge_detail_scheduled
+1:N, uuid, product_uuid, product, discharge_detail_scheduled
+1:N, uuid, measure_unit_uuid, measure_unit, discharge_detail_scheduled
+1:N, uuid, discharge_detail_scheduled_uuid, discharge_detail_scheduled, discharge_detail
+1:N, uuid, measure_unit_uuid, measure_unit, discharge_detail

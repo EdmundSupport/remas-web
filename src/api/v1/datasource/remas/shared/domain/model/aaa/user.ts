@@ -15,6 +15,7 @@ import { Role } from './role';
 import { UserPerson } from './user_person';
 import { Person } from '../identity';
 import { Charge } from '../inventory/charge';
+import { Discharge } from '../inventory/discharge';
 
 @Table({ schema: 'aaa', tableName: 'user', timestamps: false })
 export class User extends Model {
@@ -76,4 +77,7 @@ export class User extends Model {
 
   @HasMany(() => Charge, { sourceKey: 'uuid' })
   charges?: Charge[];
+
+  @HasMany(() => Discharge, { sourceKey: 'uuid' })
+  discharges?: Discharge[];
 }

@@ -3,7 +3,7 @@ import { Client, QuotationStatus, Quotation, QuotationDetail, Maintenance, Maint
 import { Country, Province, City, Address } from "../../../shared/domain/model/contact";
 import { TributeCodeType, Tribute  as TributeGuatemala } from "../../../shared/domain/model/guatemala";
 import { Person, Tribute, Company, Branch } from "../../../shared/domain/model/identity";
-import { Product, ProductType, Measure, PriceCategory, MeasureUnit, ProductPrice, ProductMaintenanceStep, ProductMaintenanceStepDetail, ChargeStatus, Charge, ChargeDetailScheduled, ChargeDetail } from "../../../shared/domain/model/inventory";
+import { Product, ProductType, Measure, PriceCategory, MeasureUnit, ProductPrice, ProductMaintenanceStep, ProductMaintenanceStepDetail, ChargeStatus, Charge, ChargeDetailScheduled, ChargeDetail, DischargeStatus, Discharge, DischargeDetailScheduled, DischargeDetail } from "../../../shared/domain/model/inventory";
 
 export const models = [
     Address,
@@ -44,4 +44,8 @@ export const models = [
     Charge,
     ChargeDetailScheduled,
     ChargeDetail,
+    DischargeStatus,
+    Discharge,
+    DischargeDetailScheduled,
+    DischargeDetail,
 ]
