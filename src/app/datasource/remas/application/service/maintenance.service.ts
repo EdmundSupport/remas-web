@@ -3,23 +3,23 @@ import { Injectable } from "@angular/core";
 import { environment } from "environment";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { CreateProductInterface } from "../../../../module/inventory/product/domain/interface/create-product.interface";
+import { CreateMaintenanceInterface } from "../../../../module/billing/maintenance/domain/interface/create-maintenance.interface";
 import { SerializeHelper } from "src/app/shared/serialize/application/helper/serialize.helper";
-import { ProductInterface } from "src/app/datasource/remas/domain/interface/product.interface";
-import { FindProductInterface } from "../../../../module/inventory/product/domain/interface/find-product.interface";
+import { MaintenanceInterface } from "src/app/datasource/remas/domain/interface/maintenance.interface";
+import { FindMaintenanceInterface } from "../../../../module/billing/maintenance/domain/interface/find-maintenance.interface";
 
 @Injectable({
     providedIn: 'root',
 })
-export class ProductService {
-    url = environment.remas;
+export class MaintenanceService {
+    url = environment.apiAuth;
 
     constructor(
         private httpService: HttpClient,
     ) { }
 
-    onCreate(data: CreateProductInterface) {
-        return this.httpService.post(this.url + '/v1/product', data).pipe(
+    onCreate(data: CreateMaintenanceInterface) {
+        return this.httpService.post(this.url + '/v1/maintenance', data).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
@@ -27,15 +27,15 @@ export class ProductService {
         );
     }
 
-    onFind(product: Partial<ProductInterface>): Observable<any> {
-        const queryParams = SerializeHelper.objectToQueryParams(product);
-        return this.httpService.get(this.url + '/v1/product' + queryParams).pipe(
+    onFind(maintenance: Partial<FindMaintenanceInterface>): Observable<any> {
+        const queryParams = SerializeHelper.objectToQueryParams(maintenance);
+        return this.httpService.get(this.url + '/v1/maintenance' + queryParams).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
             })),
             map((result: any) => {
-                if (result?.statusCode != 200) {
+                if (result?.statusCode && result?.statusCode != 200) {
                     return result;
                 }
 
@@ -45,8 +45,7 @@ export class ProductService {
     }
 
     onFindOne(uuid: string): Observable<any> {
-
-        return this.httpService.get(this.url + '/v1/product/' + uuid).pipe(
+        return this.httpService.get(this.url + '/v1/maintenance/' + uuid).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
@@ -61,8 +60,8 @@ export class ProductService {
         );
     }
 
-    onUpdate(uuid: string, data: CreateProductInterface) {
-        return this.httpService.patch(this.url + '/v1/product/' + uuid, data).pipe(
+    onUpdate(uuid: string, data: CreateMaintenanceInterface) {
+        return this.httpService.patch(this.url + '/v1/maintenance/' + uuid, data).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();

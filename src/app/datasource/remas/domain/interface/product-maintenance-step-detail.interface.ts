@@ -1,3 +1,4 @@
+import { MaintenanceStepDetailInterface } from "./maintenance-step-detail.interface";
 import { MeasureUnitInterface } from "./measure-unit.interface";
 import { PaginationInterface } from "./pagination.interface";
 import { ProductMaintenanceStepInterface } from "./product-maintenance-step.interface";
@@ -14,6 +15,7 @@ export interface ProductMaintenanceStepDetailInterface{
     createdAt: Date;
     updatedAt: Date;
     product: ProductInterface;
+    maintenanceStepDetails: MaintenanceStepDetailInterface[];
     measureUnit: MeasureUnitInterface;
     productMaintenanceStep: ProductMaintenanceStepInterface;
     pagination: PaginationInterface;

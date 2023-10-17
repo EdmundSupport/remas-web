@@ -22,6 +22,7 @@ export class AuthComponent {
 
     onLogIn() {
         this.authService.onLogIn(this.logIn).subscribe((result) => {
+            console.log("🚀 ~ file: auth.component.ts:25 ~ AuthComponent ~ this.authService.onLogIn ~ result:", result)
             if (result?.statusCode != 201) this.matSnackBar.open(result?.message, 'Cancelar');
             const { tokenAccess, tokenRefresh } = result?.data;
             this.tokenHelper.onSetTokenAccess(tokenAccess);

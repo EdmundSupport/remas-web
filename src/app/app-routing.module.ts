@@ -9,6 +9,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'app/maintenance',
+    loadChildren: () => import('./module/billing/maintenance/maintenance.module').then((m) => m.MaintenanceModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'app/quotation',
     loadChildren: () => import('./module/quotation/quotation.module').then((m) => m.QuotationModule),
     canActivate: [AuthGuard]

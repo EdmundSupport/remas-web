@@ -1,0 +1,64 @@
+<app-superposition-loading *ngIf="onSaveLoading$ | async">
+    <mat-spinner></mat-spinner>
+</app-superposition-loading>
+<div>
+    <div class="number">
+        <mat-form-field appearance="fill">
+            <mat-label>Número</mat-label>
+            <input type="number" [(ngModel)]="maintenance.number!" (ngModelChange)="ngOnChanges()" matInput placeholder="Número">
+        </mat-form-field>
+    </div>
+    <div class="dateStartScheduled">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha Inicio Programada</mat-label>
+            <input matInput [matDatepicker]="dateStartScheduledPricker" [(ngModel)]="maintenance.dateStartScheduled" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="dateStartScheduledPricker"></mat-datepicker-toggle>
+            <mat-datepicker #dateStartScheduledPricker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="dateEndScheduled">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha Fin Programada</mat-label>
+            <input matInput [matDatepicker]="dateEndScheduledPricker" [(ngModel)]="maintenance.dateEndScheduled" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="dateEndScheduledPricker"></mat-datepicker-toggle>
+            <mat-datepicker #dateEndScheduledPricker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="dateStart">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha Inicio</mat-label>
+            <input matInput [matDatepicker]="dateStartPricker" [(ngModel)]="maintenance.dateStart" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="dateStartPricker"></mat-datepicker-toggle>
+            <mat-datepicker #dateStartPricker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="dateEnd">
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha Fin</mat-label>
+            <input matInput [matDatepicker]="dateEndPricker" [(ngModel)]="maintenance.dateEnd" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="dateEndPricker"></mat-datepicker-toggle>
+            <mat-datepicker #dateEndPricker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="product">
+        <mat-form-field [subscriptSizing]="'dynamic'" >
+            <mat-label>Producto</mat-label>
+            <input type="text" placeholder="Producto" matInput [(ngModel)]="product!" [readonly]="product && product.condition == false"
+                (ngModelChange)="onChangeProduct($event)" [matAutocomplete]="productA" />
+            <mat-autocomplete #productA="matAutocomplete" [displayWith]="onShowProduct">
+                <mat-option *ngFor="let item of products" [value]="onShowProduct(item)" (click)="onSelectProduct(item)">
+                    {{ onShowProduct(item) }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="steps">
+        <ng-container *ngIf="maintenance && maintenance.product && maintenance.product.productMaintenanceSteps">
+            <ng-container *ngFor="let item of maintenance.product.productMaintenanceSteps; let i = index">
+                <app-maintenance-step (onChange)="onChangeDetail(i, $event)" [detail]="item"></app-maintenance-step>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+<!-- <app-button-float [iconName]="'add'" (onClick)="onAddDetail()" /> -->
+<app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" />

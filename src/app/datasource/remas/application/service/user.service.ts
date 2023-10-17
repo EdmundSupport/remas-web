@@ -4,12 +4,12 @@ import { environment } from "environment";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { SerializeHelper } from "src/app/shared/serialize/application/helper/serialize.helper";
-import { MeasureUnitInterface } from "../../domain/interface/measure-unit.interface";
+import { UserInterface } from "../../domain/interface/user.interface";
 
 @Injectable({
     providedIn: 'root',
 })
-export class MeasureUnitService {
+export class UserService {
     url = environment.remas;
     onFind$ = new BehaviorSubject<boolean>(false);
 
@@ -17,10 +17,10 @@ export class MeasureUnitService {
         private httpService: HttpClient,
     ) { }
 
-    onFind(measureUnit: Partial<MeasureUnitInterface> = { pagination: { offset: 0, limit: 100 } }): Observable<any> {
+    onFind(user: Partial<UserInterface> = { pagination: { offset: 0, limit: 100 } }): Observable<any> {
         this.onFind$.next(true);
-        const queryParams = SerializeHelper.objectToQueryParams(measureUnit);
-        return this.httpService.get(this.url + '/v1/measure-unit' + queryParams).pipe(
+        const queryParams = SerializeHelper.objectToQueryParams(user);
+        return this.httpService.get(this.url + '/v1/user' + queryParams).pipe(
             catchError((result) => new Observable(observer => {
                 observer.next(result?.error);
                 observer.complete();
@@ -34,22 +34,6 @@ export class MeasureUnitService {
             finalize(() => {
                 this.onFind$.next(false);
             })
-        );
-    }
-    
-    onFindOne(uuid: string): Observable<any> {
-        return this.httpService.get(this.url + '/v1/measure-unit/' + uuid).pipe(
-            catchError((result) => new Observable(observer => {
-                observer.next(result?.error);
-                observer.complete();
-            })),
-            map((result: any) => {
-                if (result?.statusCode != 200) {
-                    return result;
-                }
-
-                return result?.data;
-            }),
         );
     }
 }

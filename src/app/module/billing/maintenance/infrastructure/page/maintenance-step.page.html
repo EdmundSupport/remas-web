@@ -1,0 +1,35 @@
+<div class="footer">
+    <!-- <button (click)="onAddDetail()" mat-mini-fab color="accent">
+        <mat-icon>add</mat-icon>
+    </button> -->
+    <div class="detail">
+        <ng-container *ngIf="detail">
+            <mat-accordion>
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header [collapsedHeight]="'100px'" [expandedHeight]="'100px'">
+                        <mat-panel-title>
+                            <div class="header">
+                                <div class="loading"><mat-progress-bar class="example-margin" [color]="'primary'"
+                                        [mode]="'determinate'" [value]="80" [bufferValue]="80">
+                                    </mat-progress-bar></div>
+                                <div class="description">{{detail.description}}</div>
+                            </div>
+
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-container *ngFor="let item of detail.productMaintenanceStepDetails; let i = index">
+                        <app-maintenance-step-detail
+                            [maintenanceStepUuid]="maintenanceStepUuid"
+                            (onDelete)="onDeleteDetail(i, $event)" (onChange)="onChangeDetail(i, $event)"
+                            [detail]="item"></app-maintenance-step-detail>
+                    </ng-container>
+                    <ng-container
+                        *ngIf="detail.productMaintenanceStepDetails && detail.productMaintenanceStepDetails.length == 0">
+                        <div class="toggle"><mat-slide-toggle (change)="onComplete($event)"
+                                [checked]="detail.condition"></mat-slide-toggle></div>
+                    </ng-container>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </ng-container>
+    </div>
+</div>

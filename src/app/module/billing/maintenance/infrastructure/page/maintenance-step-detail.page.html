@@ -1,0 +1,35 @@
+<div class="detail">
+    <div class="row">
+        <div class="measureUnitLabel">
+            <ng-container *ngIf="!!detail && detail.measureUnit">
+                {{detail.measureUnit.name}}
+            </ng-container>
+        </div>
+        <div class="productLabel">
+            <ng-container *ngIf="!!detail && detail.product">
+                {{detail.product.name}}
+            </ng-container>
+        </div>
+        <div class="amountLabel">
+            <ng-container *ngIf="!!detail && detail.amount">
+                {{detail.amount}}
+            </ng-container>
+        </div>
+        <div class="priceLabel">
+            <ng-container *ngIf="!!detail && detail.price">
+                {{detail.price}}
+            </ng-container>
+        </div>
+        <!-- <div class="control">
+            <button (click)="delete()" mat-icon-button color="warn">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button  (click)="onAddDetail()" mat-icon-button color="warn">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div> -->
+    </div>
+    <ng-container *ngFor="let item of detail.maintenanceStepDetails; let i = index">
+        <app-maintenance-step-detail-multiple (onChange)="onChangeDetail(i, $event)" [measureUuid]="!!measureUnit?measureUnit.uuid:undefined" [maintenanceStepUuid]="maintenanceStepUuid" [detail]="item"></app-maintenance-step-detail-multiple>
+    </ng-container>
+</div>

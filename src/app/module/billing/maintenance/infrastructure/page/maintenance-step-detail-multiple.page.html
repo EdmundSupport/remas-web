@@ -1,0 +1,27 @@
+<div class="detail">
+    <div class="measureUnit">
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Medida</mat-label>
+            <input type="text" placeholder="Medida" matInput [(ngModel)]="measureUnit!"
+                (ngModelChange)="onChangeMeasureUnit($event)" [matAutocomplete]="measure" />
+            <mat-autocomplete #measure="matAutocomplete" [displayWith]="onShowMeasureUnit">
+                <mat-option *ngFor="let item of measuresUnit" [value]="onShowMeasureUnit(item)"
+                    (click)="onSelectMeasureUnit(item)">
+                    {{ onShowMeasureUnit(item) }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="amount">
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Cant.</mat-label>
+            <input type="number" placeholder="Cant." [(ngModel)]="detail.amount!" (ngModelChange)="ngOnChanges()" matInput />
+        </mat-form-field>
+    </div>
+    <div class="price">
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Precio</mat-label>
+            <input type="number" placeholder="Precio" [(ngModel)]="detail.price!" (ngModelChange)="ngOnChanges()" matInput />
+        </mat-form-field>
+    </div>
+</div>
