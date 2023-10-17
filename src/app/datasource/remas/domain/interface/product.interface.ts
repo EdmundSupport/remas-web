@@ -1,3 +1,5 @@
+import { ChargeDetailScheduledInterface } from "./charge-detail-scheduled.interface";
+import { DischargeDetailScheduledInterface } from "./discharge-detail-scheduled.interface";
 import { MeasureInterface } from "./measure.interface";
 import { PaginationInterface } from "./pagination.interface";
 import { PriceCategoryInterface } from "./price-category.interface";
@@ -7,7 +9,7 @@ import { ProductPriceInterface } from "./product-price.interface";
 import { ProductTypeInterface } from "./product-type.interface";
 
 export interface ProductInterface {
-        
+
         uuid: string;
         sku: string;
         name: string;
@@ -26,5 +28,7 @@ export interface ProductInterface {
         priceCategories: PriceCategoryInterface[];
         productMaintenanceSteps: ProductMaintenanceStepInterface[];
         productMaintenanceStepDetails: ProductMaintenanceStepDetailInterface[];
+        chargeDetailsScheduled?: ChargeDetailScheduledInterface[];
+        dischargeDetailsScheduled?: DischargeDetailScheduledInterface[];
         pagination: PaginationInterface;
 }
