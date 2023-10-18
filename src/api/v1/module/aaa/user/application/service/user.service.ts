@@ -20,6 +20,7 @@ export class UserService {
         const include = [];
 
         return this.userService.findAll({
+            attributes: ['name', 'condition', 'roleUuid'],
             where: data,
             include: include,
             ...pagination,
