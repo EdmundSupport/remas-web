@@ -1,0 +1,84 @@
+<mat-grid-list cols="1" rowHeight="1:1">
+  <mat-grid-tile>
+    <div>
+      <p>
+      <h1>
+        Registro
+      </h1>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Primer Nombre</mat-label>
+          <input [(ngModel)]="signIn.nameFirst!" matInput placeholder="Primer Nombre">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Segundo Nombre</mat-label>
+          <input [(ngModel)]="signIn.nameSecond!" matInput placeholder="Segundo Nombre">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Otros Nombres</mat-label>
+          <input [(ngModel)]="signIn.nameOther!" matInput placeholder="Otros Nombres">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Primer Apellido</mat-label>
+          <input [(ngModel)]="signIn.surnameFirst!" matInput placeholder="Primer Apellido">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Segundo Apellido</mat-label>
+          <input [(ngModel)]="signIn.surnameSecond!" matInput placeholder="Segundo Apellido">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Otros Apellidos</mat-label>
+          <input [(ngModel)]="signIn.surnameOther!" matInput placeholder="Otros Apellidos">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input matInput [matDatepicker]="birthdayPicker" [(ngModel)]="signIn.birthday!">
+          <mat-datepicker-toggle matIconSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
+          <mat-datepicker #birthdayPicker></mat-datepicker>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+          <mat-label>Contraseña</mat-label>
+          <input type="password" [(ngModel)]="signIn.password!" matInput placeholder="Contraseña">
+        </mat-form-field>
+      </p>
+      <p>
+      <div *ngIf="authService.onLogInLoading$ | async; else content">
+        <mat-spinner></mat-spinner>
+        <div class="spinner"></div>
+      </div>
+      <ng-template #content>
+        <div>
+          <button mat-raised-button color="primary" (click)="onSignIn()">Registrase</button>
+        </div>
+      </ng-template>
+      <p>
+        <button mat-button color="accent" (click)="goLogIn()">Iniciar Sesion</button>
+      </p>
+      <p>
+        <ng-container *ngIf="userName != ''">
+          <p>
+            Su nombre de usuario es: {{userName}}
+          </p>
+          <p>
+            Por favor, recuerdelo, e inicie sesión.
+          </p>
+        </ng-container>
+      </p>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
+</mat-grid-list>

@@ -17,7 +17,7 @@ export class AuthGuard {
         state: RouterStateSnapshot
     ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         const url = state.url;
-        const isLoggedIn = url.indexOf('/auth/log-in') != -1;
+        const isLoggedIn = url.indexOf('/auth/log-in') != -1 || url.indexOf('/auth/sign-in') != -1;
         const isAuthenticated = this.authHelper.onIsAuthenticated();
         if (isAuthenticated && isLoggedIn) return this.router.navigate(['']);
         if (!isAuthenticated && !isLoggedIn) return this.router.navigate(['auth/log-in']);

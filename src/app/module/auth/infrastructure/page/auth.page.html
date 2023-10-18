@@ -14,7 +14,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Contraseña</mat-label>
-          <input [(ngModel)]="logIn.userPassword" matInput placeholder="Contraseña">
+          <input type="password" [(ngModel)]="logIn.userPassword" matInput placeholder="Contraseña">
         </mat-form-field>
       </p>
       <p>
@@ -28,7 +28,7 @@
           </div>
         </ng-template>
       <p>
-        <button mat-button color="accent" routerLink="auth">Registrarme</button>
+        <button mat-button color="accent" (click)="goSignIn()">Registrarme</button>
       </p>  
     </div>
   </mat-grid-tile>

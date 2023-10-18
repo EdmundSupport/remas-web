@@ -39,6 +39,19 @@ export class AuthService {
         );
     }
 
+    onSignIn(data: any): Observable<any> {
+        this.onLogInLoading$.next(true);
+        return this.httpService.post(this.url + '/v1/auth/sign-in', data).pipe(
+            catchError((result) => new Observable(observer => {
+                observer.next(result?.error);
+                observer.complete();
+            })),
+            finalize(() => {
+                this.onLogInLoading$.next(false);
+            })
+        );
+    }
+
     onLogIn(data: { userName: string; userPassword: string }): Observable<any> {
         this.onLogInLoading$.next(true);
         return this.httpService.post(this.url + '/v1/auth/log-in', data).pipe(

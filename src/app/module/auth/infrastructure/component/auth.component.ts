@@ -30,4 +30,9 @@ export class AuthComponent {
             this.routerService.navigate(['']);
         });
     }
+
+    goSignIn() {
+        console.log("🚀 ~ file: auth.component.ts:36 ~ AuthComponent ~ goSignIn ~ s:")
+        this.routerService.navigate(['/auth/sign-in']);
+    }
 }

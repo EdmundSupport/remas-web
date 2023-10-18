@@ -10,10 +10,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthSignInComponent } from "./infrastructure/component/auth-sign-in.component";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
 
 @NgModule({
     declarations: [
         AuthComponent,
+        AuthSignInComponent,
     ],
     imports: [
         AuthRoutingModule,
@@ -24,6 +28,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatButtonModule,
         MatProgressSpinnerModule,
         MatSnackBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
 
         FormsModule,
         CommonModule,
