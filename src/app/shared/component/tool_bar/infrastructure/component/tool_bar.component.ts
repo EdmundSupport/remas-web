@@ -24,4 +24,8 @@ export class ToolBarComponent {
         const routeParent = routeConfigParent?.path;
         this.router.navigate([routeParent]);
     }
+
+    goHome() {        
+        this.router.navigate(['app']);
+    }
 }
