@@ -1,0 +1,19 @@
+<app-superposition-loading *ngIf="onSaveLoading$ | async">
+    <mat-spinner></mat-spinner>
+</app-superposition-loading>
+<div>
+    <div class="name">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre de Usuario</mat-label>
+            <input type="text" disabled [(ngModel)]="user.name!" matInput placeholder="Nombre de Usuario">
+        </mat-form-field>
+    </div>
+    <div class="password">
+        <mat-form-field appearance="fill">
+            <mat-label>Contraseña</mat-label>
+            <input type="password" [(ngModel)]="user.password!" matInput placeholder="Contraseña">
+        </mat-form-field>
+    </div>
+</div>
+<!-- <app-button-float [iconName]="'add'" (onClick)="onAddDetail()" /> -->
+<app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" />
