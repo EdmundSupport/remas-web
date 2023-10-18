@@ -1,4 +1,4 @@
-import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module, UserPerson } from "src/api/v1/datasource/remas/shared";
+import { TokenDisabled, SessionType, User, Permission, Role, Privilege, Session, Module, UserPerson, RolePermission } from "src/api/v1/datasource/remas/shared";
 import { Person } from "../../../shared/domain/model/identity";
 
 export const aaaConnectionProvider = [
@@ -8,6 +8,7 @@ export const aaaConnectionProvider = [
     { provide: 'USER_REPOSITORY', useValue: User },
     { provide: 'PERMISSION_REPOSITORY', useValue: Permission },
     { provide: 'ROLE_REPOSITORY', useValue: Role },
+    { provide: 'ROLE_PERMISSION_REPOSITORY', useValue: RolePermission },
     { provide: 'PRIVILEGE_REPOSITORY', useValue: Privilege },
     { provide: 'MODULE_REPOSITORY', useValue: Module },
     { provide: 'USER_PERSON_REPOSITORY', useValue: UserPerson },

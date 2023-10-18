@@ -1,4 +1,4 @@
-import { SessionType, User, Role, Permission, Privilege, UserPerson, Session, Module } from "../../../shared";
+import { SessionType, User, Role, Permission, Privilege, UserPerson, Session, Module, RolePermission } from "../../../shared";
 import { Client, QuotationStatus, Quotation, QuotationDetail, Maintenance, MaintenanceStep, MaintenanceStepDetail, MaintenanceStatus } from "../../../shared/domain/model/billing";
 import { Country, Province, City, Address } from "../../../shared/domain/model/contact";
 import { TributeCodeType, Tribute  as TributeGuatemala } from "../../../shared/domain/model/guatemala";
@@ -6,6 +6,7 @@ import { Person, Tribute, Company, Branch } from "../../../shared/domain/model/i
 import { Product, ProductType, Measure, PriceCategory, MeasureUnit, ProductPrice, ProductMaintenanceStep, ProductMaintenanceStepDetail, ChargeStatus, Charge, ChargeDetailScheduled, ChargeDetail, DischargeStatus, Discharge, DischargeDetailScheduled, DischargeDetail } from "../../../shared/domain/model/inventory";
 
 export const models = [
+    RolePermission,
     Address,
     Branch,
     City,

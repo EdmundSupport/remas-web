@@ -9,6 +9,7 @@ import { guatemalaModels } from "./application/providers/guatemala.connection.pr
 import { billingConnectionProvider, billingModels } from "./application/providers/billing.connection.provider";
 import { contactModels } from "./application/providers/contact.connection.provider";
 import { models } from "./application/providers/connection.provider";
+import { RemasHelper } from "../shared/application/helper/remas.helper";
 
 @Module({
     imports: [
@@ -35,12 +36,14 @@ import { models } from "./application/providers/connection.provider";
         ...identityConnectionProvider,
         ...billingConnectionProvider,
         ...inventoryConnectionProvider,
+        RemasHelper,
     ],
     exports: [
         ...aaaConnectionProvider,
         ...identityConnectionProvider,
         ...billingConnectionProvider,
         ...inventoryConnectionProvider,
+        RemasHelper,
     ]
 })
 export class ConnectionModule { }

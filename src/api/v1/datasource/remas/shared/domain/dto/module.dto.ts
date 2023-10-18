@@ -1,10 +1,10 @@
-import { IsArray, IsBoolean, IsDate, IsObject, IsOptional, IsString, Validate, ValidateNested } from "class-validator";
-import { PersonDto } from "./person.dto";
+import { IsArray, IsBoolean, IsDate, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { PermissionDto } from "./permission.dto";
 import { Type } from "class-transformer";
 import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
-import { RoleDto } from "./role.dto";
+import { PrivilegeDto } from "./privilege.dto";
 
-export class UserDto {
+export class ModuleDto{
 
     @IsOptional()
     @IsString()
@@ -12,19 +12,15 @@ export class UserDto {
 
     @IsOptional()
     @IsString()
-    name: string;
+    keyName: string;
 
     @IsOptional()
     @IsString()
-    password: string;
+    name: string;
 
     @IsOptional()
     @IsBoolean()
     condition: boolean;
-
-    @IsOptional()
-    @IsString()
-    roleUuid: string;
 
     @IsOptional()
     @IsDate()
@@ -35,14 +31,16 @@ export class UserDto {
     updatedAt: Date;
 
     @IsOptional()
-    @IsObject()
-    role: RoleDto;
+    @IsArray()
+    @ValidateNested({each: true})
+    @Type(()=>PrivilegeDto)
+    privileges: PrivilegeDto[];
 
     @IsOptional()
     @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => PersonDto)
-    persons: PersonDto[];
+    @ValidateNested({each: true})
+    @Type(()=>PermissionDto)
+    permissions: PermissionDto[];
 
     @IsOptional()
     @IsObject()

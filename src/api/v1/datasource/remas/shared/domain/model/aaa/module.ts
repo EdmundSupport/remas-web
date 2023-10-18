@@ -9,11 +9,10 @@ import {
   BelongsToMany,
   HasMany,
 } from 'sequelize-typescript';
-import { Role } from './role';
-import { Permission } from './permission';
 import { Privilege } from './privilege';
+import { Permission } from './permission';
 
-@Table({ schema: 'aaa',  tableName: 'module', timestamps: false })
+@Table({ schema: 'aaa', tableName: 'module', timestamps: false })
 export class Module extends Model {
   @Column({
     primaryKey: true,
@@ -52,9 +51,6 @@ export class Module extends Model {
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
-
-  @BelongsToMany(() => Role, () => Permission)
-  roles?: Role[];
 
   @BelongsToMany(() => Privilege, () => Permission)
   privileges?: Privilege[];

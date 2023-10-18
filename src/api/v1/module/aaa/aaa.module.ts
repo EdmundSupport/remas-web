@@ -6,6 +6,10 @@ import { StructureHashTable } from "shared/structure/application/hash/structure.
 import { AuthController } from "./infrastructure";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { UserModule } from "./user/user.module";
+import { AuthzService } from "./application/service/authz.service";
+import { AuthzController } from "./infrastructure/controller/authz.controller";
+import { RoleModule } from "./role/role.module";
+import { ModuleModule } from "./module/module.module";
 
 @Module({
     imports: [
@@ -22,6 +26,8 @@ import { UserModule } from "./user/user.module";
             },
         }),
         UserModule,
+        RoleModule,
+        ModuleModule,
     ],
     providers: [
         {
@@ -30,13 +36,18 @@ import { UserModule } from "./user/user.module";
         },
         AuthHelper,
         AuthService,
+        AuthzService,
     ],
     controllers: [
         AuthController,
+        AuthzController,
     ],
     exports: [
         AuthService,
+        AuthzService,
         UserModule,
+        RoleModule,
+        ModuleModule,
     ]
 })
 export class AAAModule { }

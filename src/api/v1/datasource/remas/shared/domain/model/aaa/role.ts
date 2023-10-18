@@ -10,11 +10,10 @@ import {
   BelongsToMany,
 } from 'sequelize-typescript';
 import { User } from './user';
-import { Privilege } from './privilege';
 import { Permission } from './permission';
-import { Module } from './module';
+import { RolePermission } from './role_permission';
 
-@Table({ schema: 'aaa',  tableName: 'role', timestamps: false })
+@Table({ schema: 'aaa', tableName: 'role', timestamps: false })
 export class Role extends Model {
   @Column({
     primaryKey: true,
@@ -57,12 +56,9 @@ export class Role extends Model {
   @HasMany(() => User, { sourceKey: 'uuid' })
   users?: User[];
 
-  @BelongsToMany(() => Privilege, () => Permission)
-  privileges?: Privilege[];
-
-  @BelongsToMany(() => Module, () => Permission)
-  modules?: Module[];
-
-  @HasMany(() => Permission, { sourceKey: 'uuid' })
+  @BelongsToMany(() => Permission, () => RolePermission)
   permissions?: Permission[];
+
+  @HasMany(() => RolePermission, { sourceKey: 'uuid' })
+  rolePermissions?: RolePermission[];
 }

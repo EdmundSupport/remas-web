@@ -7,14 +7,16 @@ import {
   Sequelize,
   ForeignKey,
   BelongsTo,
+  BelongsToMany,
+  HasMany,
 } from 'sequelize-typescript';
-import { Role } from './role';
-import { Privilege } from './privilege';
 import { Module } from './module';
+import { Privilege } from './privilege';
+import { Role } from './role';
+import { RolePermission } from './role_permission';
 
-@Table({ schema: 'aaa',  tableName: 'permission', timestamps: false })
+@Table({ schema: 'aaa', tableName: 'permission', timestamps: false })
 export class Permission extends Model {
-  @ForeignKey(() => Module)
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -24,10 +26,8 @@ export class Permission extends Model {
   @Index({ name: 'permission_uuid_idx', using: 'btree', unique: false })
   uuid?: string;
 
-  @ForeignKey(() => Role)
-  @Column({ field: 'role_uuid', allowNull: true, type: DataType.UUID })
-  @Index({ name: 'permission_role_uuid_idx', using: 'btree', unique: false })
-  roleUuid?: string;
+  @Column({ field: 'key_name', allowNull: true, type: DataType.STRING })
+  keyName?: string;
 
   @ForeignKey(() => Module)
   @Column({ field: 'module_uuid', allowNull: true, type: DataType.UUID })
@@ -66,12 +66,15 @@ export class Permission extends Model {
   })
   updatedAt?: Date;
 
-  @BelongsTo(() => Role)
-  role?: Role;
+  @BelongsTo(() => Module)
+  module?: Module;
 
   @BelongsTo(() => Privilege)
   privilege?: Privilege;
 
-  @BelongsTo(() => Module)
-  module?: Module;
+  @BelongsToMany(() => Role, () => RolePermission)
+  roles?: Role[];
+
+  @HasMany(() => RolePermission, { sourceKey: 'uuid' })
+  rolePermissions?: RolePermission[];
 }
