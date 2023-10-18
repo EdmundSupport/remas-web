@@ -1,0 +1,40 @@
+<app-superposition-loading *ngIf="onSaveLoading$ | async">
+    <mat-spinner></mat-spinner>
+</app-superposition-loading>
+<div>
+    <div class="key-name">
+        <mat-form-field appearance="fill">
+            <mat-label>Clave</mat-label>
+            <input type="text" [(ngModel)]="role.keyName!" matInput placeholder="Clave">
+        </mat-form-field>
+    </div>
+    <div class="name">
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre del Rol</mat-label>
+            <input type="text" [(ngModel)]="role.name!" matInput placeholder="Nombre del Rol">
+        </mat-form-field>
+    </div>
+    <div class="modules">
+        <ng-container *ngFor="let module of modules; let i = index"> <!-- desplegar modulos-->
+            <mat-accordion>
+                <mat-expansion-panel hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{module.name}}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div class="privileges">
+                        <ng-container *ngFor="let privilege of module.privileges; let j = index">
+                            <mat-slide-toggle
+                                (change)="onSwithPermission(privilege.Permission?.uuid!, $event)"
+                                [checked]="onShowRolePermission(privilege.Permission?.uuid)">{{privilege.name}}</mat-slide-toggle>
+                        </ng-container>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </ng-container>
+    </div>
+</div>
+<!-- <app-button-float [iconName]="'add'" (onClick)="onAddDetail()" /> -->
+<app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" />

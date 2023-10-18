@@ -2,6 +2,7 @@ import { ChargeInterface } from "./charge.interface";
 import { DischargeInterface } from "./discharge.interface";
 import { PaginationInterface } from "./pagination.interface";
 import { PersonInterface } from "./person.interface";
+import { RoleInterface } from "./role.interface";
 
 export interface UserInterface {
     uuid: string;
@@ -14,5 +15,6 @@ export interface UserInterface {
     persons: PersonInterface[];
     charges: ChargeInterface[];
     discharges: DischargeInterface[];
+    role: RoleInterface;
     pagination: PaginationInterface;
 }
