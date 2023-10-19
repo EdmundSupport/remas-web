@@ -133,7 +133,6 @@ export class MaintenanceFormComponent {
         }, timeMs);
         const maintenance = { ...this.maintenance };
         
-        console.log("🚀 ~ file: maintenance-form.component.ts:147 ~ MaintenanceFormComponent ~ onSave ~ maintenance:", maintenance)
         maintenance.maintenanceSteps = maintenance.product?.productMaintenanceSteps.map((productMaintenanceStep) => {
             const maintenanceStep: any = {};
             maintenanceStep['productMaintenanceStepUuid'] = productMaintenanceStep.uuid;

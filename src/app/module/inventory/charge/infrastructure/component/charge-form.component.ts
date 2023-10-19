@@ -90,7 +90,6 @@ export class ChargeFormComponent {
         // }, timeMs);
 
         this.charge
-        console.log("🚀 ~ file: charge-form.component.ts:89 ~ ChargeFormComponent ~ onSave ~ this.charge:", this.charge)
         if (!(this.charge && this.charge.number))
             return this.matSnackBar.open('Debes escribir un número.', 'Ok') && this.onStopSaveLoading();
 

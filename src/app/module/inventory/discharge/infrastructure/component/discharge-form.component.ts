@@ -89,8 +89,7 @@ export class DischargeFormComponent {
         //     this.onSaveLoading$.next(false);
         // }, timeMs);
 
-        this.discharge
-        console.log("🚀 ~ file: discharge-form.component.ts:89 ~ DischargeFormComponent ~ onSave ~ this.discharge:", this.discharge)
+        
         if (!(this.discharge && this.discharge.number))
             return this.matSnackBar.open('Debes escribir un número.', 'Ok') && this.onStopSaveLoading();
 

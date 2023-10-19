@@ -43,7 +43,6 @@ export class AuthSignInComponent {
 
     onSignIn() {
         this.authService.onSignIn(this.signIn).subscribe((result) => {
-            console.log("🚀 ~ file: auth-sign-in.component.ts:35 ~ AuthComponent ~ this.authService.onSignIn ~ result:", result)
             if (result?.statusCode != 201) { this.matSnackBar.open(result?.message, 'Cancelar'); }
             else {
                 this.userName = result?.data.name;

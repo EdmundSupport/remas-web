@@ -75,14 +75,12 @@ export class RoleFormComponent {
                     return;
                 }
                 this.modules = result;
-                console.log("🚀 ~ file: role-form.component.ts:74 ~ RoleFormComponent ~ subscribe ~ this.modules:", this.modules)
             });
     }
 
     onSwithPermission(permissionUuid: string, event: { checked: boolean }) {
         if (!permissionUuid) return;
         const rolePermissionIndex = this.role.rolePermissions?.findIndex((rolePermission) => rolePermission.permissionUuid == permissionUuid);
-        console.log("🚀 ~ file: role-form.component.ts:85 ~ RoleFormComponent ~ onSwithPermission ~ rolePermissionIndex:", rolePermissionIndex)
         if (rolePermissionIndex == -1) {
             this.role.rolePermissions?.push({
                 permissionUuid,
@@ -103,7 +101,6 @@ export class RoleFormComponent {
     }
 
     onSave(){
-        console.log("🚀 ~ file: role-form.component.ts:102 ~ RoleFormComponent ~ onSave ~ this.role:", this.role)
         if (!(this.role && this.role.uuid && this.role.uuid != '' && SerializeHelper.isUUID(this.role.uuid))) {
             this.roleService.onCreate({...this.role, product: undefined} as any).pipe(
                 finalize(() => this.onStopSaveLoading()))

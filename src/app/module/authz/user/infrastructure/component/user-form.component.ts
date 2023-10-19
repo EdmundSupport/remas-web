@@ -60,7 +60,6 @@ export class UserFormComponent {
     }
 
     onSave(){
-        console.log("🚀 ~ file: user-form.component.ts:102 ~ UserFormComponent ~ onSave ~ this.user:", this.user)
         if(this.user.password == '') delete this.user.password;
 
         if (!(this.user && this.user.uuid && this.user.uuid != '' && SerializeHelper.isUUID(this.user.uuid))) {

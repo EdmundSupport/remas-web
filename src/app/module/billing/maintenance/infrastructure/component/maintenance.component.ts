@@ -70,7 +70,7 @@ export class MaintenanceComponent {
                 this.matSnackBar.open(result?.message, 'Cancelar');
                 return;
             }
-            this.maintenances = result?.data;
+            this.maintenances = result;
             this.onMaintenancesToEvent();
         });
     }

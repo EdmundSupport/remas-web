@@ -10,6 +10,7 @@ import { QuotationDetailInterface } from 'src/app/datasource/remas/domain/interf
 import { BehaviorSubject, finalize } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SerializeHelper } from 'src/app/shared/serialize/application/helper/serialize.helper';
+import { QuotationTrackingService } from 'src/app/datasource/remas/application/service/quotation-tracking.service';
 
 @Component({
     selector: 'app-quotation-form',
@@ -34,6 +35,7 @@ export class QuotationFormComponent {
     timeSaveLoading: any;
     constructor(
         private quotationService: QuotationService,
+        private quotationTrackingService: QuotationTrackingService,
         public clientService: ClientService,
         private matSnackBar: MatSnackBar,
         private elementRef: ElementRef,
@@ -67,6 +69,17 @@ export class QuotationFormComponent {
 
     ngAfterContentInit() {
         if (this.onSaveLoading$.getValue()) this.total = this.onTotal();
+    }
+
+    onConfirm(){
+        this.quotationTrackingService.onConfirm(this.quotation.uuid!).subscribe((result)=>{
+            if(result?.statusCode && result?.statusCode != 200){
+                this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.');
+                return;
+            }
+            
+            this.matSnackBar.open('Cotizacion confirmada, se generaron las ordenes de mantenimiento.');
+        });
     }
 
     onLoad(index: number) {
@@ -177,7 +190,6 @@ export class QuotationFormComponent {
     }
 
     onShowClient(client: ClientInterface) {
-        console.log("🚀 ~ file: quotation-form.component.ts:180 ~ QuotationFormComponent ~ onShowClient ~ client:", client)
         return (client && client.tribute
             && client.tribute.companies
             && client.tribute.companies[0]
