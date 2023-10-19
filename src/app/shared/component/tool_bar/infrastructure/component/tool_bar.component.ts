@@ -3,6 +3,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from "@angular/router";
+import { TokenHelper } from "src/app/datasource/remas/application/helper/token.helper";
+import { AuthService } from "src/app/datasource/remas/application/service/auth.service";
 
 @Component({
     selector: 'app-tool-bar',
@@ -13,19 +15,29 @@ import { Router } from "@angular/router";
 })
 export class ToolBarComponent {
     constructor(
-        private router: Router
+        private router: Router,
+        private tokenHelper: TokenHelper,
+        private authService: AuthService,
     ) { }
 
-    ngOnInit() { 
+    ngOnInit() {
     }
 
-    goBack() {        
+    goBack() {
         const routeConfigParent = this.router.config[0];
         const routeParent = routeConfigParent?.path;
         this.router.navigate([routeParent]);
     }
 
-    goHome() {        
+    goHome() {
         this.router.navigate(['app']);
+    }
+
+    logout() {
+        const authToken = this.tokenHelper.onGetTokenAccess();
+        this.tokenHelper.onRemoveTokenAccess();
+        this.tokenHelper.onRemoveTokenRefresh();
+        this.authService.onLogout(authToken);
+        this.router.navigate(['auth/log-in']);
     }
 }

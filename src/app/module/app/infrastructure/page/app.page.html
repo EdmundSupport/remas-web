@@ -9,10 +9,10 @@
   </div>
 </ng-template>
 
-<app-card-module [title]="'Productos'" [url]="'app/inventory/product'"></app-card-module>
-<app-card-module [title]="'Usuarios'" [url]="'app/user'"></app-card-module>
-<app-card-module [title]="'Roles'" [url]="'app/authz'"></app-card-module>
-<app-card-module [title]="'Cotizaciones'" [url]="'app/quotation'"></app-card-module>
-<app-card-module [title]="'Mantenimientos'" [url]="'app/maintenance'"></app-card-module>
-<app-card-module [title]="'Cargar'" [url]="'app/charge'"></app-card-module>
-<app-card-module [title]="'Descargar'" [url]="'app/discharge'"></app-card-module>
+<app-card-module *ngIf="authHelper.verifyPermission('product_read')" [title]="'Productos'" [url]="'app/inventory/product'"></app-card-module>
+<app-card-module *ngIf="authHelper.verifyPermission('user_read')" [title]="'Usuarios'" [url]="'app/user'"></app-card-module>
+<app-card-module *ngIf="authHelper.verifyPermission('role_read')" [title]="'Roles'" [url]="'app/authz'"></app-card-module>
+<app-card-module *ngIf="authHelper.verifyPermission('quotation_read')" [title]="'Cotizaciones'" [url]="'app/quotation'"></app-card-module>
+<app-card-module *ngIf="authHelper.verifyPermission('maintenance_read')" [title]="'Mantenimientos'" [url]="'app/maintenance'"></app-card-module>
+<app-card-module *ngIf="authHelper.verifyPermission('charge_read')" [title]="'Cargar'" [url]="'app/charge'"></app-card-module>
+<app-card-module *ngIf="authHelper.verifyPermission('discharge_read')" [title]="'Descargar'" [url]="'app/discharge'"></app-card-module>

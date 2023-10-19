@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from "@angular/router";
+import { AuthHelper } from "src/app/datasource/remas/application/helper/auth.helper";
 
 @Component({
     selector: 'app-card-module',
