@@ -28,6 +28,7 @@ export class RoleService {
     }
 
     findAll(data?: Partial<RoleDto>) {
+        console.log("🚀 ~ file: role.service.ts:31 ~ RoleService ~ findAll ~ data:", data)
         data = JSON.parse(JSON.stringify(data));
         const users = StructureHelper.searchProperty(data, 'users', true)[0];
         const permissions = StructureHelper.searchProperty(data, 'permissions', true)[0];
@@ -37,17 +38,17 @@ export class RoleService {
         const include = [];
         if (users && users[0]) include.push({
             where: users,
-            include: User,
+            model: User,
         });
 
         if (permissions && permissions[0]) include.push({
             where: permissions,
-            include: Permission,
+            model: Permission,
         });
 
         if (rolePermissions && rolePermissions[0]) include.push({
             where: rolePermissions,
-            include: RolePermission,
+            model: RolePermission,
         });
 
         return this.roleService.findAll({
