@@ -14,6 +14,7 @@ import { Client } from './client';
 import { QuotationStatus } from './quotation_status';
 import { QuotationDetail } from './quotation_detail';
 import { QuotationMaintenance } from './quotation-maintenance';
+import { QuotationCharge } from './quotation-charge';
 
 @Table({ tableName: 'quotation', timestamps: false })
 export class Quotation extends Model {
@@ -88,4 +89,7 @@ export class Quotation extends Model {
 
   @HasOne(() => QuotationMaintenance, { sourceKey: 'uuid' })
   quotationMaintenance?: QuotationMaintenance;
+
+  @HasOne(() => QuotationCharge, { sourceKey: 'uuid' })
+  quotationCharge?: QuotationCharge;
 }

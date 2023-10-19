@@ -3,6 +3,7 @@ import { QuotationService } from "../../../application/service";
 import { QuotationMaintenanceService } from "../../quotation-maintenance/application/service/quotation-maintenance.service";
 import { Quotation, QuotationStatus } from "src/api/v1/datasource/remas/shared/domain/model/billing";
 import { FilterResponseHelper } from "shared/filter_response";
+import { QuotationChargeService } from "../../quotation-charge/application/service/quotation-charge.service";
 
 @Injectable()
 export class QuotationTrackingService {
@@ -13,6 +14,7 @@ export class QuotationTrackingService {
         private quotaitonStatusService: typeof QuotationStatus,
         private quotationService: QuotationService,
         private quotationMaintenanceService: QuotationMaintenanceService,
+        private quotationChargeService: QuotationChargeService,
     ) { }
 
     async confirm(quotationUuid: string) {
@@ -22,6 +24,7 @@ export class QuotationTrackingService {
         }
         const quotation = await this.quotationService.findOne(quotationUuid);
         await this.quotationMaintenanceService.generate(quotationUuid, new Promise((resolve) => resolve(quotation)));
+        await this.quotationChargeService.generate(quotationUuid, new Promise((resolve) => resolve(quotation)));
         await this.quotationRepository.update({ quotationStatusUuid: quotationStatus.uuid }, { where: { uuid: quotationUuid } });
         return true;
     }

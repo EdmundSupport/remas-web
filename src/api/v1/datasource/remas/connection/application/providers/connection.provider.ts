@@ -1,5 +1,6 @@
 import { SessionType, User, Role, Permission, Privilege, UserPerson, Session, Module, RolePermission } from "../../../shared";
 import { Client, QuotationStatus, Quotation, QuotationDetail, Maintenance, MaintenanceStep, MaintenanceStepDetail, MaintenanceStatus } from "../../../shared/domain/model/billing";
+import { QuotationCharge } from "../../../shared/domain/model/billing/quotation-charge";
 import { QuotationMaintenance } from "../../../shared/domain/model/billing/quotation-maintenance";
 import { Country, Province, City, Address } from "../../../shared/domain/model/contact";
 import { TributeCodeType, Tribute  as TributeGuatemala } from "../../../shared/domain/model/guatemala";
@@ -51,4 +52,5 @@ export const models = [
     DischargeDetailScheduled,
     DischargeDetail,
     QuotationMaintenance,
+    QuotationCharge
 ]

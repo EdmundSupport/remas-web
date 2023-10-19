@@ -8,6 +8,7 @@ import { QuotationDetailDto } from './quotation-detail.dto';
 
 import { QuotationMaintenanceDto } from './quotation-maintenance.dto';
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
+import { QuotationCharge } from '../model/billing/quotation-charge';
 
 export class QuotationDto{
 	@IsOptional()
@@ -59,6 +60,10 @@ export class QuotationDto{
 	@IsOptional()
 	@IsObject()
 	quotationMaintenance: QuotationMaintenanceDto;
+
+	@IsOptional()
+	@IsObject()
+	quotationCharge: QuotationCharge;
 
 	@IsOptional()
     @IsObject()

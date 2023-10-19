@@ -46,14 +46,6 @@ export class CreateChargeDto extends PartialType(OmitType(ChargeDto, ['number', 
     dateEndScheduled: Date;
 
     @IsNotEmpty()
-    @IsDate()
-    dateStart: Date;
-
-    @IsNotEmpty()
-    @IsDate()
-    dateEnd: Date;
-
-    @IsNotEmpty()
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => CreateChargeDetailScheduledDto)
