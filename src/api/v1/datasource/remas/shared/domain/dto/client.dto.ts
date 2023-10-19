@@ -34,7 +34,7 @@ export class ClientDto {
 
     @IsOptional()
     @IsObject()
-    tributes: TributeDto;
+    tribute: TributeDto;
 
     @IsOptional()
     @IsObject()

@@ -41,14 +41,14 @@ export class ClientService {
     findAll(data?: Partial<ClientDto>) {
         data = JSON.parse(JSON.stringify(data));
         const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
-        const tributes = StructureHelper.searchProperty(data, 'tributes', true)[0];
+        const tribute = StructureHelper.searchProperty(data, 'tribute', true)[0];
 
         const include: Includeable | Includeable[] = [];
-        if (tributes) {
-            const companies = StructureHelper.searchProperty(tributes, 'companies', true)[0];
+        if (tribute) {
+            const companies = StructureHelper.searchProperty(tribute, 'companies', true)[0];
             const index = include.push({
                 model: Tribute,
-                where: tributes[0],
+                where: tribute,
                 required: true,
             }) - 1;
             if (companies![0]?.name) Object.assign(companies[0], { name: { [Op.like]: `%${companies[0].name}%` } });

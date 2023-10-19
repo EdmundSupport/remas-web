@@ -55,5 +55,5 @@ export class Client extends Model {
   quotations?: Quotation[];
 
   @BelongsTo(() => Tribute)
-  Tribute?: Tribute;
+  tribute?: Tribute;
 }
