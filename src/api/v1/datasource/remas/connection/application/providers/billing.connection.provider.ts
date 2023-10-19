@@ -1,4 +1,5 @@
 import { Client, Maintenance, MaintenanceStatus, MaintenanceStep, MaintenanceStepDetail, Quotation, QuotationDetail, QuotationStatus } from "../../../shared/domain/model/billing"
+import { QuotationMaintenance } from "../../../shared/domain/model/billing/quotation-maintenance"
 import { Branch, Company, Tribute } from "../../../shared/domain/model/identity"
 
 export const billingConnectionProvider = [
@@ -6,6 +7,9 @@ export const billingConnectionProvider = [
     { provide: 'QUOTATION_STATUS_REPOSITORY', useValue: QuotationStatus },
     { provide: 'QUOTATION_REPOSITORY', useValue: Quotation },
     { provide: 'QUOTATION_DETAIL_REPOSITORY', useValue: QuotationDetail },
+    { provide: 'QUOTATION_MAINTENANCE_REPOSITORY', useValue: QuotationMaintenance },
+
+    
 
     { provide: 'MAINTENANCE_STATUS_REPOSITORY', useValue: MaintenanceStatus },
     { provide: 'MAINTENANCE_REPOSITORY', useValue: Maintenance },

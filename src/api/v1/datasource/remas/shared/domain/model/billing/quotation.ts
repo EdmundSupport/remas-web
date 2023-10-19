@@ -8,12 +8,14 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  HasOne,
 } from 'sequelize-typescript';
 import { Client } from './client';
 import { QuotationStatus } from './quotation_status';
 import { QuotationDetail } from './quotation_detail';
+import { QuotationMaintenance } from './quotation-maintenance';
 
-@Table({schema: 'billing', tableName: 'quotation', timestamps: false })
+@Table({ tableName: 'quotation', timestamps: false })
 export class Quotation extends Model {
   @Column({
     primaryKey: true,
@@ -83,4 +85,7 @@ export class Quotation extends Model {
 
   @HasMany(() => QuotationDetail, { sourceKey: 'uuid' })
   quotationDetails?: QuotationDetail[];
+
+  @HasOne(() => QuotationMaintenance, { sourceKey: 'uuid' })
+  quotationMaintenance?: QuotationMaintenance;
 }

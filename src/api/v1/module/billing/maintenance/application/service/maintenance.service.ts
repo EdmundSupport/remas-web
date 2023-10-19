@@ -62,8 +62,15 @@ export class MaintenanceService {
     }
 
     findAll(data: FindMaintenanceDto) {
+        console.log("🚀 ~ file: maintenance.service.ts:65 ~ MaintenanceService ~ findAll ~ data:", data)
         data = JSON.parse(JSON.stringify(data));
         const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
+        const dateStartScheduled = StructureHelper.searchProperty(data, 'dateStartScheduled', true)[0];
+        if (dateStartScheduled) {
+            if (Array.isArray(dateStartScheduled)) {
+                Object.assign(data, { dateStartScheduled: { [Op.between]: dateStartScheduled } })
+            } else Object.assign(data, { dateStartScheduled: dateStartScheduled })
+        }
         const client = StructureHelper.searchProperty(data, 'client', true)[0];
 
         const include = [];

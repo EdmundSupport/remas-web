@@ -9,6 +9,7 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 import { Quotation } from './quotation';
+import { Product } from '../inventory';
 
 @Table({schema: 'billing', tableName: 'quotation_detail', timestamps: false })
 export class QuotationDetail extends Model {
@@ -39,6 +40,7 @@ export class QuotationDetail extends Model {
   })
   quotationUuid?: string;
 
+  @ForeignKey(()=>Product)
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({
     name: 'quotation_detail_product_uuid_idx',
@@ -92,4 +94,7 @@ export class QuotationDetail extends Model {
 
   @BelongsTo(() => Quotation)
   quotation?: Quotation;
+
+  @BelongsTo(() => Product)
+  product?: Product;
 }

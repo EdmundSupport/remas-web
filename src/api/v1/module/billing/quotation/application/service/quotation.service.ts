@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@nestjs/common";
-import { Client, Quotation, QuotationDetail, QuotationStatus } from "src/api/v1/datasource/remas/shared/domain/model/billing";
+import { Client, Maintenance, Quotation, QuotationDetail, QuotationStatus } from "src/api/v1/datasource/remas/shared/domain/model/billing";
 import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation.dto";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { CreateQuotationDto } from "../../domain/dto/create-quotation.dto";
@@ -18,6 +18,9 @@ export class QuotationService {
         private quotationDetailService: typeof QuotationDetail,
         @Inject('QUOTATION_STATUS_REPOSITORY')
         private quotationStatusService: typeof QuotationStatus,
+
+        @Inject('MAINTENANCE_REPOSITORY')
+        private maintenanceService: typeof Maintenance,
     ) { }
 
     async create(data: CreateQuotationDto) {

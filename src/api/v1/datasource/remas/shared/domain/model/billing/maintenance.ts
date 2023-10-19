@@ -8,11 +8,14 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
+  HasOne,
 } from 'sequelize-typescript';
-import { User } from '../aaa/user';
+import { User } from './../aaa/user';
 import { MaintenanceStatus } from './maintenance_status';
 import { MaintenanceStep } from './maintenance_step';
+import { QuotationMaintenance } from './quotation-maintenance';
 import { Product } from '../inventory/product';
+
 
 @Table({schema: 'billing', tableName: 'maintenance', timestamps: false })
 export class Maintenance extends Model {
@@ -55,6 +58,15 @@ export class Maintenance extends Model {
   @Index({ name: 'maintenance_user_uuid_idx', using: 'btree', unique: false })
   userUuid?: string;
 
+  @ForeignKey(() => Product)
+  @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
+  @Index({
+    name: 'maintenance_product_uuid_idx',
+    using: 'btree',
+    unique: false,
+  })
+  productUuid?: string;
+
   @ForeignKey(() => MaintenanceStatus)
   @Column({
     field: 'maintenance_status_uuid',
@@ -67,15 +79,6 @@ export class Maintenance extends Model {
     unique: false,
   })
   maintenanceStatusUuid?: string;
-
-  @ForeignKey(()=>Product)
-  @Index({
-    name: 'maintenance_maintenance_product_uuid_idx',
-    using: 'btree',
-    unique: false,
-  })
-  @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
-  productUuid?: string;
 
   @Column({
     allowNull: true,
@@ -111,4 +114,7 @@ export class Maintenance extends Model {
 
   @HasMany(() => MaintenanceStep, { sourceKey: 'uuid' })
   maintenanceSteps?: MaintenanceStep[];
+
+  @HasOne(() => QuotationMaintenance, { sourceKey: 'uuid' })
+  quotationMaintenance?: QuotationMaintenance;
 }

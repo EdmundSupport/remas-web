@@ -5,9 +5,10 @@ import { StructureHelper } from "shared/structure/application/helper/structure.h
 import { Measure, Product, ProductMaintenanceStep, ProductMaintenanceStepDetail, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
 import { ProductDto } from "src/api/v1/datasource/remas/shared/domain/dto/product.dto";
 import { Op, WhereOptions } from "sequelize";
-import { CreateProductDto } from "../../domain/dto/product.dto";
+import { CreateProductDto } from "../../domain/dto/create-product.dto";
 import { FilterResponseHelper } from "shared/filter_response";
 import { ValidationHelper } from "shared/validation/application/helper/validation.helper";
+import { FindProductDto } from "../../domain/dto/find-product.dto";
 
 
 @Injectable()
@@ -53,7 +54,7 @@ export class ProductService {
         });
     }
 
-    findAll(data?: Partial<ProductDto>) {
+    findAll(data?: Partial<FindProductDto>) {
         data = JSON.parse(JSON.stringify(data));
         const pagination = StructureHelper.searchProperty(data, 'pagination', true)[0];
         const productChild = StructureHelper.searchProperty(data, 'productChild', true)[0];

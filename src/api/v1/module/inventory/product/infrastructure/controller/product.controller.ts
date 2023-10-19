@@ -3,7 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { ProductService } from "../../application/service/product.service";
 import { ProductDto } from "src/api/v1/datasource/remas/shared/domain/dto/product.dto";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
-import { CreateProductDto } from "../../domain/dto/product.dto";
+import { CreateProductDto } from "../../domain/dto/create-product.dto";
 
 @ApiTags('Productos')
 @Controller({

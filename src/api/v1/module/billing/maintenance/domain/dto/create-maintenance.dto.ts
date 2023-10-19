@@ -4,7 +4,6 @@ import { IsNotEmpty, IsArray, IsString, IsDate, ValidateNested, IsNumber } from 
 import { MaintenanceStepDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance-step-detail.dto";
 import { MaintenanceStepDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance-step.dto";
 import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance.dto";
-
 export class CreateMaintenanceStepDetailDto extends PartialType(OmitType(MaintenanceStepDetailDto, ['amount','price','productMaintenanceStepDetailUuid','measureUnitUuid'])){
     @IsNotEmpty()
     @IsNumber()
@@ -35,7 +34,7 @@ export class CreateMaintenanceStepDto extends PartialType(OmitType(MaintenanceSt
     maintenanceStepDetails: CreateMaintenanceStepDetailDto[];
 }
 
-export class CreateMaintenanceDto extends PartialType(OmitType(MaintenanceDto, ['number', 'dateStartScheduled', 'dateEndScheduled', 'dateStart', 'dateEnd', 'productUuid', 'maintenanceSteps'])) {
+export class CreateMaintenanceDto extends PartialType(OmitType(MaintenanceDto, ['quotationMaintenance', 'number', 'dateStartScheduled', 'dateEndScheduled', 'dateStart', 'dateEnd', 'productUuid', 'maintenanceSteps'])) {
     @IsNumber()
     number: number;
 
@@ -46,14 +45,6 @@ export class CreateMaintenanceDto extends PartialType(OmitType(MaintenanceDto, [
     @IsNotEmpty()
     @IsDate()
     dateEndScheduled: Date;
-
-    @IsNotEmpty()
-    @IsDate()
-    dateStart: Date;
-
-    @IsNotEmpty()
-    @IsDate()
-    dateEnd: Date;
 
     @IsNotEmpty()
     @IsString()

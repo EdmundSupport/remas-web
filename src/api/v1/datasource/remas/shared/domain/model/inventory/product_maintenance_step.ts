@@ -38,6 +38,9 @@ export class ProductMaintenanceStep extends Model {
   @Column({ allowNull: true, type: DataType.STRING })
   description?: string;
 
+  @Column({ field: 'duration_ms', allowNull: true, type: DataType.DECIMAL(65,4) })
+  durationMs?: string;
+
   @ForeignKey(() => Product)
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({
