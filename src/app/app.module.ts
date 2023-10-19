@@ -27,6 +27,7 @@ import { counterReducer } from 'src/app/shared/component/tool_bar/application/re
     StoreModule.forRoot({ count: counterReducer })
   ],
   providers: [
+    // { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

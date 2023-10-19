@@ -20,6 +20,7 @@ import { DischargeFormScheduledComponent } from "./infrastructure/component/disc
 import { DischargeFormDetailComponent } from "./infrastructure/component/discharge-form-detail.component";
 import { ButtonFloatComponent } from "src/app/shared/component/button-float/infrastructure/component/button-float.component";
 import { SuperpositionLoadingComponent } from "src/app/shared/component/superposition-loading/infrastructure/component/superposition-loading.component";
+import { NgxMatNativeDateModule, NgxMatDatetimePickerModule, NgxMatTimepickerModule } from "@angular-material-components/datetime-picker";
 @NgModule({
     declarations: [
         DischargeComponent,
@@ -37,6 +38,10 @@ import { SuperpositionLoadingComponent } from "src/app/shared/component/superpos
         MatButtonModule,
         MatAutocompleteModule,
         MatProgressSpinnerModule,
+
+        NgxMatNativeDateModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
         
         
         ReactiveFormsModule,

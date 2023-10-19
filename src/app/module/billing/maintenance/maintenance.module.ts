@@ -26,6 +26,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { NgxMatNativeDateModule, NgxMatDatetimePickerModule, NgxMatTimepickerModule } from "@angular-material-components/datetime-picker";
 
 @NgModule({
     declarations: [
@@ -55,6 +56,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
         MatNativeDateModule,
         MatSlideToggleModule,
         MatProgressBarModule,
+
+        NgxMatNativeDateModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+
         SuperpositionLoadingComponent,
         ButtonFloatComponent,
         CalendarModule,

@@ -11,33 +11,33 @@
     <div class="dateStartScheduled">
         <mat-form-field appearance="fill">
             <mat-label>Fecha Inicio Programada</mat-label>
-            <input matInput [matDatepicker]="dateStartScheduledPricker" [(ngModel)]="maintenance.dateStartScheduled" (ngModelChange)="ngOnChanges()">
-            <mat-datepicker-toggle matIconSuffix [for]="dateStartScheduledPricker"></mat-datepicker-toggle>
-            <mat-datepicker #dateStartScheduledPricker></mat-datepicker>
+            <input matInput readonly [ngxMatDatetimePicker]="dateStartScheduledPricker" [(ngModel)]="maintenance.dateStartScheduled" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="$any(dateStartScheduledPricker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #dateStartScheduledPricker></ngx-mat-datetime-picker>
         </mat-form-field>
     </div>
     <div class="dateEndScheduled">
         <mat-form-field appearance="fill">
             <mat-label>Fecha Fin Programada</mat-label>
-            <input matInput [matDatepicker]="dateEndScheduledPricker" [(ngModel)]="maintenance.dateEndScheduled" (ngModelChange)="ngOnChanges()">
-            <mat-datepicker-toggle matIconSuffix [for]="dateEndScheduledPricker"></mat-datepicker-toggle>
-            <mat-datepicker #dateEndScheduledPricker></mat-datepicker>
+            <input matInput [ngxMatDatetimePicker]="dateEndScheduledPricker" [(ngModel)]="maintenance.dateEndScheduled" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="$any(dateEndScheduledPricker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #dateEndScheduledPricker></ngx-mat-datetime-picker>
         </mat-form-field>
     </div>
     <div class="dateStart">
         <mat-form-field appearance="fill">
             <mat-label>Fecha Inicio</mat-label>
-            <input matInput [matDatepicker]="dateStartPricker" [(ngModel)]="maintenance.dateStart" (ngModelChange)="ngOnChanges()">
-            <mat-datepicker-toggle matIconSuffix [for]="dateStartPricker"></mat-datepicker-toggle>
-            <mat-datepicker #dateStartPricker></mat-datepicker>
+            <input matInput [ngxMatDatetimePicker]="dateStartPricker" [(ngModel)]="maintenance.dateStart" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="$any(dateStartPricker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #dateStartPricker></ngx-mat-datetime-picker>
         </mat-form-field>
     </div>
     <div class="dateEnd">
         <mat-form-field appearance="fill">
             <mat-label>Fecha Fin</mat-label>
-            <input matInput [matDatepicker]="dateEndPricker" [(ngModel)]="maintenance.dateEnd" (ngModelChange)="ngOnChanges()">
-            <mat-datepicker-toggle matIconSuffix [for]="dateEndPricker"></mat-datepicker-toggle>
-            <mat-datepicker #dateEndPricker></mat-datepicker>
+            <input matInput [ngxMatDatetimePicker]="dateEndPricker" [(ngModel)]="maintenance.dateEnd" (ngModelChange)="ngOnChanges()">
+            <mat-datepicker-toggle matIconSuffix [for]="$any(dateEndPricker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #dateEndPricker></ngx-mat-datetime-picker>
         </mat-form-field>
     </div>
     <div class="product">

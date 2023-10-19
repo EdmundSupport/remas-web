@@ -20,6 +20,7 @@ import { ChargeFormScheduledComponent } from "./infrastructure/component/charge-
 import { ChargeFormDetailComponent } from "./infrastructure/component/charge-form-detail.component";
 import { ButtonFloatComponent } from "src/app/shared/component/button-float/infrastructure/component/button-float.component";
 import { SuperpositionLoadingComponent } from "src/app/shared/component/superposition-loading/infrastructure/component/superposition-loading.component";
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 @NgModule({
     declarations: [
         ChargeComponent,
@@ -37,8 +38,11 @@ import { SuperpositionLoadingComponent } from "src/app/shared/component/superpos
         MatButtonModule,
         MatAutocompleteModule,
         MatProgressSpinnerModule,
-        
-        
+
+        NgxMatNativeDateModule,
+        NgxMatDatetimePickerModule,
+        NgxMatTimepickerModule,
+
         ReactiveFormsModule,
 
 
