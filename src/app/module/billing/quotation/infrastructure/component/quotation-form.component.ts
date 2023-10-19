@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuotationService } from '../../application/service/quotation.service';
-import { ClientService } from 'src/app/module/client/application/service/client.service';
+import { ClientService } from 'src/app/module/billing/client/application/service/client.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 import { QuotationInterface } from 'src/app/datasource/remas/domain/interface/quotation.interface';
 import { QuotationDetailInterface } from 'src/app/datasource/remas/domain/interface/quotation-detail.interface';

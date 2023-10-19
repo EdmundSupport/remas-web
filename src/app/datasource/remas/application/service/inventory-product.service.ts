@@ -8,7 +8,7 @@ import { CookieService } from "ngx-cookie-service";
 import { TokenHelper } from "../helper/token.helper";
 import { Router } from "@angular/router";
 import { ProductInterface } from "../../domain/interface/product.interface";
-import { PaginationInterface } from "src/app/module/quotation/domain/interface/quotation.interface";
+import { PaginationInterface } from "src/app/module/billing/quotation/domain/interface/quotation.interface";
 import { SerializeHelper } from "src/app/shared/serialize/application/helper/serialize.helper";
 
 @Injectable({

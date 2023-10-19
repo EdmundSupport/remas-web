@@ -2,7 +2,7 @@ import {
     Component, ElementRef,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ClientService } from 'src/app/module/client/application/service/client.service';
+import { ClientService } from 'src/app/module/billing/client/application/service/client.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 import { ChargeInterface } from 'src/app/datasource/remas/domain/interface/charge.interface';
 import { ChargeDetailScheduledInterface } from 'src/app/datasource/remas/domain/interface/charge-detail-scheduled.interface';

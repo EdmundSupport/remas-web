@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'app/quotation',
-    loadChildren: () => import('./module/quotation/quotation.module').then((m) => m.QuotationModule),
+    loadChildren: () => import('./module/billing/quotation/quotation.module').then((m) => m.QuotationModule),
     canActivate: [AuthGuard]
   },
   {
