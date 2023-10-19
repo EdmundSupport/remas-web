@@ -49,7 +49,6 @@ export class DischargeController {
 
     @Patch('/:uuid')
     update(@Param('uuid', NewOrUUIDValidationPipe) uuid: string, @Body() data: CreateDischargeDto) {
-        console.log("🚀 ~ file: discharge.controller.ts:52 ~ DischargeController ~ update ~ data:", JSON.stringify(data))
         return this.dischargeService.update(uuid, data);
     }
 }

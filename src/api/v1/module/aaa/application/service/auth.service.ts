@@ -87,7 +87,6 @@ export class AuthService {
                 { model: Permission }
             ]
         });
-        console.log("🚀 ~ file: auth.service.ts:89 ~ AuthService ~ logIn ~ role:", role)
 
         if (!sessionTypes) throw FilterResponseHelper.httpException('BAD_REQUEST', 'No se pudo iniciar sesion, porque el navegador o dispositivo no es admitido.');
         const sessionUuid = crypto.randomUUID();

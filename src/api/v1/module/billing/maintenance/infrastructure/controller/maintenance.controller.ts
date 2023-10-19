@@ -49,7 +49,6 @@ export class MaintenanceController {
 
     @Patch('/:uuid')
     update(@Param('uuid', NewOrUUIDValidationPipe) uuid: string, @Body() data: CreateMaintenanceDto) {
-        console.log("🚀 ~ file: maintenance.controller.ts:52 ~ MaintenanceController ~ update ~ data:", JSON.stringify(data))
         return this.maintenanceService.update(uuid, data);
     }
 }

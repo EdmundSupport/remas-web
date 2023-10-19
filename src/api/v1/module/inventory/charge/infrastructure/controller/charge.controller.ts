@@ -49,7 +49,6 @@ export class ChargeController {
 
     @Patch('/:uuid')
     update(@Param('uuid', NewOrUUIDValidationPipe) uuid: string, @Body() data: CreateChargeDto) {
-        console.log("🚀 ~ file: charge.controller.ts:52 ~ ChargeController ~ update ~ data:", JSON.stringify(data))
         return this.chargeService.update(uuid, data);
     }
 }
