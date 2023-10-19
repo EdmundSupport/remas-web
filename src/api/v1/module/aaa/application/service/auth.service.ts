@@ -1,5 +1,5 @@
 import { Inject } from "@nestjs/common";
-import { Role, Session, SessionType, User, UserPerson } from "src/api/v1/datasource";
+import { Permission, Role, Session, SessionType, User, UserPerson } from "src/api/v1/datasource";
 import { LogInInterface, SignInInterface } from "../../domain";
 import { AuthHelper } from "../helper";
 import { hashSync, compareSync } from 'bcrypt';
@@ -81,12 +81,20 @@ export class AuthService {
             }
         });
 
+        const role = await this.roleService.findOne({
+            where: { uuid: user.roleUuid },
+            include: [
+                { model: Permission }
+            ]
+        });
+        console.log("🚀 ~ file: auth.service.ts:89 ~ AuthService ~ logIn ~ role:", role)
+
         if (!sessionTypes) throw FilterResponseHelper.httpException('BAD_REQUEST', 'No se pudo iniciar sesion, porque el navegador o dispositivo no es admitido.');
         const sessionUuid = crypto.randomUUID();
         const tokenAccessConfig = this.authHelper.configFormat(this.configService.get<string>('TOKEN_ACCESS_CONFIG'));
         const tokenRefreshConfig = this.authHelper.configFormat(this.configService.get<string>('TOKEN_REFRESH_CONFIG'));
-        const tokenAccess = await this.jwtService.signAsync({ sessionUuid }, tokenAccessConfig);
-        const tokenRefresh = await this.jwtService.signAsync({ sessionUuid }, tokenRefreshConfig);
+        const tokenAccess = await this.jwtService.signAsync({ role, sessionUuid }, tokenAccessConfig);
+        const tokenRefresh = await this.jwtService.signAsync({ role, sessionUuid }, tokenRefreshConfig);
 
         const session = await this.sessionService.create({
             uuid: sessionUuid,
@@ -140,7 +148,13 @@ export class AuthService {
         const updateSession = await this.sessionService
             .update({ updatedAt: new Date() }, { where: { uuid: sessionUuid } });
 
-        const tokenAccess = await this.jwtService.signAsync({ sessionUuid }, tokenRefreshConfig);
+        const role = await this.roleService.findAll({
+            include: [
+                { model: Permission }
+            ]
+        });
+
+        const tokenAccess = await this.jwtService.signAsync({ role, sessionUuid }, tokenRefreshConfig);
         return { tokenAccess };
     }
 
