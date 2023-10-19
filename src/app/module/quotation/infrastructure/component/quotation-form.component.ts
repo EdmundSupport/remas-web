@@ -53,7 +53,7 @@ export class QuotationFormComponent {
                         const quotation = result.data;
                         this.quotation = quotation;
 
-                        if (this.quotation.clientUuid) this.onLoadClient({ uuid: this.quotation.clientUuid, tributes: { companies: [{ condition: true } as any] } as any })
+                        if (this.quotation.clientUuid) this.onLoadClient({ uuid: this.quotation.clientUuid, tribute: { companies: [{ condition: true } as any] } as any })
                             .add(() => {
                                 this.client = this.clients.find((client) => client.uuid == this.quotation.clientUuid)!;
                             });
@@ -159,7 +159,7 @@ export class QuotationFormComponent {
 
         this.clientTimer = setTimeout(() => {
             if (textClient) {
-                this.onLoadClient({ tributes: { companies: [{ name: textClient } as any] } as any })
+                this.onLoadClient({ tribute: { companies: [{ name: textClient } as any] } as any })
             }
         }, 400);
     }
@@ -177,10 +177,11 @@ export class QuotationFormComponent {
     }
 
     onShowClient(client: ClientInterface) {
-        return (client && client.tributes
-            && client.tributes.companies
-            && client.tributes.companies[0]
-            && client.tributes.companies[0].name) ? client.tributes.companies[0].name : '';
+        console.log("🚀 ~ file: quotation-form.component.ts:180 ~ QuotationFormComponent ~ onShowClient ~ client:", client)
+        return (client && client.tribute
+            && client.tribute.companies
+            && client.tribute.companies[0]
+            && client.tribute.companies[0].name) ? client.tribute.companies[0].name : '';
     }
     // endregion Autocomplete Client
 
