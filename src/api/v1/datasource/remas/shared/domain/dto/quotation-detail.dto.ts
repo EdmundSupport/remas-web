@@ -1,6 +1,7 @@
 import { IsBoolean, IsDate, IsObject, IsOptional, IsString } from "class-validator";
 import { QuotationDto } from "./quotation.dto";
 import { PaginationDto } from "src/api/v1/shared/global/domain/dto/pagination.dto";
+import { InventoryMovementDto } from "./inventory-movement.dto";
 
 export class QuotationDetailDto{
     
@@ -35,6 +36,10 @@ export class QuotationDetailDto{
     @IsOptional()
     @IsString()
     priceCategoryUuid: string;
+
+    @IsOptional()
+    @IsString()
+    inventoryMovementUuid: string;
     
     @IsOptional()
     @IsBoolean()
@@ -55,4 +60,8 @@ export class QuotationDetailDto{
     @IsOptional()
     @IsObject()
     pagination: PaginationDto;
+
+    @IsOptional()
+	@IsObject()
+	inventoryMovement: InventoryMovementDto;
 }

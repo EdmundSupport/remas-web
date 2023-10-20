@@ -1,4 +1,5 @@
 import { Charge, ChargeDetail, ChargeDetailScheduled, ChargeStatus, Discharge, DischargeDetail, DischargeDetailScheduled, DischargeStatus, Measure, MeasureUnit, PriceCategory, Product, ProductMaintenanceStep, ProductMaintenanceStepDetail, ProductPrice, ProductType } from "../../../shared/domain/model/inventory"
+import { InventoryMovement } from "../../../shared/domain/model/inventory/inventory-movement"
 
 export const inventoryConnectionProvider = [
     { provide: 'PRODUCT_REPOSITORY', useValue: Product },
@@ -18,6 +19,7 @@ export const inventoryConnectionProvider = [
     { provide: 'DISCHARGE_REPOSITORY', useValue: Discharge },
     { provide: 'DISCHARGE_DETAIL_SCHEDULED_REPOSITORY', useValue: DischargeDetailScheduled },
     { provide: 'DISCHARGE_DETAIL_REPOSITORY', useValue: DischargeDetail },
+    { provide: 'INVENTORY_MOVEMENT_REPOSITORY', useValue: InventoryMovement },
 ]
 
 export const inventoryModels = [

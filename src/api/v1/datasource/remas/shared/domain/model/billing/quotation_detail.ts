@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { Quotation } from './quotation';
 import { Product } from '../inventory';
+import { InventoryMovement } from '../inventory/inventory-movement';
 
 @Table({schema: 'billing', tableName: 'quotation_detail', timestamps: false })
 export class QuotationDetail extends Model {
@@ -69,6 +70,14 @@ export class QuotationDetail extends Model {
   })
   priceCategoryUuid?: string;
 
+  @ForeignKey(() => InventoryMovement)
+  @Column({
+    field: 'inventory_movement_uuid',
+    allowNull: true,
+    type: DataType.UUID,
+  })
+  inventoryMovementUuid?: string;
+  
   @Column({
     allowNull: true,
     type: DataType.BOOLEAN,
@@ -97,4 +106,7 @@ export class QuotationDetail extends Model {
 
   @BelongsTo(() => Product)
   product?: Product;
+
+  @BelongsTo(() => InventoryMovement)
+  inventoryMovement?: InventoryMovement;
 }

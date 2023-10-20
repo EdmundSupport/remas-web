@@ -6,6 +6,7 @@ import { Country, Province, City, Address } from "../../../shared/domain/model/c
 import { TributeCodeType, Tribute  as TributeGuatemala } from "../../../shared/domain/model/guatemala";
 import { Person, Tribute, Company, Branch } from "../../../shared/domain/model/identity";
 import { Product, ProductType, Measure, PriceCategory, MeasureUnit, ProductPrice, ProductMaintenanceStep, ProductMaintenanceStepDetail, ChargeStatus, Charge, ChargeDetailScheduled, ChargeDetail, DischargeStatus, Discharge, DischargeDetailScheduled, DischargeDetail } from "../../../shared/domain/model/inventory";
+import { InventoryMovement } from "../../../shared/domain/model/inventory/inventory-movement";
 
 export const models = [
     RolePermission,
@@ -52,5 +53,6 @@ export const models = [
     DischargeDetailScheduled,
     DischargeDetail,
     QuotationMaintenance,
-    QuotationCharge
+    QuotationCharge,
+    InventoryMovement
 ]
