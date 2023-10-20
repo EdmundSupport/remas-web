@@ -7,6 +7,7 @@ import { FilterResponseHelper } from "shared/filter_response";
 import { Op } from "sequelize";
 import { FindQuotationDto } from "../../domain/dto/find-quotation.dto";
 import { ValidationHelper } from "shared/validation/application/helper/validation.helper";
+import { InventoryMovement } from "src/api/v1/datasource/remas/shared/domain/model/inventory/inventory-movement";
 
 
 @Injectable()
@@ -81,10 +82,22 @@ export class QuotationService {
             model: QuotationStatus,
             where: quotationStatus
         });
-        if (quotationDetails && quotationDetails[0]) include.push({
-            model: QuotationDetail,
-            where: quotationDetails,
-        });
+        if (quotationDetails && quotationDetails[0]) {
+            const quotationDetailsInclude = [];
+            const inventoryMovement = StructureHelper.searchProperty(quotationDetails[0], 'inventoryMovement', true)[0];
+            if(inventoryMovement){
+                quotationDetailsInclude.push({
+                    model: InventoryMovement,
+                    where: inventoryMovement,
+                })
+            }
+
+            include.push({
+                model: QuotationDetail,
+                where: quotationDetails,
+                include: quotationDetailsInclude,
+            });
+        }
         return this.quotationService.findAll({
             where: data,
             include: include,
@@ -95,7 +108,7 @@ export class QuotationService {
     findOne(uuid: string) {
         return this.quotationService.findOne({
             where: { uuid },
-            include: [{ model: QuotationDetail }],
+            include: [{ model: QuotationDetail, include: [{ model: InventoryMovement }] }],
         })
     }
 
