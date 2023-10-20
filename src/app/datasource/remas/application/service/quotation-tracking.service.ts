@@ -28,4 +28,8 @@ export class QuotationTrackingService {
             })
         );
     }
+
+    onSend(quotationUuid: string) {
+        window.open(this.url + '/v1/quotation/export/' + quotationUuid + '/pdf');
+    }
 }

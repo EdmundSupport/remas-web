@@ -82,6 +82,11 @@ export class QuotationFormComponent {
         });
     }
 
+    onSend(){
+        this.quotationTrackingService.onSend(this.quotation.uuid!)    
+        this.matSnackBar.open('Cotizacion enviada.');
+    }
+
     onLoad(index: number) {
         const targetDiv = this.elementRef.nativeElement.querySelector('#detail' + index);
 
