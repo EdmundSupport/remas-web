@@ -16,7 +16,6 @@ export class ExportService {
             if (!options?.fileName) options['fileName'] = 'file.pdf';
             if (!options?.optionsPdf)
                 options['optionsPdf'] = {
-                    path: options?.fileName,
                     margin: { top: '100px', right: '50px', bottom: '100px', left: '50px' },
                     printBackground: true,
                     format: 'A4',
@@ -24,7 +23,6 @@ export class ExportService {
 
             else options['optionsPdf'] = {
                 ...options['optionsPdf'],
-                path: options?.fileName,
                 margin: { top: '100px', right: '50px', bottom: '100px', left: '50px' },
                 printBackground: true,
                 format: 'A4',

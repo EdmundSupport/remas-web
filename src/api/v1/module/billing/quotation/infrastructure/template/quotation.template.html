@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizacion No. 202310191408</title>
+</head>
+
+<body>
+    <div class="base">
+        <div class="header">
+            <div class="head">
+                <table>
+                    <tr>
+                        <td>
+                            <img src="{{logo}}" alt="" srcset="">
+                        </td>
+                        <td>
+                            <p>
+                                BEACH PRODUCTIONS<br>
+                                NIT 10191852-6<br>
+                                edmundo.gt.esc@gmail.com<br>
+                                53198412 | 53632921 | 55828147<br>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="contact">
+                <table>
+                    <tr>
+                        <td>Fecha:</td>
+                        <td>19/10/2023 14:18</td>
+                        <td>No. Cotización:</td>
+                        <td>202319101419</td>
+                    </tr>
+                    <tr>
+                        <td>Cliente:</td>
+                        <td>Edmundo Guerrero</td>
+                        <td>NIT:</td>
+                        <td>10191852-6</td>
+                    </tr>
+                    <tr>
+                        <td>Dirección:</td>
+                        <td colspan="3">5av. Lote 198, Seccion B, Colonia Santa Marta, Zona 3, Escuintla, Escuintla,
+                            Guatemala</td>
+                    </tr>
+                    <td>Fecha Evento:</td>
+                    <td colspan="3">19/10/2023 14:19</td>
+                    </tr>
+                    <tr>
+                        <td>Direccion del evento:</td>
+                        <td colspan="3">5av. Lote 198, Seccion B, Colonia Santa Marta, Zona 3, Escuintla, Escuintla,
+                            Guatemala</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="detail">
+            <table id="detail">
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Descripcion</th>
+                    <th>Precio</th>
+                    <th>Importe</th>
+                </tr>
+                {{#each quotation.quotationDetails}}
+                <tr>
+                    <td>{{this.amount}}</td>
+                    <td>{{this.productUuid}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.import}}</td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td colspan="3">Total</td>
+                    <td>Q.0.00</td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+        </div>
+    </div>
+</body>
+
+</html>
