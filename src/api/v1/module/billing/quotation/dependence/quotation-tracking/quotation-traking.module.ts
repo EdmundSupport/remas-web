@@ -3,6 +3,7 @@ import { QuotationTrackingService } from './application/quotation-tracking.servi
 import { QuotationTrackingController } from './infrastructure/controller/quotation_maintenance.controller';
 import { DatasourceModule } from 'src/api/v1/datasource';
 import { ModuleModule } from 'src/api/v1/module/module.module';
+import { StructureHashTable } from 'shared/structure';
 
 @Module({
     imports: [
@@ -10,7 +11,11 @@ import { ModuleModule } from 'src/api/v1/module/module.module';
         forwardRef(() => ModuleModule),
     ],
     providers: [
-        QuotationTrackingService
+        QuotationTrackingService,
+        {
+            provide: 'QUOTATION_CONFIRM_TABLE',
+            useClass: StructureHashTable,
+        }
     ],
     controllers: [
         QuotationTrackingController,

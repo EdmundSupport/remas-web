@@ -48,7 +48,7 @@ export class FilterResponseInterceptor implements NestInterceptor {
                 observer.next({
                     statusCode: response.statusCode,
                     message: response.message,
-                    data: undefined,
+                    data: error?.response?.data,
                 });
                 observer.complete();
             })),

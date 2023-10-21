@@ -14,7 +14,7 @@ export class InventoryMovementService {
     async stock(productUuid: string) {
         const dateToday = new Date();
         const operation = await this.inventoryMovementService.findAll({
-            where: { productUuid, updatedAt: { [Op.lte]: dateToday } },
+            where: { productUuid, date: { [Op.lte]: dateToday } },
             attributes: [
                 [
                     fn('SUM', literal('amount')),
@@ -22,7 +22,7 @@ export class InventoryMovementService {
                 ],
             ],
         });
-        return operation[0].get('total');
+        return operation[0].get('total') as number;
     }
     // findAll(data?: Partial<MeasureUnitDto>) {
     //     data = JSON.parse(JSON.stringify(data));

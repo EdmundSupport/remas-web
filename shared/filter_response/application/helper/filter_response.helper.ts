@@ -28,11 +28,14 @@ export class FilterResponseHelper {
         return message;
     }
 
-    static httpException(status: keyof HttpStatusInterface | number, message: string) {
+    static httpException(status: keyof HttpStatusInterface | number, message: string, data?: any) {
         const statusCode = typeof status == 'number' ? status : HttpStatus[status];
-        return new HttpException({
+        const response = {
             statusCode,
             message,
-        }, statusCode);
+        };
+
+        if(data) response['data'] = data;
+        return new HttpException(response, statusCode);
     }
 }

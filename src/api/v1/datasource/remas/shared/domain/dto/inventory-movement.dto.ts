@@ -12,6 +12,10 @@ export class InventoryMovementDto{
 	amount: string;
 
 	@IsOptional()
+	@IsDate()
+	date: Date;
+
+	@IsOptional()
 	@IsString()
 	productUuid: string;
 

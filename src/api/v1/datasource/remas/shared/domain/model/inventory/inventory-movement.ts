@@ -24,6 +24,14 @@ export class InventoryMovement extends Model {
   @Column({ allowNull: true, type: DataType.DECIMAL(65) })
   amount?: string;
 
+  @Column({
+    field: 'date',
+    allowNull: true,
+    type: DataType.DATE,
+    defaultValue: Sequelize.literal('now()'),
+  })
+  date?: Date;
+
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({
     name: 'inventory_movement_product_uuid_idx',
