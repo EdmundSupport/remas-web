@@ -49,8 +49,9 @@ export class QuotationFormComponent {
         if (SerializeHelper.isUUID(this.quotation.uuid!)) {
             this.quotationService.onFindOne(this?.quotation?.uuid!)
                 .subscribe((result) => {
+                    console.log("🚀 ~ file: quotation-form.component.ts:52 ~ QuotationFormComponent ~ .subscribe ~ result:", result)
                     if (result.statusCode != 200) {
-                        this.matSnackBar.open('Ocurrio un error al obtener la cotización.');
+                        this.matSnackBar.open('Ocurrio un error al obtener la cotización.', 'Ok');
                     } else {
                         const quotation = result.data;
                         this.quotation = quotation;
@@ -74,7 +75,7 @@ export class QuotationFormComponent {
     onConfirm(){
         this.quotationTrackingService.onConfirm(this.quotation.uuid!).subscribe((result)=>{
             if(result?.statusCode && result?.statusCode != 200){
-                this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.');
+                this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'Ok');
                 return;
             }
             

@@ -11,6 +11,9 @@ import { ToolBarComponent } from './shared/component/tool_bar/infrastructure/com
 import { CalendarModule } from './shared/component/calendar/calendar.module';
 import { StoreModule } from '@ngrx/store';
 import { counterReducer } from 'src/app/shared/component/tool_bar/application/reducer/tool_bar.reducer';
+import { ConfirmRequestInterceptor } from './shared/component/confirm-request/infrastructure/interceptor/confirm-request.interceptor';
+import { ConfirmRequestService } from './shared/component/confirm-request/application/service/confirm-request.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,7 @@ import { counterReducer } from 'src/app/shared/component/tool_bar/application/re
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatDialogModule,
 
     ToolBarComponent,
 
@@ -28,6 +32,7 @@ import { counterReducer } from 'src/app/shared/component/tool_bar/application/re
   ],
   providers: [
     // { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    ConfirmRequestService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -36,6 +41,11 @@ import { counterReducer } from 'src/app/shared/component/tool_bar/application/re
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ResponseInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ConfirmRequestInterceptor,
       multi: true,
     },
   ],
