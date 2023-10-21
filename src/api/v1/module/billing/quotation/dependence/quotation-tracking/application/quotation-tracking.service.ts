@@ -34,7 +34,7 @@ export class QuotationTrackingService {
 
         quotation.quotationDetails.map(async (quotationDetail) => {
             const inventoryMovement = await this.inventoryMovementService.create({
-                amount: quotationDetail.amount,
+                amount: Number(quotationDetail.amount) * -1,
                 productUuid: quotationDetail.productUuid,
                 measureUnitUuid: quotationDetail.measureUnitUuid,
                 referenceSchema: 'billing',
