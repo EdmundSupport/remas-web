@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -11,7 +14,7 @@ import {
 import { Maintenance } from './maintenance';
 import { Quotation } from './quotation';
 
-@Table({ tableName: 'quotation_maintenance', timestamps: false })
+@Table({ schema: 'billing',  tableName: 'quotation_maintenance', timestamps: false })
 export class QuotationMaintenance extends Model {
   @Column({
     primaryKey: true,

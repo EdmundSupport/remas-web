@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -8,9 +11,9 @@ import {
   ForeignKey,
   HasOne,
 } from 'sequelize-typescript';
-import { QuotationDetail } from './../billing/quotation_detail';
+import { QuotationDetail } from './../billing/quotation-detail';
 
-@Table({schema: 'inventory', tableName: 'inventory_movement', timestamps: false })
+@Table({ schema: 'inventory',  tableName: 'inventory_movement', timestamps: false })
 export class InventoryMovement extends Model {
   @Column({
     primaryKey: true,
@@ -25,7 +28,6 @@ export class InventoryMovement extends Model {
   amount?: string;
 
   @Column({
-    field: 'date',
     allowNull: true,
     type: DataType.DATE,
     defaultValue: Sequelize.literal('now()'),

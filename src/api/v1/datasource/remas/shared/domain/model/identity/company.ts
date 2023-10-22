@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -12,7 +15,7 @@ import {
 import { Tribute } from './tribute';
 import { Branch } from './branch';
 
-@Table({ schema: 'identity', tableName: 'company', timestamps: false })
+@Table({ schema: 'identity',  tableName: 'company', timestamps: false })
 export class Company extends Model {
   @Column({
     primaryKey: true,

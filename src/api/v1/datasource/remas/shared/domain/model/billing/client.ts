@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -10,9 +13,9 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 import { Quotation } from './quotation';
-import { Tribute } from '../identity/tribute';
+import { Tribute } from './../identity/tribute';
 
-@Table({schema: 'billing', tableName: 'client', timestamps: false })
+@Table({ schema: 'billing',  tableName: 'client', timestamps: false })
 export class Client extends Model {
   @Column({
     primaryKey: true,

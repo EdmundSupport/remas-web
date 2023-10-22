@@ -1,8 +1,8 @@
 import { OmitType, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsNotEmpty, IsString, ValidateNested } from "class-validator";
-import { RolePermissionDto } from "src/api/v1/datasource/remas/shared/domain/dto/role-permission.dto";
-import { RoleDto } from "src/api/v1/datasource/remas/shared/domain/dto/role.dto";
+import { RolePermissionDto } from "src/api/v1/datasource/remas/shared/domain/dto/aaa/role-permission.dto";
+import { RoleDto } from "src/api/v1/datasource/remas/shared/domain/dto/aaa/role.dto";
 
 export class CreateRolePermissionDto extends PartialType(OmitType(RolePermissionDto,['permissionUuid','condition'])){
     @IsNotEmpty()

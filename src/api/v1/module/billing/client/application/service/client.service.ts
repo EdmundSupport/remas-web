@@ -1,23 +1,15 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Company, Tribute } from "src/api/v1/datasource/remas/shared/domain/model/identity";
-import { Tribute as GuatemalaTribute } from "src/api/v1/datasource/remas/shared/domain/model/guatemala";
 import { Client } from "src/api/v1/datasource/remas/shared/domain/model/billing";
 import { ClientHelper } from "../helper";
-import { FindInterface } from "../../domain/interface/client.interface";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { Includeable, Op } from "sequelize";
-import { ClientDto } from "src/api/v1/datasource/remas/shared/domain/dto/client.dto";
+import { ClientDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/client.dto";
 
 @Injectable()
 export class ClientService {
     constructor(
-        @Inject('COMPANY_REPOSITORY')
-        private companyService: typeof Company,
-        @Inject('TRIBUTE_REPOSITORY')
-        private tributeService: typeof Tribute,
-        @Inject('TRIBUTE_REPOSITORY')
-        private guatemalaTributeService: typeof GuatemalaTribute,
-        @Inject('CLIENT_REPOSITORY')
+        @Inject('ClientRepository')
         private clientService: typeof Client,
 
         private clientHelper: ClientHelper,
@@ -52,14 +44,14 @@ export class ClientService {
                 required: true,
             }) - 1;
             if (companies![0]?.name) Object.assign(companies[0], { name: { [Op.like]: `%${companies[0].name}%` } });
-
+            
             if (companies && companies[0]) include[index]['include'] = [{
                 model: Company,
                 where: companies[0],
                 required: true,
             }]
         }
-
+        
         return this.clientService.findAll({
             // where: data,
             include: include,

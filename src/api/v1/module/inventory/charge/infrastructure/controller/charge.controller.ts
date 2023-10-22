@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, Req, R
 import { ChargeService } from "../../application/service/charge.service";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateChargeDto } from "../../domain/dto/create-charge.dto";
-import { ChargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/charge.dto";
+import { ChargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/charge.dto";
 import { Uuid } from "shared/validation/infrastructure/decoration/uuid.decoration";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
 import { ExportService } from "shared/export/application/service/export.service";

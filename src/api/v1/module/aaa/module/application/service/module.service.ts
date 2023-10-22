@@ -2,7 +2,7 @@ import { Injectable, Inject } from "@nestjs/common";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { Measure, Product, ProductPrice, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
 import { Op } from "sequelize";
-import { ModuleDto } from "src/api/v1/datasource/remas/shared/domain/dto/module.dto";
+import { ModuleDto } from "src/api/v1/datasource/remas/shared/domain/dto/aaa/module.dto";
 import { Module } from "src/api/v1/datasource/remas/shared/domain/model/aaa/module";
 import { Permission, Privilege, User } from "src/api/v1/datasource";
 
@@ -10,7 +10,7 @@ import { Permission, Privilege, User } from "src/api/v1/datasource";
 @Injectable()
 export class ModuleService {
     constructor(
-        @Inject('MODULE_REPOSITORY')
+        @Inject('ModuleRepository')
         private moduleService: typeof Module,
     ) { }
 

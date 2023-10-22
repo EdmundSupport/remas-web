@@ -1,6 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { Client, Maintenance, MaintenanceStatus, MaintenanceStep, MaintenanceStepDetail } from "src/api/v1/datasource/remas/shared/domain/model/billing";
-import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance.dto";
+import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance.dto";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { CreateMaintenanceDto } from "../../domain/dto/create-maintenance.dto";
 import { FilterResponseHelper } from "shared/filter_response";
@@ -13,11 +13,11 @@ import { Product, ProductMaintenanceStep, ProductMaintenanceStepDetail } from "s
 @Injectable()
 export class MaintenanceService {
     constructor(
-        @Inject('MAINTENANCE_REPOSITORY')
+        @Inject('MaintenanceRepository')
         private maintenanceService: typeof Maintenance,
-        @Inject('MAINTENANCE_STEP_REPOSITORY')
+        @Inject('MaintenanceStepRepository')
         private maintenanceStepService: typeof MaintenanceStep,
-        @Inject('MAINTENANCE_STATUS_REPOSITORY')
+        @Inject('MaintenanceStatusRepository')
         private maintenanceStatusService: typeof MaintenanceStatus,
     ) { }
 

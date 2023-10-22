@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,

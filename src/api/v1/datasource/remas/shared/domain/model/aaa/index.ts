@@ -1,11 +1,14 @@
-export * from './token_disabled';
-export * from './user_person';
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
+export * from './token-disabled';
+export * from './user-person';
 export * from './binnacle';
 export * from './module';
 export * from './privilege';
 export * from './role';
 export * from './user';
 export * from './session';
-export * from './session_type';
+export * from './session-type';
 export * from './permission';
-export * from './role_permission';
+export * from './role-permission';

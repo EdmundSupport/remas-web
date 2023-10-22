@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -10,7 +13,7 @@ import {
 } from 'sequelize-typescript';
 import { Company } from './company';
 
-@Table({schema: 'identity', tableName: 'branch', timestamps: false })
+@Table({ schema: 'identity',  tableName: 'branch', timestamps: false })
 export class Branch extends Model {
   @Column({
     primaryKey: true,

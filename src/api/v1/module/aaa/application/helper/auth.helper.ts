@@ -6,7 +6,7 @@ import { FilterResponseHelper } from "shared/filter_response/application/helper/
 
 export class AuthHelper {
     constructor(
-        @Inject('USER_REPOSITORY')
+        @Inject('UserRepository')
         private userService: typeof User,
     ) { }
 

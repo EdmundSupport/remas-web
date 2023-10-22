@@ -3,7 +3,7 @@ import { Injectable, Inject } from "@nestjs/common";
 // import { ProductInterface as FindInterface } from "src/api/v1/datasource/remas/shared/domain/interface/product.interface";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { Measure, Product, ProductMaintenanceStep, ProductMaintenanceStepDetail, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
-import { ProductDto } from "src/api/v1/datasource/remas/shared/domain/dto/product.dto";
+import { ProductDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/product.dto";
 import { Op, WhereOptions } from "sequelize";
 import { CreateProductDto } from "../../domain/dto/create-product.dto";
 import { FilterResponseHelper } from "shared/filter_response";
@@ -14,11 +14,11 @@ import { FindProductDto } from "../../domain/dto/find-product.dto";
 @Injectable()
 export class ProductService {
     constructor(
-        @Inject('PRODUCT_REPOSITORY')
+        @Inject('ProductRepository')
         private productService: typeof Product,
-        @Inject('PRODUCT_MAINTENANCE_STEP_REPOSITORY')
+        @Inject('ProductMaintenanceStepRepository')
         private productMantenanceStepService: typeof ProductMaintenanceStep,
-        @Inject('PRODUCT_MAINTENANCE_STEP_DETAIL_REPOSITORY')
+        @Inject('ProductMaintenanceStepDetailRepository')
         private productMantenanceStepDetailService: typeof ProductMaintenanceStepDetail,
     ) { }
 

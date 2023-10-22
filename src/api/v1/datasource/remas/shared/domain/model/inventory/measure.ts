@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -9,9 +12,9 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { Product } from './product';
-import { MeasureUnit } from './measure_unit';
+import { MeasureUnit } from './measure-unit';
 
-@Table({schema: 'inventory', tableName: 'measure', timestamps: false })
+@Table({ schema: 'inventory',  tableName: 'measure', timestamps: false })
 export class Measure extends Model {
   @Column({
     primaryKey: true,

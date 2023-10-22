@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -8,24 +11,8 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-export interface BinnacleAttributes {
-  uuid?: string;
-  schemaName?: string;
-  tableName?: string;
-  tableUuid?: string;
-  operationType?: string;
-  userName?: string;
-  data?: object;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-@Table({ tableName: 'binnacle', timestamps: false })
-export class Binnacle
-  extends Model<BinnacleAttributes, BinnacleAttributes>
-  implements BinnacleAttributes
-{
+@Table({ schema: 'guatemala',  tableName: 'binnacle', timestamps: false })
+export class Binnacle extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

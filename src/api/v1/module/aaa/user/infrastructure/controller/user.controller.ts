@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, Param, ParseArrayPipe, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { UserService } from "../../application/service/user.service";
-import { UserDto } from "src/api/v1/datasource/remas/shared/domain/dto/user.dto";
+import { UserDto } from "src/api/v1/datasource/remas/shared/domain/dto/aaa/user.dto";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
 import { CreateUserDto } from "../../domain/dto/create-user.dto";
 

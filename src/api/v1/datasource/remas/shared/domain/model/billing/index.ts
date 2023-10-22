@@ -1,10 +1,15 @@
-export * from './maintenance_status';
-export * from './maintenance';
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 export * from './binnacle';
 export * from './client';
-export * from './supplier';
-export * from './quotation_status';
+export * from './maintenance';
+export * from './maintenance-status';
+export * from './maintenance-step';
+export * from './maintenance-step-detail';
 export * from './quotation';
-export * from './quotation_detail';
-export * from './maintenance_step';
-export * from './maintenance_step_detail';
+export * from './quotation-charge';
+export * from './quotation-detail';
+export * from './quotation-maintenance';
+export * from './quotation-status';
+export * from './supplier';

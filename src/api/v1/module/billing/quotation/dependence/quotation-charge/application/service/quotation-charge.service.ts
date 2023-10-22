@@ -8,7 +8,7 @@ import { QuotationCharge } from "src/api/v1/datasource/remas/shared/domain/model
 @Injectable()
 export class QuotationChargeService {
     constructor(
-        @Inject('QUOTATION_CHARGE_REPOSITORY')
+        @Inject('QuotationChargeRepository')
         private quotationChargeService: typeof QuotationCharge,
         private quotationService: QuotationService,
         private chargeService: ChargeService,

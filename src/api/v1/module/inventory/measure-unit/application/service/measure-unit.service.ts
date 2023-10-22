@@ -2,13 +2,13 @@ import { Injectable, Inject } from "@nestjs/common";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { Measure, MeasureUnit, Product, ProductPrice, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
 import { Op } from "sequelize";
-import { MeasureUnitDto } from "src/api/v1/datasource/remas/shared/domain/dto/measure-unit.dto";
+import { MeasureUnitDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/measure-unit.dto";
 
 
 @Injectable()
 export class MeasureUnitService {
     constructor(
-        @Inject('MEASURE_UNIT_REPOSITORY')
+        @Inject('MeasureUnitRepository')
         private measureUnitService: typeof MeasureUnit,
     ) { }
 

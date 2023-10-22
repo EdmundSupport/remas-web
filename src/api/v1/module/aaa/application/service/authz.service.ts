@@ -5,13 +5,13 @@ import { RemasHelper } from "src/api/v1/datasource/remas/shared/application/help
 @Injectable()
 export class AuthzService {
     constructor(
-        @Inject('ROLE_REPOSITORY')
+        @Inject('RoleRepository')
         private roleService: typeof Role,
-        @Inject('MODULE_REPOSITORY')
+        @Inject('ModuleRepository')
         private moduleService: typeof Module,
-        @Inject('PRIVILEGE_REPOSITORY')
+        @Inject('PrivilegeRepository')
         private privilegeService: typeof Privilege,
-        @Inject('PERMISSION_REPOSITORY')
+        @Inject('PermissionRepository')
         private permissionService: typeof Permission,
         private remasHelper: RemasHelper,
     ) { }

@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -9,9 +12,9 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { Company } from './company';
-import { Client } from './../billing';
+import { Client } from './../billing/client';
 
-@Table({schema: 'identity', tableName: 'tribute', timestamps: false })
+@Table({ schema: 'identity',  tableName: 'tribute', timestamps: false })
 export class Tribute extends Model {
   @Column({
     primaryKey: true,

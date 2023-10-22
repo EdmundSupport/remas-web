@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, ParseArrayPipe, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ProductTypeService } from "../../application/service/product-type.service";
-import { ProductTypeDto } from "src/api/v1/datasource/remas/shared/domain/dto/product-type.dto";
+import { ProductTypeDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/product-type.dto";
 
 @ApiTags('Medida')
 @Controller({

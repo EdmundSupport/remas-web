@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, Param, ParseArrayPipe, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { RoleService } from "../../application/service/role.service";
-import { RoleDto } from "src/api/v1/datasource/remas/shared/domain/dto/role.dto";
+import { RoleDto } from "src/api/v1/datasource/remas/shared/domain/dto/aaa/role.dto";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
 import { CreateRoleDto } from "../../domain/dto/create-role.dto";
 

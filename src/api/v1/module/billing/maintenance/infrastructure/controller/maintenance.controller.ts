@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, Req, R
 import { MaintenanceService } from "../../application/service/maintenance.service";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateMaintenanceDto } from "../../domain/dto/create-maintenance.dto";
-import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance.dto";
+import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance.dto";
 import { Uuid } from "shared/validation/infrastructure/decoration/uuid.decoration";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
 import { ExportService } from "shared/export/application/service/export.service";

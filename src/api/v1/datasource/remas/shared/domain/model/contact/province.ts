@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -12,21 +15,8 @@ import {
 import { Country } from './country';
 import { City } from './city';
 
-export interface ProvinceAttributes {
-  uuid?: string;
-  code?: string;
-  name?: string;
-  countryUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-@Table({ tableName: 'province', timestamps: false })
-export class Province
-  extends Model<ProvinceAttributes, ProvinceAttributes>
-  implements ProvinceAttributes
-{
+@Table({ schema: 'contact',  tableName: 'province', timestamps: false })
+export class Province extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -9,11 +12,11 @@ import {
   BelongsTo,
   HasMany,
 } from 'sequelize-typescript';
-import { ChargeStatus } from './charge_status';
-import { User } from '../aaa/user';
-import { ChargeDetailScheduled } from './charge_detail_scheduled';
+import { ChargeStatus } from './charge-status';
+import { User } from './../aaa/user';
+import { ChargeDetailScheduled } from './charge-detail-scheduled';
 
-@Table({schema: 'inventory', tableName: 'charge', timestamps: false })
+@Table({ schema: 'inventory',  tableName: 'charge', timestamps: false })
 export class Charge extends Model {
   @Column({
     primaryKey: true,

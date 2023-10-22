@@ -2,8 +2,8 @@ import { OmitType, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsArray, IsString, IsDate, ValidateNested } from "class-validator";
 import { Uuid } from "shared/validation/infrastructure/decoration/uuid.decoration";
-import { QuotationDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation-detail.dto";
-import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation.dto";
+import { QuotationDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/quotation-detail.dto";
+import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/quotation.dto";
 
 export class CreateQuotationDetailDto extends PartialType(OmitType(QuotationDetailDto, ['description', 'amount', 'price', 'productUuid', 'measureUnitUuid', 'priceCategoryUuid'])) {  
     @IsNotEmpty()

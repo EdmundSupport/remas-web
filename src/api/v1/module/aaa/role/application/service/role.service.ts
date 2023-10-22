@@ -2,7 +2,7 @@ import { Injectable, Inject } from "@nestjs/common";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { Measure, Product, ProductPrice, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
 import { Op } from "sequelize";
-import { RoleDto } from "src/api/v1/datasource/remas/shared/domain/dto/role.dto";
+import { RoleDto } from "src/api/v1/datasource/remas/shared/domain/dto/aaa/role.dto";
 import { Role } from "src/api/v1/datasource/remas/shared/domain/model/aaa/role";
 import { Permission, RolePermission, User } from "src/api/v1/datasource";
 import { CreateRoleDto } from "../../domain/dto/create-role.dto";
@@ -11,9 +11,9 @@ import { CreateRoleDto } from "../../domain/dto/create-role.dto";
 @Injectable()
 export class RoleService {
     constructor(
-        @Inject('ROLE_REPOSITORY')
+        @Inject('RoleRepository')
         private roleService: typeof Role,
-        @Inject('ROLE_PERMISSION_REPOSITORY')
+        @Inject('RolePermissionRepository')
         private rolePermissionService: typeof RolePermission,
     ) { }
 

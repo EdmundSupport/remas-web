@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -8,7 +11,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 
-@Table({schema: 'billing', tableName: 'supplier', timestamps: false })
+@Table({ schema: 'billing',  tableName: 'supplier', timestamps: false })
 export class Supplier extends Model {
   @Column({
     primaryKey: true,

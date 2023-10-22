@@ -1,6 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { Discharge, DischargeStatus, DischargeDetailScheduled, DischargeDetail } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
-import { DischargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/discharge.dto";
+import { DischargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/discharge.dto";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { CreateDischargeDto } from "../../domain/dto/create-discharge.dto";
 import { FilterResponseHelper } from "shared/filter_response";
@@ -12,13 +12,13 @@ import { FindDischargeDto } from "../../domain/dto/find-discharge.dto";
 @Injectable()
 export class DischargeService {
     constructor(
-        @Inject('DISCHARGE_REPOSITORY')
+        @Inject('DischargeRepository')
         private dischargeService: typeof Discharge,
-        @Inject('DISCHARGE_DETAIL_SCHEDULED_REPOSITORY')
+        @Inject('DischargeDetailScheduledRepository')
         private dischargeDetailScheduledService: typeof DischargeDetailScheduled,
-        @Inject('DISCHARGE_STATUS_REPOSITORY')
+        @Inject('DischargeStatusRepository')
         private dischargeStatusService: typeof DischargeStatus,
-        @Inject('DISCHARGE_DETAIL_REPOSITORY')
+        @Inject('DischargeDetailRepository')
         private dischargeDetailService: typeof DischargeDetail,
     ) { }
 

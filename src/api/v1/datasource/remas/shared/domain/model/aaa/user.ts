@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -12,12 +15,10 @@ import {
 } from 'sequelize-typescript';
 import { Session } from './session';
 import { Role } from './role';
-import { UserPerson } from './user_person';
-import { Person } from '../identity';
-import { Charge } from '../inventory/charge';
-import { Discharge } from '../inventory/discharge';
+import { Person } from './../identity/person';
+import { UserPerson } from './user-person';
 
-@Table({ schema: 'aaa', tableName: 'user', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'user', timestamps: false })
 export class User extends Model {
   @Column({
     primaryKey: true,
@@ -70,14 +71,8 @@ export class User extends Model {
   role?: Role;
 
   @BelongsToMany(() => Person, () => UserPerson)
-  persons?: Person[];
+  people?: Person[];
 
   @HasMany(() => UserPerson, { sourceKey: 'uuid' })
-  userPersons?: UserPerson[];
-
-  @HasMany(() => Charge, { sourceKey: 'uuid' })
-  charges?: Charge[];
-
-  @HasMany(() => Discharge, { sourceKey: 'uuid' })
-  discharges?: Discharge[];
+  userPeople?: UserPerson[];
 }

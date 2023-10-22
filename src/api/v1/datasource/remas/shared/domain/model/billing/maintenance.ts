@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -11,13 +14,11 @@ import {
   HasOne,
 } from 'sequelize-typescript';
 import { User } from './../aaa/user';
-import { MaintenanceStatus } from './maintenance_status';
-import { MaintenanceStep } from './maintenance_step';
+import { MaintenanceStatus } from './maintenance-status';
+import { MaintenanceStep } from './maintenance-step';
 import { QuotationMaintenance } from './quotation-maintenance';
-import { Product } from '../inventory/product';
 
-
-@Table({schema: 'billing', tableName: 'maintenance', timestamps: false })
+@Table({ schema: 'billing',  tableName: 'maintenance', timestamps: false })
 export class Maintenance extends Model {
   @Column({
     primaryKey: true,
@@ -58,7 +59,6 @@ export class Maintenance extends Model {
   @Index({ name: 'maintenance_user_uuid_idx', using: 'btree', unique: false })
   userUuid?: string;
 
-  @ForeignKey(() => Product)
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({
     name: 'maintenance_product_uuid_idx',
@@ -102,9 +102,6 @@ export class Maintenance extends Model {
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
-
-  @BelongsTo(() => Product)
-  product?: Product;
 
   @BelongsTo(() => User)
   user?: User;

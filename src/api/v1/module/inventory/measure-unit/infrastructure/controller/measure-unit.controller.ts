@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, Param, ParseArrayPipe, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { MeasureUnitService } from "../../application/service/measure-unit.service";
-import { MeasureUnitDto } from "src/api/v1/datasource/remas/shared/domain/dto/measure-unit.dto";
+import { MeasureUnitDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/measure-unit.dto";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
 
 @ApiTags('Unidades de Medida')

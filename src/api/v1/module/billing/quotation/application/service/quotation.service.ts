@@ -1,6 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { Client, Maintenance, Quotation, QuotationDetail, QuotationStatus } from "src/api/v1/datasource/remas/shared/domain/model/billing";
-import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation.dto";
+import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/quotation.dto";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { CreateQuotationDto } from "../../domain/dto/create-quotation.dto";
 import { FilterResponseHelper } from "shared/filter_response";
@@ -13,14 +13,14 @@ import { InventoryMovement } from "src/api/v1/datasource/remas/shared/domain/mod
 @Injectable()
 export class QuotationService {
     constructor(
-        @Inject('QUOTATION_REPOSITORY')
+        @Inject('QuotationRepository')
         private quotationService: typeof Quotation,
-        @Inject('QUOTATION_DETAIL_REPOSITORY')
+        @Inject('QuotationDetailRepository')
         private quotationDetailService: typeof QuotationDetail,
-        @Inject('QUOTATION_STATUS_REPOSITORY')
+        @Inject('QuotationStatusRepository')
         private quotationStatusService: typeof QuotationStatus,
 
-        @Inject('MAINTENANCE_REPOSITORY')
+        @Inject('MaintenanceRepository')
         private maintenanceService: typeof Maintenance,
     ) { }
 
@@ -44,12 +44,9 @@ export class QuotationService {
             Object.assign(data, { quotationStatusUuid: quotationStatus.uuid });
         }
 
-        if (data?.uuid && data?.uuid != '' && ValidationHelper.isUUID(data?.uuid)) {
-            const quotation = await this.quotationService.findOne({ where: { uuid: data?.uuid } });
-            if (quotation?.number == data?.number)
-                throw FilterResponseHelper.httpException('BAD_REQUEST', 'El número de la cotización ya exite.');
-
-        }
+        const quotationVerify = await this.quotationService.findOne({ where: { number: data?.number } });
+        if (quotationVerify?.number == data?.number && quotationVerify.uuid != data?.uuid)
+            throw FilterResponseHelper.httpException('BAD_REQUEST', 'El número de la cotización ya existe.');
 
 
         if (!ValidationHelper.isUUID(data?.uuid)) delete data.uuid;
@@ -85,7 +82,7 @@ export class QuotationService {
         if (quotationDetails && quotationDetails[0]) {
             const quotationDetailsInclude = [];
             const inventoryMovement = StructureHelper.searchProperty(quotationDetails[0], 'inventoryMovement', true)[0];
-            if(inventoryMovement){
+            if (inventoryMovement) {
                 quotationDetailsInclude.push({
                     model: InventoryMovement,
                     where: inventoryMovement,
@@ -124,11 +121,9 @@ export class QuotationService {
                 throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado de la cotización.');
         }
 
-        if (data?.uuid && data?.uuid != '') {
-            const quotation = await this.quotationService.findOne({ where: { uuid: { [Op.not]: data?.uuid }, number: data.number } });
-            if (quotation?.number == data?.number)
-                throw FilterResponseHelper.httpException('BAD_REQUEST', 'El número de la cotización ya exite.');
-        }
+        const quotationVerify = await this.quotationService.findOne({ where: { number: data?.number } });
+        if (quotationVerify?.number == data?.number && quotationVerify.uuid != data?.uuid)
+            throw FilterResponseHelper.httpException('BAD_REQUEST', 'El número de la cotización ya existe.');
 
         const detailsSaveUuid = quotationDetails.map((quotationDetail) => quotationDetail.uuid);
         const detailsDelete = await this.quotationDetailService.findAll({

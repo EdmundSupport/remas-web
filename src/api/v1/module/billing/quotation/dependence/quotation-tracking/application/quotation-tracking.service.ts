@@ -11,14 +11,14 @@ import { v4 as uuidV4 } from 'uuid';
 @Injectable()
 export class QuotationTrackingService {
     constructor(
-        @Inject('QUOTATION_REPOSITORY')
+        @Inject('QuotationRepository')
         private quotationRepository: typeof Quotation,
-        @Inject('QUOTATION_STATUS_REPOSITORY')
+        @Inject('QuotationStatusRepository')
         private quotaitonStatusService: typeof QuotationStatus,
-        @Inject('INVENTORY_MOVEMENT_REPOSITORY')
+        @Inject('InventoryMovementRepository')
         private inventoryMovementRespository: typeof InventoryMovement,
         private inventoryMovementService: InventoryMovementService,
-        @Inject('QUOTATION_DETAIL_REPOSITORY')
+        @Inject('QuotationDetailRepository')
         private quotationDetailService: typeof QuotationDetail,
         private quotationService: QuotationService,
         private quotationMaintenanceService: QuotationMaintenanceService,

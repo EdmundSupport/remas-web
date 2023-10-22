@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, ParseArrayPipe, Post, Query, UseGuards } from "@nestjs/common";
 import { ClientService } from "../../application";
 import { ApiTags } from "@nestjs/swagger";
-import { ClientDto } from "src/api/v1/datasource/remas/shared/domain/dto/client.dto";
+import { ClientDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/client.dto";
 
 @ApiTags('Clientes')
 @Controller({

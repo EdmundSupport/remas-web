@@ -1,9 +1,9 @@
 import { OmitType, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNumber, IsNotEmpty, IsDate, IsString, IsArray, ValidateNested } from "class-validator";
-import { ChargeDetailScheduledDto } from "src/api/v1/datasource/remas/shared/domain/dto/charge-detail-scheduled.dto";
-import { ChargeDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/charge-detail.dto";
-import { ChargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/charge.dto";
+import { ChargeDetailScheduledDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/charge-detail-scheduled.dto";
+import { ChargeDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/charge-detail.dto";
+import { ChargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/charge.dto";
 
 export class CreateChargeDetailDto extends PartialType(OmitType(ChargeDetailDto, ['amount', 'measureUnitUuid'])) {
     @IsNotEmpty()

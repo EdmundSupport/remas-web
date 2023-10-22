@@ -9,7 +9,7 @@ import { QuotationMaintenance } from "src/api/v1/datasource/remas/shared/domain/
 @Injectable()
 export class QuotationMaintenanceService {
     constructor(
-        @Inject('QUOTATION_MAINTENANCE_REPOSITORY')
+        @Inject('QuotationMaintenanceRepository')
         private quotationMaintenanceService: typeof QuotationMaintenance,
         private quotationService: QuotationService,
         private maintenanceService: MaintenanceService,

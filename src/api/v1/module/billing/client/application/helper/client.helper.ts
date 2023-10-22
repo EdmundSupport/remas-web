@@ -4,7 +4,7 @@ import { Tribute } from "src/api/v1/datasource/remas/shared/domain/model/identit
 
 export class ClientHelper {
     constructor(
-        @Inject('TRIBUTE_REPOSITORY')
+        @Inject('TributeRepository')
         private tributeService: typeof Tribute,
     ) { }
 

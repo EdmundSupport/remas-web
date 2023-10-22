@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -8,7 +11,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { SessionType } from './session_type';
+import { SessionType } from './session-type';
 import { User } from './user';
 
 @Table({ schema: 'aaa',  tableName: 'session', timestamps: false })

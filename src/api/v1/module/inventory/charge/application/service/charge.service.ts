@@ -1,10 +1,9 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { Charge, ChargeStatus, ChargeDetailScheduled, ChargeDetail } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
-import { ChargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/charge.dto";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { CreateChargeDto } from "../../domain/dto/create-charge.dto";
 import { FilterResponseHelper } from "shared/filter_response";
-import { Op, WhereOptions } from "sequelize";
+import { Op } from "sequelize";
 import { ValidationHelper } from "shared/validation/application/helper/validation.helper";
 import { FindChargeDto } from "../../domain/dto/find-charge.dto";
 
@@ -12,13 +11,13 @@ import { FindChargeDto } from "../../domain/dto/find-charge.dto";
 @Injectable()
 export class ChargeService {
     constructor(
-        @Inject('CHARGE_REPOSITORY')
+        @Inject('ChargeRepository')
         private chargeService: typeof Charge,
-        @Inject('CHARGE_DETAIL_SCHEDULED_REPOSITORY')
+        @Inject('ChargeDetailScheduledRepository')
         private chargeDetailScheduledService: typeof ChargeDetailScheduled,
-        @Inject('CHARGE_STATUS_REPOSITORY')
+        @Inject('ChargeStatusRepository')
         private chargeStatusService: typeof ChargeStatus,
-        @Inject('CHARGE_DETAIL_REPOSITORY')
+        @Inject('ChargeDetailRepository')
         private chargeDetailService: typeof ChargeDetail,
     ) { }
 

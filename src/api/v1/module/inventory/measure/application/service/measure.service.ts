@@ -2,13 +2,13 @@ import { Injectable, Inject } from "@nestjs/common";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { Measure } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
 import { Op } from "sequelize";
-import { MeasureDto } from "src/api/v1/datasource/remas/shared/domain/dto/measure.dto";
+import { MeasureDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/measure.dto";
 
 
 @Injectable()
 export class MeasureService {
     constructor(
-        @Inject('MEASURE_REPOSITORY')
+        @Inject('MeasureRepository')
         private measureService: typeof Measure,
     ) { }
 

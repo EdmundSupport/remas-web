@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -10,20 +13,8 @@ import {
 } from 'sequelize-typescript';
 import { City } from './city';
 
-export interface AddressAttributes {
-  uuid?: string;
-  description?: string;
-  cityUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-@Table({ tableName: 'address', timestamps: false })
-export class Address
-  extends Model<AddressAttributes, AddressAttributes>
-  implements AddressAttributes
-{
+@Table({ schema: 'contact',  tableName: 'address', timestamps: false })
+export class Address extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

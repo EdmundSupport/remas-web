@@ -15,22 +15,22 @@ import { NullishPropertiesOf } from "sequelize/types/utils";
 
 export class AuthService {
     constructor(
-        @Inject('USER_REPOSITORY')
+        @Inject('UserRepository')
         private userService: typeof User,
-        @Inject('PERSON_REPOSITORY')
+        @Inject('PersonRepository')
         private personService: typeof Person,
         private authHelper: AuthHelper,
         private jwtService: JwtService,
         private configService: ConfigService,
         @Inject(REQUEST)
         private request: Request,
-        @Inject('SESSION_REPOSITORY')
+        @Inject('SessionRepository')
         private sessionService: typeof Session,
-        @Inject('SESSION_TYPE_REPOSITORY')
+        @Inject('SessionTypeRepository')
         private sessionTypeService: typeof SessionType,
         @Inject('TOKEN_DISABLED')
         private tokenDisabledHashTable: StructureHashTable,
-        @Inject('ROLE_REPOSITORY')
+        @Inject('RoleRepository')
         private roleService: typeof Role,
     ) { }
 

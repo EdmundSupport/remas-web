@@ -1,15 +1,32 @@
 import { Module } from "@nestjs/common";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { AaaConnectionHelper } from "./application/helper/aaa.connection.helper";
-import { aaaConnectionProvider } from "./application/providers/aaa.connection.provider";
 import { BillingConnectionHelper, GuatemalaConnectionHelper, IdentityConnectionHelper, InventoryConnectionHelper, ContactConnectionHelper } from "./application/helper/connection.helper";
-import { identityConnectionProvider, identityModels } from "./application/providers/identity.connection.provider";
-import { inventoryConnectionProvider, inventoryModels } from "./application/providers/inventory.connection.provider";
-import { guatemalaModels } from "./application/providers/guatemala.connection.provider";
-import { billingConnectionProvider, billingModels } from "./application/providers/billing.connection.provider";
-import { contactModels } from "./application/providers/contact.connection.provider";
-import { models } from "./application/providers/connection.provider";
 import { RemasHelper } from "../shared/application/helper/remas.helper";
+import { connectionProvider as connectionProviderAaa, models as modelsAaa } from "./application/provider/aaa/connection.provider";
+import { connectionProvider as connectionProviderBilling, models as modelsBilling } from "./application/provider/billing/connection.provider";
+import { connectionProvider as connectionProviderContact, models as modelsContact } from "./application/provider/contact/connection.provider";
+import { connectionProvider as connectionProviderGuatemala, models as modelsGuatemala } from "./application/provider/guatemala/connection.provider";
+import { connectionProvider as connectionProviderIdentity, models as modelsIdentity } from "./application/provider/identity/connection.provider";
+import { connectionProvider as connectionProviderInventory, models as modelsInventory } from "./application/provider/inventory/connection.provider";
+
+const repositories = [
+    ...connectionProviderAaa,
+    ...connectionProviderBilling,
+    ...connectionProviderContact,
+    ...connectionProviderIdentity,
+    ...connectionProviderGuatemala,
+    ...connectionProviderInventory,
+];
+
+const models = [
+    ...modelsAaa,
+    ...modelsBilling,
+    ...modelsContact,
+    ...modelsIdentity,
+    ...modelsGuatemala,
+    ...modelsInventory,
+];
 
 @Module({
     imports: [
@@ -32,17 +49,11 @@ import { RemasHelper } from "../shared/application/helper/remas.helper";
         SequelizeModule.forFeature(models, 'billing'),
     ],
     providers: [
-        ...aaaConnectionProvider,
-        ...identityConnectionProvider,
-        ...billingConnectionProvider,
-        ...inventoryConnectionProvider,
+        ...repositories,
         RemasHelper,
     ],
     exports: [
-        ...aaaConnectionProvider,
-        ...identityConnectionProvider,
-        ...billingConnectionProvider,
-        ...inventoryConnectionProvider,
+        ...repositories,
         RemasHelper,
     ]
 })

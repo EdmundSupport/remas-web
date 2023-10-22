@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -13,9 +16,9 @@ import {
 import { Module } from './module';
 import { Privilege } from './privilege';
 import { Role } from './role';
-import { RolePermission } from './role_permission';
+import { RolePermission } from './role-permission';
 
-@Table({ schema: 'aaa', tableName: 'permission', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'permission', timestamps: false })
 export class Permission extends Model {
   @Column({
     primaryKey: true,

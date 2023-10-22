@@ -14,7 +14,6 @@ const env = {};
         if (`${parts![0]}`.toLowerCase() == 'schema'.toLowerCase()) props['schema'] = `${parts![1] ?? ''}`.toLowerCase();
     });
 
-    console.log("🚀 ~ file: generator.service.ts:18 ~ props.schema:", props.schema)
     if (props.schema) {
         const data = readFileSync('./.env', { encoding: `utf-8` });
         const exp = new RegExp(/(.+)(=)(.+)/g);
@@ -178,7 +177,6 @@ const env = {};
                 const split = dtoImportPascal.split('/');
                 const requiredImport = dto.indexOf(split[split.length - 1]);
                 const real = split[split.length - 1];
-                console.log("🚀 ~ file: generator.service.ts:175 ~ dtoImports.forEach ~ real:", real, '=', real[0].toUpperCase() + real.substring(1, real.length))
                 providers.push(dtoImportPascal);
                 if (requiredImport) {
                     dtoHeads += `import { ${real[0].toUpperCase() + real.substring(1, real.length)}Dto } from './${dtoImport}.dto';\n\n`;
@@ -190,11 +188,17 @@ const env = {};
             dtoFinal += `import { IsBoolean, IsDate, IsObject, IsOptional, IsString, IsArray, ValidateNested } from 'class-validator'; \n`;
             dtoFinal += `import { Type } from 'class-transformer';\n`;
             dtoFinal += dtoHeads;
+            dtoFinal += `import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';\n`;
             interFinal += interHeads;
+            interFinal += `import { PaginationInterface } from 'src/api/v1/shared/global/domain/interface/pagination.interface';\n`;
             dtoFinal += `export class ${fileNamePascal}Dto{\n`;
             interFinal += `export interface ${fileNamePascal}Interface{\n`;
             dtoFinal += dto;
+            dtoFinal += `\t@IsOptional()\n`;
+            dtoFinal += `\t@IsObject()\n`;
+            dtoFinal += `\tpagination: PaginationDto;\n`;
             interFinal += inter;
+            interFinal += `\tpagination: PaginationInterface;\n`;
             dtoFinal += `}`;
             interFinal += `}`;
 
@@ -204,6 +208,11 @@ const env = {};
         }
 
         let provider = ``;
+        providers = providers.filter((itemProvider, indexProvider, arrayProvider) => {
+            return itemProvider.indexOf('../') == -1;
+        });
+
+        providers = Array.from(new Set(providers));
         provider += `import { ${providers.join(',\n')} } from './../../../../shared/domain/model/${props.schema}';\n`
         provider += `export const connectionProvider = [\n`; // providerPath
         provider += providers.map((itemProvider) => {
@@ -211,7 +220,7 @@ const env = {};
         }).join(',\n');
         provider += `];`
 
-        provider += `export const models = [\n`; // providerPath
+        provider += `export const models = [\n`; // providerPath 
         provider += providers.join(',\n');
         provider += `];`
 

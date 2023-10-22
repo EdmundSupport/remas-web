@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, Req, R
 import { DischargeService } from "../../application/service/discharge.service";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateDischargeDto } from "../../domain/dto/create-discharge.dto";
-import { DischargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/discharge.dto";
+import { DischargeDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/discharge.dto";
 import { Uuid } from "shared/validation/infrastructure/decoration/uuid.decoration";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
 import { ExportService } from "shared/export/application/service/export.service";

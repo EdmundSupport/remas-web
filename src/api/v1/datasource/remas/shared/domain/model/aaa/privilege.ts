@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -12,7 +15,7 @@ import {
 import { Module } from './module';
 import { Permission } from './permission';
 
-@Table({ schema: 'aaa', tableName: 'privilege', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'privilege', timestamps: false })
 export class Privilege extends Model {
   @Column({
     primaryKey: true,

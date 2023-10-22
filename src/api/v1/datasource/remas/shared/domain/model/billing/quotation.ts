@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -11,12 +14,12 @@ import {
   HasOne,
 } from 'sequelize-typescript';
 import { Client } from './client';
-import { QuotationStatus } from './quotation_status';
-import { QuotationDetail } from './quotation_detail';
+import { QuotationStatus } from './quotation-status';
+import { QuotationDetail } from './quotation-detail';
 import { QuotationMaintenance } from './quotation-maintenance';
 import { QuotationCharge } from './quotation-charge';
 
-@Table({ tableName: 'quotation', timestamps: false })
+@Table({ schema: 'billing',  tableName: 'quotation', timestamps: false })
 export class Quotation extends Model {
   @Column({
     primaryKey: true,

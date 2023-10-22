@@ -1,9 +1,9 @@
 import { OmitType, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsArray, IsString, IsDate, ValidateNested, IsNumber } from "class-validator";
-import { MaintenanceStepDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance-step-detail.dto";
-import { MaintenanceStepDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance-step.dto";
-import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/maintenance.dto";
+import { MaintenanceStepDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance-step-detail.dto";
+import { MaintenanceStepDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance-step.dto";
+import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance.dto";
 export class CreateMaintenanceStepDetailDto extends PartialType(OmitType(MaintenanceStepDetailDto, ['amount','price','productMaintenanceStepDetailUuid','measureUnitUuid'])){
     @IsNotEmpty()
     @IsNumber()

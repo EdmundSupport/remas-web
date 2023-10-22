@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -8,22 +11,10 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { TributeCodeType } from './tribute_code_type';
+import { TributeCodeType } from './tribute-code-type';
 
-export interface TributeAttributes {
-  uuid?: string;
-  tributeUuid?: string;
-  tributeCodeTypeUuid?: string;
-  condition?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-@Table({ tableName: 'tribute', timestamps: false })
-export class Tribute
-  extends Model<TributeAttributes, TributeAttributes>
-  implements TributeAttributes
-{
+@Table({ schema: 'guatemala',  tableName: 'tribute', timestamps: false })
+export class Tribute extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

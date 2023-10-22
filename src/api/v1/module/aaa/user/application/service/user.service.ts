@@ -2,7 +2,7 @@ import { Injectable, Inject } from "@nestjs/common";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { User } from "src/api/v1/datasource/remas/shared/domain/model/aaa/user";
 import { Op } from "sequelize";
-import { UserDto } from "src/api/v1/datasource/remas/shared/domain/dto/user.dto";
+import { UserDto } from "src/api/v1/datasource/remas/shared/domain/dto/aaa/user.dto";
 import { CreateUserDto } from "../../domain/dto/create-user.dto";
 import { Role } from "src/api/v1/datasource";
 import { ConfigService } from "@nestjs/config";
@@ -14,10 +14,10 @@ export class UserService {
     constructor(
         private configService: ConfigService,
 
-        @Inject('USER_REPOSITORY')
+        @Inject('UserRepository')
         private userService: typeof User,
 
-        @Inject('ROLE_REPOSITORY')
+        @Inject('RoleRepository')
         private roleService: typeof Role,
     ) { }
 

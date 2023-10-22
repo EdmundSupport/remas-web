@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -6,20 +9,20 @@ import {
   Index,
   Sequelize,
   ForeignKey,
-  HasMany,
   BelongsTo,
+  HasMany,
   BelongsToMany,
 } from 'sequelize-typescript';
 import { Measure } from './measure';
-import { ProductType } from './product_type';
-import { ProductPrice } from './product_price';
-import { PriceCategory } from './price_category';
-import { ProductMaintenanceStep } from './product_maintenance_step';
-import { ProductMaintenanceStepDetail } from './product_maintenance_step_detail';
-import { ChargeDetailScheduled } from './charge_detail_scheduled';
-import { DischargeDetailScheduled } from './discharge_detail_scheduled';
+import { ProductType } from './product-type';
+import { ProductPrice } from './product-price';
+import { PriceCategory } from './price-category';
+import { ProductMaintenanceStep } from './product-maintenance-step';
+import { ProductMaintenanceStepDetail } from './product-maintenance-step-detail';
+import { ChargeDetailScheduled } from './charge-detail-scheduled';
+import { DischargeDetailScheduled } from './discharge-detail-scheduled';
 
-@Table({schema: 'inventory', tableName: 'product', timestamps: false })
+@Table({ schema: 'inventory',  tableName: 'product', timestamps: false })
 export class Product extends Model {
   @Column({
     primaryKey: true,
@@ -27,20 +30,20 @@ export class Product extends Model {
     defaultValue: Sequelize.literal('gen_random_uuid()'),
   })
   @Index({ name: 'product_uuid_pk', using: 'btree', unique: true })
-  @Index({ name: 'product_uuid_idx', using: 'btree', unique: false })
-  @Index({
-    name: 'product_price_product_uuid_idx',
-    using: 'btree',
-    unique: false,
-  })
-  @Index({ name: 'maintenance_step_uuid_idx', using: 'btree', unique: false })
   @Index({
     name: 'maintenance_step_detail_uuid_idx',
     using: 'btree',
     unique: false,
   })
-  @Index({ name: 'step_uuid_idx', using: 'btree', unique: false })
+  @Index({ name: 'maintenance_step_uuid_idx', using: 'btree', unique: false })
+  @Index({
+    name: 'product_price_product_uuid_idx',
+    using: 'btree',
+    unique: false,
+  })
+  @Index({ name: 'product_uuid_idx', using: 'btree', unique: false })
   @Index({ name: 'step_detail_uuid_idx', using: 'btree', unique: false })
+  @Index({ name: 'step_uuid_idx', using: 'btree', unique: false })
   uuid?: string;
 
   @Column({ allowNull: true, type: DataType.STRING })
@@ -52,7 +55,13 @@ export class Product extends Model {
   @Column({ allowNull: true, type: DataType.STRING })
   description?: string;
 
-  @ForeignKey(() => Product)
+  @Column({
+    field: 'price_cost',
+    allowNull: true,
+    type: DataType.DECIMAL(65, 2),
+  })
+  priceCost?: string;
+
   @Column({ field: 'parent_uuid', allowNull: true, type: DataType.UUID })
   @Index({ name: 'product_parent_uuid_idx', using: 'btree', unique: false })
   parentUuid?: string;
@@ -94,12 +103,6 @@ export class Product extends Model {
   })
   updatedAt?: Date;
 
-  @HasMany(() => Product, { sourceKey: 'uuid' })
-  products?: Product[];
-
-  @BelongsTo(() => Product)
-  product?: Product;
-
   @BelongsTo(() => Measure)
   measure?: Measure;
 
@@ -119,8 +122,8 @@ export class Product extends Model {
   productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
 
   @HasMany(() => ChargeDetailScheduled, { sourceKey: 'uuid' })
-  chargeDetailsScheduled?: ChargeDetailScheduled[];
+  chargeDetailScheduleds?: ChargeDetailScheduled[];
 
   @HasMany(() => DischargeDetailScheduled, { sourceKey: 'uuid' })
-  dischargeDetailsScheduled?: DischargeDetailScheduled[];
+  dischargeDetailScheduleds?: DischargeDetailScheduled[];
 }

@@ -7,7 +7,7 @@ import { InventoryMovement } from "src/api/v1/datasource/remas/shared/domain/mod
 @Injectable()
 export class InventoryMovementService {
     constructor(
-        @Inject('INVENTORY_MOVEMENT_REPOSITORY')
+        @Inject('InventoryMovementRepository')
         private inventoryMovementService: typeof InventoryMovement,
     ) { }
 

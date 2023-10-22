@@ -1,17 +1,21 @@
-export * from './product_maintenance_step';
-export * from './product_maintenance_step_detail';
-export * from './charge_status';
-export * from './charge';
-export * from './charge_detail_scheduled';
-export * from './charge_detail';
-export * from './discharge_status';
-export * from './discharge';
-export * from './discharge_detail_scheduled';
-export * from './discharge_detail';
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 export * from './binnacle';
+export * from './charge';
+export * from './charge-detail';
+export * from './charge-detail-scheduled';
+export * from './charge-status';
+export * from './discharge';
+export * from './discharge-detail';
+export * from './discharge-detail-scheduled';
+export * from './discharge-status';
+export * from './inventory-movement';
 export * from './measure';
-export * from './measure_unit';
-export * from './product_type';
+export * from './measure-unit';
+export * from './price-category';
 export * from './product';
-export * from './price_category';
-export * from './product_price';
+export * from './product-maintenance-step';
+export * from './product-maintenance-step-detail';
+export * from './product-price';
+export * from './product-type';

@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -9,9 +12,9 @@ import {
   BelongsTo,
   HasMany,
 } from 'sequelize-typescript';
-import { DischargeStatus } from './discharge_status';
-import { User } from '../aaa/user';
-import { DischargeDetailScheduled } from './discharge_detail_scheduled';
+import { DischargeStatus } from './discharge-status';
+import { User } from './../aaa/user';
+import { DischargeDetailScheduled } from './discharge-detail-scheduled';
 
 @Table({ schema: 'inventory',  tableName: 'discharge', timestamps: false })
 export class Discharge extends Model {

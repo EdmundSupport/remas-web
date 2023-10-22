@@ -1,3 +1,6 @@
+/**
+* Documento generado automaticamente por Edmundo Guerrero, no modificar
+*/
 import {
   Model,
   Table,
@@ -11,9 +14,9 @@ import {
 } from 'sequelize-typescript';
 import { User } from './user';
 import { Permission } from './permission';
-import { RolePermission } from './role_permission';
+import { RolePermission } from './role-permission';
 
-@Table({ schema: 'aaa', tableName: 'role', timestamps: false })
+@Table({ schema: 'aaa',  tableName: 'role', timestamps: false })
 export class Role extends Model {
   @Column({
     primaryKey: true,

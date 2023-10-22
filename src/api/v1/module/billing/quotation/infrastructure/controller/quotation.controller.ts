@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, Req, R
 import { QuotationService } from "../../application/service";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateQuotationDto } from "../../domain/dto/create-quotation.dto";
-import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation.dto";
+import { QuotationDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/quotation.dto";
 import { FindQuotationDto } from "../../domain/dto/find-quotation.dto";
 import { Uuid } from "shared/validation/infrastructure/decoration/uuid.decoration";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
@@ -14,7 +14,7 @@ import * as  handlebars from 'handlebars';
 import { FileHelper } from "shared/file/application/helper/file.helper";
 import { HttpService } from "@nestjs/axios";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
-import { QuotationDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/quotation-detail.dto";
+import { QuotationDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/quotation-detail.dto";
 import { FilterResponseHelper } from "shared/filter_response";
 @ApiTags('Cotizaciones')
 @Controller({
