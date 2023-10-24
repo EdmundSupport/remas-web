@@ -34,6 +34,26 @@ export class InventoryMovement extends Model {
   })
   date?: Date;
 
+  @Column({
+    field: 'warehouse_origin_uuid',
+    allowNull: true,
+    type: DataType.UUID,
+  })
+  warehouseOriginUuid?: string;
+
+  @Column({ field: 'origin_uuid', allowNull: true, type: DataType.UUID })
+  originUuid?: string;
+
+  @Column({
+    field: 'warehouse_detiny_uuid',
+    allowNull: true,
+    type: DataType.UUID,
+  })
+  warehouseDetinyUuid?: string;
+
+  @Column({ field: 'destiny_uuid', allowNull: true, type: DataType.UUID })
+  destinyUuid?: string;
+
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({
     name: 'inventory_movement_product_uuid_idx',

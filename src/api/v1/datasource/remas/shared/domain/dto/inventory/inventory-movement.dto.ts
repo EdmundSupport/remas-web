@@ -18,6 +18,22 @@ export class InventoryMovementDto{
 
 	@IsOptional()
 	@IsString()
+	warehouseOriginUuid: string;
+
+	@IsOptional()
+	@IsString()
+	originUuid: string;
+
+	@IsOptional()
+	@IsString()
+	warehouseDetinyUuid: string;
+
+	@IsOptional()
+	@IsString()
+	destinyUuid: string;
+
+	@IsOptional()
+	@IsString()
 	productUuid: string;
 
 	@IsOptional()

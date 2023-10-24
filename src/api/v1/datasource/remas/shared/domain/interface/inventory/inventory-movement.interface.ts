@@ -8,6 +8,14 @@ export interface InventoryMovementInterface{
 
 	date: Date;
 
+	warehouseOriginUuid: string;
+
+	originUuid: string;
+
+	warehouseDetinyUuid: string;
+
+	destinyUuid: string;
+
 	productUuid: string;
 
 	measureUnitUuid: string;

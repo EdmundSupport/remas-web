@@ -23,4 +23,13 @@ N:N, uuid, uuid, price_category, product, product_price
 1:N, uuid, measure_unit_uuid, measure_unit, discharge_detail_scheduled
 1:N, uuid, discharge_detail_scheduled_uuid, discharge_detail_scheduled, discharge_detail
 1:N, uuid, measure_unit_uuid, measure_unit, discharge_detail
-1:1, uuid, inventory_movement_uuid, inventory_movement, billing_em.quotation_detail 
+1:1, uuid, inventory_movement_uuid, inventory_movement, billing_em.quotation_detail
+N:N, warehouse_uuid, vehicle_uuid, warehouse, vehicle, warehouse_vehicle
+N:N, warehouse_uuid, event_uuid, warehouse, event, warehouse_event
+N:N, warehouse_uuid, address_uuid, warehouse, contact_em.address, warehouse_address
+1:N, uuid, warehouse_uuid,warehouse,warehouse_vehicle
+1:N, uuid, vehicle_uuid,vehicle,warehouse_vehicle
+1:N, uuid, warehouse_uuid,warehouse,warehouse_event
+1:N, uuid, event_uuid,event,warehouse_event
+1:N, uuid, warehouse_uuid,warehouse,warehouse_address
+1:N, uuid, address_uuid,contact_em.address,warehouse_address

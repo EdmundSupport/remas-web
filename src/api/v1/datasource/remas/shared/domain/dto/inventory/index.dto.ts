@@ -1,10 +1,14 @@
 import { IsBoolean, IsDate, IsObject, IsOptional, IsString, IsArray, ValidateNested } from 'class-validator'; 
 import { Type } from 'class-transformer';
-import { BinnacleDto } from './binnacle.dto';
+import { VehicleDto } from './vehicle.dto';
 
-import { ChargeDto } from './charge.dto';
+import { EventDto } from './event.dto';
 
-import { ChargeDetailDto } from './charge-detail.dto';
+import { WarehouseEventDto } from './warehouse-event.dto';
+
+import { WarehouseVehicleDto } from './warehouse-vehicle.dto';
+
+import { WarehouseAddressDto } from './warehouse-address.dto';
 
 import { ChargeDetailScheduledDto } from './charge-detail-scheduled.dto';
 
@@ -35,6 +39,16 @@ import { ProductMaintenanceStepDetailDto } from './product-maintenance-step-deta
 import { ProductPriceDto } from './product-price.dto';
 
 import { ProductTypeDto } from './product-type.dto';
+
+import { BinnacleDto } from './binnacle.dto';
+
+import { WarehouseTypeDto } from './warehouse-type.dto';
+
+import { ChargeDto } from './charge.dto';
+
+import { WarehouseDto } from './warehouse.dto';
+
+import { ChargeDetailDto } from './charge-detail.dto';
 
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
 export class IndexDto{

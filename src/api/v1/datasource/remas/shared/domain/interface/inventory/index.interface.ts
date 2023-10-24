@@ -1,8 +1,12 @@
-import { BinnacleInterface } from './binnacle.interface';
+import { VehicleInterface } from './vehicle.interface';
 
-import { ChargeInterface } from './charge.interface';
+import { EventInterface } from './event.interface';
 
-import { ChargeDetailInterface } from './charge-detail.interface';
+import { WarehouseEventInterface } from './warehouse-event.interface';
+
+import { WarehouseVehicleInterface } from './warehouse-vehicle.interface';
+
+import { WarehouseAddressInterface } from './warehouse-address.interface';
 
 import { ChargeDetailScheduledInterface } from './charge-detail-scheduled.interface';
 
@@ -33,6 +37,16 @@ import { ProductMaintenanceStepDetailInterface } from './product-maintenance-ste
 import { ProductPriceInterface } from './product-price.interface';
 
 import { ProductTypeInterface } from './product-type.interface';
+
+import { BinnacleInterface } from './binnacle.interface';
+
+import { WarehouseTypeInterface } from './warehouse-type.interface';
+
+import { ChargeInterface } from './charge.interface';
+
+import { WarehouseInterface } from './warehouse.interface';
+
+import { ChargeDetailInterface } from './charge-detail.interface';
 
 import { PaginationInterface } from 'src/api/v1/shared/global/domain/interface/pagination.interface';
 export interface IndexInterface{
