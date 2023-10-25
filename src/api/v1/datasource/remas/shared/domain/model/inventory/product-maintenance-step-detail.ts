@@ -72,6 +72,13 @@ export class ProductMaintenanceStepDetail extends Model {
   measureUnitUuid?: string;
 
   @Column({
+    field: 'inventory_movement_uuid',
+    allowNull: true,
+    type: DataType.UUID,
+  })
+  inventoryMovementUuid?: string;
+
+  @Column({
     allowNull: true,
     type: DataType.BOOLEAN,
     defaultValue: Sequelize.literal('true'),

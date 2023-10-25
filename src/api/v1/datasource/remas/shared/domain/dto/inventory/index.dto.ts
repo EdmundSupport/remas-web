@@ -1,14 +1,10 @@
 import { IsBoolean, IsDate, IsObject, IsOptional, IsString, IsArray, ValidateNested } from 'class-validator'; 
 import { Type } from 'class-transformer';
-import { VehicleDto } from './vehicle.dto';
+import { BinnacleDto } from './binnacle.dto';
 
-import { EventDto } from './event.dto';
+import { ChargeDto } from './charge.dto';
 
-import { WarehouseEventDto } from './warehouse-event.dto';
-
-import { WarehouseVehicleDto } from './warehouse-vehicle.dto';
-
-import { WarehouseAddressDto } from './warehouse-address.dto';
+import { ChargeDetailDto } from './charge-detail.dto';
 
 import { ChargeDetailScheduledDto } from './charge-detail-scheduled.dto';
 
@@ -22,6 +18,8 @@ import { DischargeDetailScheduledDto } from './discharge-detail-scheduled.dto';
 
 import { DischargeStatusDto } from './discharge-status.dto';
 
+import { EventDto } from './event.dto';
+
 import { InventoryMovementDto } from './inventory-movement.dto';
 
 import { MeasureDto } from './measure.dto';
@@ -34,21 +32,23 @@ import { ProductDto } from './product.dto';
 
 import { ProductMaintenanceStepDto } from './product-maintenance-step.dto';
 
+import { ProductTypeDto } from './product-type.dto';
+
+import { VehicleDto } from './vehicle.dto';
+
+import { WarehouseDto } from './warehouse.dto';
+
 import { ProductMaintenanceStepDetailDto } from './product-maintenance-step-detail.dto';
 
 import { ProductPriceDto } from './product-price.dto';
 
-import { ProductTypeDto } from './product-type.dto';
+import { WarehouseAddressDto } from './warehouse-address.dto';
 
-import { BinnacleDto } from './binnacle.dto';
+import { WarehouseEventDto } from './warehouse-event.dto';
 
 import { WarehouseTypeDto } from './warehouse-type.dto';
 
-import { ChargeDto } from './charge.dto';
-
-import { WarehouseDto } from './warehouse.dto';
-
-import { ChargeDetailDto } from './charge-detail.dto';
+import { WarehouseVehicleDto } from './warehouse-vehicle.dto';
 
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
 export class IndexDto{

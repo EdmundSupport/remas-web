@@ -33,6 +33,10 @@ export class ProductMaintenanceStepDetailDto{
 	measureUnitUuid: string;
 
 	@IsOptional()
+	@IsString()
+	inventoryMovementUuid: string;
+
+	@IsOptional()
 	@IsBoolean()
 	condition: boolean;
 

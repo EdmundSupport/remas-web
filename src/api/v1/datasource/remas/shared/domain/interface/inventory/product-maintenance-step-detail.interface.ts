@@ -18,6 +18,8 @@ export interface ProductMaintenanceStepDetailInterface{
 
 	measureUnitUuid: string;
 
+	inventoryMovementUuid: string;
+
 	condition: boolean;
 
 	createdAt: Date;
