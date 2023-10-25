@@ -161,8 +161,13 @@ export class ProductFormComponent {
     }
 
     onAddDetail() {
-        if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any);
-        else this.product.productMaintenanceSteps = [{ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any];
+        if(this?.product?.uuid){      
+            if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any);
+            else this.product.productMaintenanceSteps = [{ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any];
+        }else{
+            if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({ productMaintenanceStepDetails: [] } as any);
+            else this.product.productMaintenanceSteps = [{ productMaintenanceStepDetails: [] } as any];
+        }
 
         // this.total = this.onTotal();
     }
