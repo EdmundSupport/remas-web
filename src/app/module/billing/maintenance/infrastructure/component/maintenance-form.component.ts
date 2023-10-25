@@ -14,6 +14,7 @@ import { MaintenanceStatusInterface } from 'src/app/datasource/remas/domain/inte
 import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 import { ProductService } from 'src/app/datasource/remas/application/service/product.service';
 import { ProductMaintenanceStepInterface } from 'src/app/datasource/remas/domain/interface/product-maintenance-step.interface';
+import { MaintenanceTrackingService } from 'src/app/datasource/remas/application/service/maintenance-tracking.service';
 
 @Component({
     selector: 'app-maintenance-form',
@@ -52,7 +53,8 @@ export class MaintenanceFormComponent {
         private router: Router,
         private route: ActivatedRoute,
         private maintenanceService: MaintenanceService,
-        private productService: ProductService
+        private productService: ProductService,
+        private maintenanceTrackingService: MaintenanceTrackingService,
     ) {
         this.maintenance.uuid = this.route.snapshot.paramMap.get('uuid')!;
     }
@@ -257,4 +259,20 @@ export class MaintenanceFormComponent {
         return product?.name ?? '';
     }
     // endregion Autocomplete Product
+
+    onConfirm(){
+        this.maintenanceTrackingService.onConfirm(this.maintenance.uuid!).subscribe((result)=>{
+            if(result?.statusCode && result?.statusCode != 200){
+                this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'Ok');
+                return;
+            }
+            
+            this.matSnackBar.open('Cotizacion confirmada, se generaron las ordenes de mantenimiento.');
+        });
+    }
+
+    onSend(){
+        this.maintenanceTrackingService.onSend(this.maintenance.uuid!)    
+        this.matSnackBar.open('Cotizacion enviada.');
+    }
 }

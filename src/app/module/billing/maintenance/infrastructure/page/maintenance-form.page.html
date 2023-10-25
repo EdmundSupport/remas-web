@@ -2,6 +2,12 @@
     <mat-spinner></mat-spinner>
 </app-superposition-loading>
 <div>
+    <div *ngIf="maintenance.uuid != 'new'" class="actions">
+        <button mat-button color="accent" (click)="onConfirm()">Confirmar</button>
+    </div>
+    <div *ngIf="maintenance.uuid != 'new'" class="actions">
+        <button mat-button color="accent" (click)="onSend()">Enviar</button>
+    </div>
     <div class="number">
         <mat-form-field appearance="fill">
             <mat-label>Número</mat-label>
