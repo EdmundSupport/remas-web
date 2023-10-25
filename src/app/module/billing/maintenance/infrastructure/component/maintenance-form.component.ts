@@ -143,14 +143,18 @@ export class MaintenanceFormComponent {
                 maintenanceStep['condition'] = productMaintenanceStep.condition;
             }
 
-            maintenanceStep['maintenanceStepDetails'] = productMaintenanceStep.productMaintenanceStepDetails.map((productMaintenanceStepDetail) => {
+            maintenanceStep['maintenanceStepDetails'] = productMaintenanceStep.productMaintenanceStepDetails.map((productMaintenanceStepDetail, index, array) => {
+                if(!productMaintenanceStepDetail.maintenanceStepDetails[0].measureUnitUuid){
+                    array.splice(index, 1);
+                    return;
+                }
                 return productMaintenanceStepDetail.maintenanceStepDetails;
             }).flat();
             return maintenanceStep;
         });
 
         maintenance.maintenanceSteps = maintenance.maintenanceSteps?.filter((maintenanceStep) => {
-            const details = maintenanceStep.maintenanceStepDetails.filter((maintenanceStepDetail) => (maintenanceStepDetail.amount && maintenanceStepDetail.amount != '' && maintenanceStepDetail.price && maintenanceStepDetail.price != ''))
+            const details = maintenanceStep.maintenanceStepDetails.filter((maintenanceStepDetail) => (maintenanceStepDetail?.amount && maintenanceStepDetail?.amount != '' && maintenanceStepDetail?.price && maintenanceStepDetail?.price != ''))
             return details.length >= 1 || maintenanceStep.condition == true;
         });
         // delete maintenance['product'];
@@ -172,6 +176,7 @@ export class MaintenanceFormComponent {
 
         if (!(maintenance.maintenanceSteps && maintenance.uuid))
             return this.matSnackBar.open('Debes completar todos los pasos para poder continuar.', 'Ok') && this.onStopSaveLoading();
+
 
         if (!(maintenance && maintenance.uuid && maintenance.uuid != '' && SerializeHelper.isUUID(maintenance.uuid))) {
             delete maintenance.dateEnd;

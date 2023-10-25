@@ -95,8 +95,14 @@ export class MaintenanceStepDetailComponent {
     }
 
     onAddDetail() {
-        if (this.detail && this.detail.maintenanceStepDetails) this.detail.maintenanceStepDetails.push({ maintenanceStepUuid: this.maintenanceStepUuid, productMaintenanceStepDetailUuid: this.detail?.uuid } as any);
-        else this.detail.maintenanceStepDetails = [{ maintenanceStepUuid: this.maintenanceStepUuid, productMaintenanceStepDetailUuid: this.detail?.uuid } as any];
+        const detail = {
+            maintenanceStepUuid: this.maintenanceStepUuid,
+            productMaintenanceStepDetailUuid: this.detail?.uuid,
+            amount: this.detail?.amount,
+            price: this.detail?.price,
+        }
+        if (this.detail && this.detail.maintenanceStepDetails) this.detail.maintenanceStepDetails.push(detail as any);
+        else this.detail.maintenanceStepDetails = [detail as any];
 
         // this.total = this.onTotal();
     }

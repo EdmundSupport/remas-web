@@ -49,12 +49,17 @@ export class MaintenanceStepComponent {
             if (maintenanceStep)
                 this.maintenanceStepUuid = maintenanceStep.uuid;
         }
-        if (this.detail.productMaintenanceStepDetails && this.detail.productMaintenanceStepDetails?.length > 0)
-            this.detail.condition = undefined;
-        else if (this.detail.maintenanceSteps && this.detail.maintenanceSteps.length == 0) {
-            this.detail.condition = false;
+
+        if (this.detail.productMaintenanceStepDetails
+            && this.detail.productMaintenanceStepDetails?.length > 0) {
+            if (this.detail.maintenanceSteps && this.detail.maintenanceSteps.length > 0) {
+                this.detail.condition = true;
+            } else this.detail.condition = undefined;
+        }else{
+            if (!(this.detail.maintenanceSteps && this.detail.maintenanceSteps.length > 0)) {
+                this.detail.condition = undefined;
+            }
         }
-        else this.detail.condition = undefined;
     }
 
     ngOnChanges() {
@@ -62,10 +67,13 @@ export class MaintenanceStepComponent {
     }
 
     onProgress() {
-        // const detailBaseCount = this.detail?.productMaintenanceStepDetails?.length ?? 0;
-        // const detailUsedCount = this.detail?.maintenanceStep![0].maintenanceStepDetails?.length ?? 0;
-        // const percentage = (detailUsedCount*100)/detailBaseCount;
-        return 70;
+        const detailBaseCount = this.detail?.productMaintenanceStepDetails?.length ?? 0;
+        const stepComplete = this.detail.maintenanceSteps?.find((maintenanceStep) => maintenanceStep.productMaintenanceStepUuid == this.detail.uuid);
+        const detailUsedCount = stepComplete?.maintenanceStepDetails?.length ?? 0;
+        const percentage = (detailUsedCount * 100) / detailBaseCount;
+
+        if (this.detail.condition == true) return 100;
+        return percentage;
     }
 
     onComplete(event: any) {
