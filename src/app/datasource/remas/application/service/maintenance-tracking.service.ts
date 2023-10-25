@@ -30,6 +30,22 @@ export class MaintenanceTrackingService {
         );
     }
 
+    onFinalized(quotationUuid: string) {
+        return this.httpService.patch(this.url + '/v1/maintenance/tracking/finalized/' + quotationUuid, undefined).pipe(
+            catchError((result) => new Observable(observer => {
+                console.log("🚀 ~ file: maintenance-tracking.service.ts:36 ~ MaintenanceTrackingService ~ catchError ~ result:", result)
+                observer.next(result?.error);
+                observer.complete();
+            })),
+            map((result: any) => {
+                if (result?.statusCode && result?.statusCode != 200) {
+                    return result;
+                }
+                return result.data;
+            })
+        );
+    }
+
     onSend(quotationUuid: string) {
         window.open(this.url + '/v1/quotation/export/' + quotationUuid + '/pdf');
     }

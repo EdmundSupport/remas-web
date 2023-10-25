@@ -276,6 +276,17 @@ export class MaintenanceFormComponent {
         });
     }
 
+    onFinalized(){
+        this.maintenanceTrackingService.onFinalized(this.maintenance.uuid!).subscribe((result)=>{
+            if(result?.statusCode && result?.statusCode != 200){
+                this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'Ok');
+                return;
+            }
+            
+            this.matSnackBar.open('Mantenimiento finalizado.');
+        });
+    }
+
     onSend(){
         this.maintenanceTrackingService.onSend(this.maintenance.uuid!)    
         this.matSnackBar.open('Cotizacion enviada.');

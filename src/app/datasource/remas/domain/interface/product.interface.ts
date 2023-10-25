@@ -13,6 +13,9 @@ import { ProductMaintenanceStepDetailInterface } from './product-maintenance-ste
 import { ChargeDetailScheduledInterface } from './charge-detail-scheduled.interface';
 
 import { DischargeDetailScheduledInterface } from './discharge-detail-scheduled.interface';
+
+import { ProductPackageInterface } from './product-package.interface';
+
 import { PaginationInterface } from './pagination.interface';
 export interface ProductInterface{
 	uuid: string;
@@ -52,6 +55,10 @@ export interface ProductInterface{
 	chargeDetailScheduleds: ChargeDetailScheduledInterface[];
 
 	dischargeDetailScheduleds: DischargeDetailScheduledInterface[];
+
+	productPackage: ProductPackageInterface;
+
+	productPackages: ProductPackageInterface[];
 
 	pagination: PaginationInterface;
 }
