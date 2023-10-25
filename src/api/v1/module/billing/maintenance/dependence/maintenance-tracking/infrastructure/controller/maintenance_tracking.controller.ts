@@ -14,8 +14,13 @@ export class MaintenanceTrackingController {
     ) { }
 
     @Patch('confirm/:uuid')
-    update(@Param('uuid', NewOrUUIDValidationPipe) uuid: string, @Req() request: Request) {
+    confirm(@Param('uuid', NewOrUUIDValidationPipe) uuid: string, @Req() request: Request) {
         const confirmUuid = request.headers['confirmuuid'] as string;
         return this.maintenanceTrackingService.confirm(uuid, confirmUuid);
+    }
+
+    @Patch('finalized/:uuid')
+    finalized(@Param('uuid', NewOrUUIDValidationPipe) uuid: string) {
+        return this.maintenanceTrackingService.finalized(uuid);
     }
 }

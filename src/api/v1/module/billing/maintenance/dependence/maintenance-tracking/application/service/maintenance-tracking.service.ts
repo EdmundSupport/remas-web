@@ -96,4 +96,81 @@ export class MaintenanceTrackingService {
             });
         }));
     }
+
+    async finalized(uuid: string) {
+        const status = await this.maintenanceStatusRepository.findOne({where: {keyName: 'finalized'}});
+        if(!status){
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo obtener el estado.');
+        }
+
+        const maintenance = await this.maintenanceService.findOne(uuid);
+        const inventoryMovements = await this.inventoryMovementRepository.findAll({ where: { referenceSchema: 'billing', referenceTable: 'maintenance', referenceUuid: maintenance.uuid } })
+
+        const productsUsed = (await Promise.all(maintenance.maintenanceSteps.map(async (step) => {
+            return await Promise.all(step.maintenanceStepDetails.map(async (detail) => {
+                const productDetail = await this.productMaintenanceStepDetailRepository.findOne({ where: { uuid: detail.productMaintenanceStepDetailUuid } })
+                return {
+                    productUuid: productDetail.uuid,
+                    amount: detail.amount
+                }
+            }));
+        }))).flat();
+
+        const warehouseWorkshop = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'workshop' } }] });
+        if (!warehouseWorkshop)
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de origen.');
+
+        const warehouseWarehouse = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'warehouse' } }] });
+        if (!warehouseWarehouse)
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de destino.');
+
+        const measureUnit = await this.measureUnitRepository.findOne({ where: { condition: true } });
+        if (!measureUnit)
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la unidad de medida.');
+
+        const movement = inventoryMovements.find((movement) => { movement.productUuid == maintenance.productUuid });
+        this.inventoryMovementRepository.create({
+            date: maintenance.dateStartScheduled,
+            amount: 1,
+            warehouseOriginUuid: warehouseWorkshop.uuid,
+            originUuid: warehouseWorkshop.uuid,
+            warehouseDetinyUuid: warehouseWarehouse.uuid,
+            destinyUuid: warehouseWarehouse.uuid,
+            productUuid: maintenance.productUuid,
+            measureUnitUuid: measureUnit.uuid,
+            referenceSchema: 'billing',
+            referenceTable: 'maintenance',
+            referenceUuid: maintenance.uuid,
+        })
+
+        Promise.all(productsUsed.map(async (used) => {
+            const movement = inventoryMovements.find((movement) => movement.productUuid == used.productUuid);
+            if (movement) {
+                await this.inventoryMovementRepository.update({ amount: used.amount }, {
+                    where:
+                    {
+                        productUuid: used.productUuid,
+                        referenceSchema: 'billing',
+                        referenceTable: 'maintenance',
+                        referenceUuid: maintenance.uuid
+                    }
+                });
+            } else {
+                await this.inventoryMovementRepository.create({
+                    date: maintenance.dateStartScheduled,
+                    amount: used.amount,
+                    warehouseOriginUuid: warehouseWarehouse.uuid,
+                    originUuid: warehouseWarehouse.uuid,
+                    warehouseDetinyUuid: warehouseWorkshop.uuid,
+                    destinyUuid: warehouseWorkshop.uuid,
+                    productUuid: maintenance.productUuid,
+                    measureUnitUuid: measureUnit.uuid,
+                    referenceSchema: 'billing',
+                    referenceTable: 'maintenance',
+                    referenceUuid: maintenance.uuid,
+                });
+            }
+        }));
+        return true;
+    }
 }
