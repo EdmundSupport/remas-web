@@ -83,6 +83,6 @@ export class ProductMaintenanceStep extends Model {
   @BelongsTo(() => Product)
   product?: Product;
 
-  @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid' })
+  @HasMany(() => ProductMaintenanceStepDetail, { sourceKey: 'uuid', as: 'pmsd' })
   productMaintenanceStepDetails?: ProductMaintenanceStepDetail[];
 }

@@ -125,11 +125,13 @@ export class ProductService {
             where: { uuid },
             include: [{
                 model: ProductMaintenanceStep,
-                include: [{
+                include: [{ 
+                    as: 'pmsd',
                     model: ProductMaintenanceStepDetail
                 }]
             }]
         }))));
+        console.log("🚀 ~ file: product.service.ts:138 ~ ProductService ~ product.productMaintenanceSteps=product.productMaintenanceSteps.map ~ product.productMaintenanceSteps:", JSON.stringify(product.productMaintenanceSteps))
         product.productMaintenanceSteps = product.productMaintenanceSteps.map((productMaintenanceStep) => {
             productMaintenanceStep.productMaintenanceStepDetails = productMaintenanceStep['pmsd'];
             delete productMaintenanceStep['pmsd'];
