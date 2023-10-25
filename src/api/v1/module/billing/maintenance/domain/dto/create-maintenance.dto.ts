@@ -34,7 +34,7 @@ export class CreateMaintenanceStepDto extends PartialType(OmitType(MaintenanceSt
     maintenanceStepDetails: CreateMaintenanceStepDetailDto[];
 }
 
-export class CreateMaintenanceDto extends PartialType(OmitType(MaintenanceDto, ['quotationMaintenance', 'number', 'dateStartScheduled', 'dateEndScheduled', 'dateStart', 'dateEnd', 'productUuid', 'maintenanceSteps'])) {
+export class CreateMaintenanceDto extends PartialType(OmitType(MaintenanceDto, ['quotationMaintenance', 'number', 'dateStartScheduled', 'dateEndScheduled', 'productUuid', 'maintenanceSteps'])) {
     @IsNumber()
     number: number;
 

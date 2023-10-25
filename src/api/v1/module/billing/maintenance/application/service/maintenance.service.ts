@@ -4,7 +4,7 @@ import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/bi
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
 import { CreateMaintenanceDto } from "../../domain/dto/create-maintenance.dto";
 import { FilterResponseHelper } from "shared/filter_response";
-import { Op, WhereOptions } from "sequelize";
+import { Op, WhereOptions, where } from "sequelize";
 import { ValidationHelper } from "shared/validation/application/helper/validation.helper";
 import { FindMaintenanceDto } from "../../domain/dto/find-maintenance.dto";
 import { Product, ProductMaintenanceStep, ProductMaintenanceStepDetail } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
@@ -19,6 +19,8 @@ export class MaintenanceService {
         private maintenanceStepService: typeof MaintenanceStep,
         @Inject('MaintenanceStatusRepository')
         private maintenanceStatusService: typeof MaintenanceStatus,
+        @Inject('MaintenanceStepDetailRepository')
+        private maintenanceStepDetailRepository: typeof MaintenanceStepDetail,
     ) { }
 
     async create(data: CreateMaintenanceDto) {
@@ -92,10 +94,9 @@ export class MaintenanceService {
                 {
                     model: MaintenanceStep,
                     include: [{ model: MaintenanceStepDetail }]
-                }
+                }, { model: MaintenanceStatus }
             ],
         }))) as Maintenance;
-        console.log("🚀 ~ file: maintenance.service.ts:103 ~ MaintenanceService ~ maintenance.maintenanceSteps=maintenance.maintenanceSteps.map ~ maintenance.maintenanceSteps:", maintenance.maintenanceSteps)
         maintenance.maintenanceSteps = maintenance.maintenanceSteps.map((maintenanceStep) => {
             maintenanceStep.maintenanceStepDetails = maintenanceStep['msd'];
             delete maintenanceStep['msd'];
@@ -106,24 +107,38 @@ export class MaintenanceService {
 
     async update(uuid: string, data: CreateMaintenanceDto) {
         data = JSON.parse(JSON.stringify(data));
-        const maintenanceSteps = StructureHelper.searchProperty(data, 'maintenanceSteps', true)[0];
+        const maintenanceSteps = StructureHelper.searchProperty(data, 'maintenanceSteps', true)[0] as MaintenanceStep[];
         maintenanceSteps['uuid'] = uuid;
 
+        const maintenance = await this.findOne(uuid);
+        if (!(maintenance?.maintenanceStatus?.keyName == 'confirmed')) {
+            const maintenanceStatus = await this.maintenanceStatusService.findOne({ where: { keyName: 'edited' } });
+            if (!maintenanceStatus)
+                throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado del mantenimiento.');
 
-        const maintenanceStatus = await this.maintenanceStatusService.findOne({ where: { keyName: 'edited' } });
-        if (!maintenanceStatus)
-            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado del mantenimiento.');
-
-        Object.assign(data, { maintenanceStatusUuid: maintenanceStatus.uuid });
+            Object.assign(data, { maintenanceStatusUuid: maintenanceStatus.uuid });
+        }
 
         for (let index = 0; index < maintenanceSteps.length; index++) {
             const maintenanceStep = maintenanceSteps[index];
-            maintenanceStep['msd'] = maintenanceStep.maintenanceStepDetails;
-            await this.maintenanceStepService.create(maintenanceStep, {
-                include: [{
-                    model: MaintenanceStepDetail
-                }]
-            });
+            const maintenanceStepDetails = StructureHelper.searchProperty(maintenanceStep, 'maintenanceStepDetails', true)[0];
+
+            if (maintenanceStep.uuid) await this.maintenanceStepService.update(maintenanceStep, { where: { uuid: maintenanceStep.uuid } });
+            else{
+                maintenanceStep.maintenanceUuid = uuid;
+                const stepCreated = await this.maintenanceStepService.create(maintenanceStep as any);
+                maintenanceStep.uuid = stepCreated.uuid;
+            }
+
+            for (let indexDetail = 0; indexDetail < maintenanceStepDetails?.length; indexDetail++) {
+                const detail = (maintenanceStepDetails![indexDetail] as MaintenanceStepDetail);
+                if (detail.uuid) await this.maintenanceStepDetailRepository.update(detail, { where: { uuid: detail.uuid } });
+                else {
+                    detail.maintenanceStepUuid = maintenanceStep.uuid;
+                    const detailCreated = await this.maintenanceStepDetailRepository.create(detail as any);
+                    detail.uuid = detailCreated.uuid;
+                }
+            }
         }
 
         await this.maintenanceStepService.update({ data } as any, { where: { uuid } });
