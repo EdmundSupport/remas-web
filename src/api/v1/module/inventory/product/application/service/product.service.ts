@@ -129,6 +129,7 @@ export class ProductService {
     }
 
     async findOne(uuid: string) {
+        console.log("🚀 ~ file: product.service.ts:132 ~ ProductService ~ findOne ~ uuid:", uuid)
         // const product = JSON.parse(JSON.stringify(
         const product = JSON.parse(JSON.stringify((await this.productService.findOne({
             where: { uuid },
@@ -140,6 +141,8 @@ export class ProductService {
                 }]
             }]
         }))));
+        if (!product)
+            throw FilterResponseHelper.httpException('BAD_REQUEST', 'El producto no existe.');
         console.log("🚀 ~ file: product.service.ts:138 ~ ProductService ~ product.productMaintenanceSteps=product.productMaintenanceSteps.map ~ product.productMaintenanceSteps:", JSON.stringify(product.productMaintenanceSteps))
         product.productMaintenanceSteps = product.productMaintenanceSteps.map((productMaintenanceStep) => {
             productMaintenanceStep.productMaintenanceStepDetails = productMaintenanceStep['pmsd'];
