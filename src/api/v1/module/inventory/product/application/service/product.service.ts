@@ -24,23 +24,26 @@ export class ProductService {
 
     create(data: CreateProductDto) {
         data = JSON.parse(JSON.stringify(data));
-        const productMaintenanceSteps = StructureHelper.searchProperty(data, 'productMaintenanceSteps', true)[0];
-
+        const productMaintenanceSteps = StructureHelper.searchProperty(data, 'productMaintenanceSteps')[0];
 
         const include = [];
         if (productMaintenanceSteps && productMaintenanceSteps[0]) {
-            const productMaintenanceStepDetails = StructureHelper.searchProperty(productMaintenanceSteps[0], 'productMaintenanceStepDetails', true)[0];
+
             const stepInclude = [];
-            if (productMaintenanceStepDetails && productMaintenanceStepDetails[0]) {
-                productMaintenanceStepDetails.forEach((productMaintenanceStepDetail) => {
-                    if (productMaintenanceStepDetail.productUuid == data.uuid) {
-                        throw FilterResponseHelper.httpException('BAD_REQUEST', 'El producto principal no puede ser elegido en el detalle de pasos de mantenimientos.');
-                    }
-                });
-                stepInclude.push({
-                    model: ProductMaintenanceStepDetail,
-                    require: true,
-                });
+            for (let index = 0; index < productMaintenanceSteps.length; index++) {
+                const productMaintenanceStep = productMaintenanceSteps[index];
+                const productMaintenanceStepDetails = StructureHelper.searchProperty(productMaintenanceStep, 'productMaintenanceStepDetails')[0];
+                if (productMaintenanceStepDetails && productMaintenanceStepDetails[0]) {
+                    productMaintenanceStepDetails.forEach((productMaintenanceStepDetail) => {
+                        if (productMaintenanceStepDetail.productUuid == data.uuid) {
+                            throw FilterResponseHelper.httpException('BAD_REQUEST', 'El producto principal no puede ser elegido en el detalle de pasos de mantenimientos.');
+                        }
+                    });
+                    stepInclude.push({
+                        model: ProductMaintenanceStepDetail,
+                        require: true,
+                    });
+                }
             }
             include.push({
                 model: ProductMaintenanceStep,
@@ -48,6 +51,12 @@ export class ProductService {
                 require: true,
             });
         }
+
+        data.productMaintenanceSteps = data.productMaintenanceSteps.map((productMaintenanceStep) => {
+            productMaintenanceStep['pmsd'] = productMaintenanceStep.productMaintenanceStepDetails;
+            delete productMaintenanceStep.productMaintenanceStepDetails;
+            return productMaintenanceStep;
+        })
 
         if (!ValidationHelper.isUUID(data?.uuid)) delete data.uuid;
         return this.productService.create(data as any, {
@@ -125,7 +134,7 @@ export class ProductService {
             where: { uuid },
             include: [{
                 model: ProductMaintenanceStep,
-                include: [{ 
+                include: [{
                     as: 'pmsd',
                     model: ProductMaintenanceStepDetail
                 }]

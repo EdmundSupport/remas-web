@@ -20,7 +20,7 @@ export class CreateProductMaintenanceStepDetailsDto extends PartialType(OmitType
     measureUnitUuid: string;
 }
 
-export class CreateProductMaintenanceStepDto extends PartialType(OmitType(ProductMaintenanceStepDto, ['order', 'description', 'productUuid', 'productMaintenanceStepDetails'])) {
+export class CreateProductMaintenanceStepDto extends PartialType(OmitType(ProductMaintenanceStepDto, ['order', 'description', 'productMaintenanceStepDetails'])) {
     @IsNotEmpty()
     @IsNumber()
     order: number;
@@ -28,10 +28,6 @@ export class CreateProductMaintenanceStepDto extends PartialType(OmitType(Produc
     @IsNotEmpty()
     @IsString()
     description: string;
-
-    @IsNotEmpty()
-    @IsString()
-    productUuid: string;
 
     @IsNotEmpty()
     @ValidateNested({ each: true })
