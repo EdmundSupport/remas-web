@@ -20,6 +20,12 @@
             <textarea [(ngModel)]="product.description!" matInput></textarea>
         </mat-form-field>
     </div>
+    <div class="price-cost">
+        <mat-form-field appearance="fill">
+            <mat-label>Costo</mat-label>
+            <input type="number" [(ngModel)]="product.priceCost!" matInput placeholder="Precio costo">
+        </mat-form-field>
+    </div>
     <div class="measure">
         <mat-form-field [subscriptSizing]="'dynamic'">
             <mat-label>Tipo de Medida</mat-label>

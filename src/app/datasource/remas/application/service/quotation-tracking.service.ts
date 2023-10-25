@@ -22,7 +22,6 @@ export class QuotationTrackingService {
                 observer.complete();
             })),
             map((result: any) => {
-                console.log("🚀 ~ file: quotation-tracking.service.ts:25 ~ QuotationTrackingService ~ map ~ result:", result)
                 if (result?.statusCode && result?.statusCode != 200) {
                     return result;
                 }

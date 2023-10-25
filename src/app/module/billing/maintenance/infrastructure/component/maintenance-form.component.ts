@@ -42,7 +42,7 @@ export class MaintenanceFormComponent {
     onSaveLoading$ = new BehaviorSubject<boolean>(false);
     timeSaveLoading: any;
 
-    product!: ProductInterface;
+    product: ProductInterface | undefined;
     products: ProductInterface[] = [];
     productTimer: any;
 
@@ -207,6 +207,11 @@ export class MaintenanceFormComponent {
             .subscribe((result) => {
                 if (result?.statusCode && result?.statusCode != 200) {
                     this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar los productos.');
+                    return;
+                }
+                if(result?.productMaintenanceSteps?.length <= 0){
+                    this.matSnackBar.open('Este producto no tiene mantenimiento.');
+                    this.product = undefined;
                     return;
                 }
 

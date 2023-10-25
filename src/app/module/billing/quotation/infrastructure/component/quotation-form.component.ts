@@ -49,7 +49,6 @@ export class QuotationFormComponent {
         if (SerializeHelper.isUUID(this.quotation.uuid!)) {
             this.quotationService.onFindOne(this?.quotation?.uuid!)
                 .subscribe((result) => {
-                    console.log("🚀 ~ file: quotation-form.component.ts:52 ~ QuotationFormComponent ~ .subscribe ~ result:", result)
                     if (result.statusCode != 200) {
                         this.matSnackBar.open('Ocurrio un error al obtener la cotización.', 'Ok');
                     } else {

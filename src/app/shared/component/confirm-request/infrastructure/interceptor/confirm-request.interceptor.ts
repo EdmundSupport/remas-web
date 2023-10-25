@@ -26,7 +26,6 @@ export class ConfirmRequestInterceptor implements HttpInterceptor {
                     if (body?.statusCode === 202) {
                         return new Observable<HttpEvent<any>>((observer) => {
                             const message = JSON.parse(body?.message);
-                            console.log("🚀 ~ file: confirm-request.interceptor.ts:31 ~ ConfirmRequestInterceptor ~ switchMap ~ message:", message)
                             this.dialogService.openDialog(message).subscribe(resultDialog => {
                                 if (resultDialog) {
                                     req = req.clone({
@@ -39,7 +38,6 @@ export class ConfirmRequestInterceptor implements HttpInterceptor {
                                         observer.complete();
                                     });
                                 } else {
-                                    console.log("🚀 ~ file: confirm-request.interceptor.ts:41 ~ ConfirmRequestInterceptor ~ this.dialogService.openDialog ~ req:", req)
                                     observer.next(result);
                                     observer.complete();
                                 }
@@ -49,7 +47,6 @@ export class ConfirmRequestInterceptor implements HttpInterceptor {
                     }
 
                     return new Observable<HttpEvent<any>>((observer) => {
-                        console.log("🚀 ~ file: confirm-request.interceptor.ts:50 ~ ConfirmRequestInterceptor ~ switchMap ~ req:", req)
                         observer.next(result);
                         observer.complete();
                     })

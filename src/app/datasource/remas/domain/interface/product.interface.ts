@@ -1,34 +1,57 @@
-import { ChargeDetailScheduledInterface } from "./charge-detail-scheduled.interface";
-import { DischargeDetailScheduledInterface } from "./discharge-detail-scheduled.interface";
-import { MeasureInterface } from "./measure.interface";
-import { PaginationInterface } from "./pagination.interface";
-import { PriceCategoryInterface } from "./price-category.interface";
-import { ProductMaintenanceStepDetailInterface } from "./product-maintenance-step-detail.interface";
-import { ProductMaintenanceStepInterface } from "./product-maintenance-step.interface";
-import { ProductPriceInterface } from "./product-price.interface";
-import { ProductTypeInterface } from "./product-type.interface";
+import { MeasureInterface } from './measure.interface';
 
-export interface ProductInterface {
+import { ProductTypeInterface } from './product-type.interface';
 
-        uuid: string;
-        sku: string;
-        name: string;
-        description: string;
-        parentUuid: string;
-        measureUuid: string;
-        productTypeUuid: string;
-        condition: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        products: ProductInterface[];
-        product: ProductInterface;
-        measure: MeasureInterface;
-        productType: ProductTypeInterface;
-        productPrices: ProductPriceInterface[];
-        priceCategories: PriceCategoryInterface[];
-        productMaintenanceSteps: ProductMaintenanceStepInterface[];
-        productMaintenanceStepDetails: ProductMaintenanceStepDetailInterface[];
-        chargeDetailsScheduled?: ChargeDetailScheduledInterface[];
-        dischargeDetailsScheduled?: DischargeDetailScheduledInterface[];
-        pagination: PaginationInterface;
+import { ProductPriceInterface } from './product-price.interface';
+
+import { PriceCategoryInterface } from './price-category.interface';
+
+import { ProductMaintenanceStepInterface } from './product-maintenance-step.interface';
+
+import { ProductMaintenanceStepDetailInterface } from './product-maintenance-step-detail.interface';
+
+import { ChargeDetailScheduledInterface } from './charge-detail-scheduled.interface';
+
+import { DischargeDetailScheduledInterface } from './discharge-detail-scheduled.interface';
+import { PaginationInterface } from './pagination.interface';
+export interface ProductInterface{
+	uuid: string;
+
+	sku: string;
+
+	name: string;
+
+	description: string;
+
+	priceCost: string;
+
+	parentUuid: string;
+
+	measureUuid: string;
+
+	productTypeUuid: string;
+
+	condition: boolean;
+
+	createdAt: Date;
+
+	updatedAt: Date;
+
+	measure: MeasureInterface;
+
+	productType: ProductTypeInterface;
+
+	productPrices: ProductPriceInterface[];
+
+	priceCategories: PriceCategoryInterface[];
+
+	productMaintenanceSteps: ProductMaintenanceStepInterface[];
+
+	productMaintenanceStepDetails: ProductMaintenanceStepDetailInterface[];
+
+	chargeDetailScheduleds: ChargeDetailScheduledInterface[];
+
+	dischargeDetailScheduleds: DischargeDetailScheduledInterface[];
+
+	pagination: PaginationInterface;
 }
