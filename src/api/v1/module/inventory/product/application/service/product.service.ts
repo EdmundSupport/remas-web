@@ -44,6 +44,7 @@ export class ProductService {
             }
             include.push({
                 model: ProductMaintenanceStep,
+                include: stepInclude,
                 require: true,
             });
         }
@@ -168,14 +169,21 @@ export class ProductService {
 
         for (let index = 0; index < productMaintenanceSteps.length; index++) {
             const productMaintenanceStep = productMaintenanceSteps[index];
-            if (productMaintenanceStep?.uuid) await this.productMantenanceStepService.update(productMaintenanceStep, { where: { uuid: productMaintenanceStep.uuid } })
-            else await this.productMantenanceStepService.create(productMaintenanceStep as any);
+            if (productMaintenanceStep?.uuid) {
+                await this.productMantenanceStepService.update(productMaintenanceStep, { where: { uuid: productMaintenanceStep.uuid } })
+            } else {
+                const productMaintenanceStepCreated = await this.productMantenanceStepService.create(productMaintenanceStep as any);
+                productMaintenanceStep.uuid = productMaintenanceStepCreated.uuid;
+            }
 
             const productMaintenanceStepDetails = StructureHelper.searchProperty(productMaintenanceStep, 'productMaintenanceStepDetails')[0] as ProductMaintenanceStepDetail[] | undefined;
             for (let indexDetail = 0; indexDetail < productMaintenanceStepDetails?.length; indexDetail++) {
                 const productMaintenanceStepDetail = productMaintenanceStepDetails[indexDetail];
                 if (productMaintenanceStepDetail?.uuid) await this.productMantenanceStepDetailService.update(productMaintenanceStepDetail, { where: { uuid: productMaintenanceStepDetail.uuid } })
-                else await this.productMantenanceStepDetailService.create(productMaintenanceStepDetail as any)
+                else {
+                    productMaintenanceStepDetail.productMaintenanceStepUuid = productMaintenanceStep.uuid;
+                    await this.productMantenanceStepDetailService.create(productMaintenanceStepDetail as any);
+                }
             }
 
         }

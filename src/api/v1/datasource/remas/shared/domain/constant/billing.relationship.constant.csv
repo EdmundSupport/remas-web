@@ -6,6 +6,7 @@
 1:N, uuid, maintenance_status_uuid, maintenance_status, maintenance
 1:N, uuid, maintenance_uuid, maintenance, maintenance_step
 1:N, uuid, product_maintenance_step_uuid, inventory_em.product_maintenance_step, maintenance_step
+1:N, uuid, product_maintenance_step_detail_uuid, inventory_em.product_maintenance_step_detail, maintenance_step_detail
 1:N, uuid, maintenance_step_uuid, maintenance_step, maintenance_step_detail
 1:N, uuid, measure_unit_uuid, inventory_em.measure_unit, maintenance_step_detail
 1:1, uuid, maintenance_uuid, maintenance, quotation_maintenance

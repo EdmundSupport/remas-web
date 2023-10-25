@@ -21,7 +21,6 @@ export class ProductController {
 
     @Get('/:uuid')
     findOne(@Param('uuid', NewOrUUIDValidationPipe) uuid: string) {
-        console.log("🚀 ~ file: product.controller.ts:29 ~ ProductController ~ findOne ~ uuid:", uuid)
         return this.productService.findOne(uuid);
     }
     

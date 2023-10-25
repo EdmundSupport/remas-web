@@ -1,7 +1,7 @@
 import { Controller, Param, Patch, Post, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { NewOrUUIDValidationPipe } from "shared/validation/infrastructure/pipe/uuid.pipe";
-import { QuotationTrackingService } from "../../application/quotation-tracking.service";
+import { QuotationTrackingService } from "../../application/service/quotation-tracking.service";
 import { Request } from "express";
 
 @ApiTags('Cotizaciones: Generacion de orden de mantenimiento.')

@@ -94,7 +94,7 @@ export class MaintenanceService {
                     include: [{ model: MaintenanceStepDetail }]
                 }
             ],
-        })));
+        }))) as Maintenance;
         maintenance.maintenanceSteps = maintenance.maintenanceSteps.map((maintenanceStep) => {
             maintenanceStep.maintenanceStepDetails = maintenanceStep['msd'];
             delete maintenanceStep['msd'];

@@ -11,6 +11,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
+import { ProductMaintenanceStepDetail } from './../inventory/product-maintenance-step-detail';
 import { MaintenanceStep } from './maintenance-step';
 import { MeasureUnit } from './../inventory/measure-unit';
 
@@ -52,6 +53,7 @@ export class MaintenanceStepDetail extends Model {
   })
   maintenanceStepUuid?: string;
 
+  @ForeignKey(() => ProductMaintenanceStepDetail)
   @Column({
     field: 'product_maintenance_step_detail_uuid',
     allowNull: true,
@@ -95,6 +97,9 @@ export class MaintenanceStepDetail extends Model {
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
+
+  @BelongsTo(() => ProductMaintenanceStepDetail)
+  productMaintenanceStepDetail?: ProductMaintenanceStepDetail;
 
   @BelongsTo(() => MaintenanceStep)
   maintenanceStep?: MaintenanceStep;

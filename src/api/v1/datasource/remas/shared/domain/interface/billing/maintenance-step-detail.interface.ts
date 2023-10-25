@@ -1,3 +1,5 @@
+import { ProductMaintenanceStepDetailInterface } from './../inventory/product-maintenance-step-detail.interface';
+
 import { MaintenanceStepInterface } from './maintenance-step.interface';
 
 import { MeasureUnitInterface } from './../inventory/measure-unit.interface';
@@ -21,6 +23,8 @@ export interface MaintenanceStepDetailInterface{
 	createdAt: Date;
 
 	updatedAt: Date;
+
+	productMaintenanceStepDetail: ProductMaintenanceStepDetailInterface;
 
 	maintenanceStep: MaintenanceStepInterface;
 

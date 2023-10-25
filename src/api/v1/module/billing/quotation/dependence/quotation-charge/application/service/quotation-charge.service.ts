@@ -34,7 +34,6 @@ export class QuotationChargeService {
             dateEndScheduled,
             chargeDetailScheduleds: []
         }
-        console.log("🚀 ~ file: quotation-charge.service.ts:37 ~ QuotationChargeService ~ generate ~ charge:", charge)
 
         const chargeDetailScheduleds = quotation.quotationDetails.map((quotationDetail) => {
             return {

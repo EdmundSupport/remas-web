@@ -1,5 +1,7 @@
 import { IsBoolean, IsDate, IsObject, IsOptional, IsString, IsArray, ValidateNested } from 'class-validator'; 
 import { Type } from 'class-transformer';
+import { ProductMaintenanceStepDetailDto } from './../inventory/product-maintenance-step-detail.dto';
+
 import { MaintenanceStepDto } from './maintenance-step.dto';
 
 import { MeasureUnitDto } from './../inventory/measure-unit.dto';
@@ -41,6 +43,10 @@ export class MaintenanceStepDetailDto{
 	@IsOptional()
 	@IsDate()
 	updatedAt: Date;
+
+	@IsOptional()
+	@IsObject()
+	productMaintenanceStepDetail: ProductMaintenanceStepDetailDto;
 
 	@IsOptional()
 	@IsObject()
