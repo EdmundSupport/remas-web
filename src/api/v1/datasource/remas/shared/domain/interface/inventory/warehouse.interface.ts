@@ -10,6 +10,8 @@ import { AddressInterface } from './../contact/address.interface';
 
 import { WarehouseAddressInterface } from './warehouse-address.interface';
 
+import { WarehouseTypeInterface } from './warehouse-type.interface';
+
 import { PaginationInterface } from 'src/api/v1/shared/global/domain/interface/pagination.interface';
 export interface WarehouseInterface{
 	uuid: string;
@@ -37,6 +39,8 @@ export interface WarehouseInterface{
 	warehouseEvents: WarehouseEventInterface[];
 
 	warehouseAddresses: WarehouseAddressInterface[];
+
+	warehouseType: WarehouseTypeInterface;
 
 	pagination: PaginationInterface;
 }

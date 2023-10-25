@@ -12,6 +12,8 @@ import { AddressDto } from './../contact/address.dto';
 
 import { WarehouseAddressDto } from './warehouse-address.dto';
 
+import { WarehouseTypeDto } from './warehouse-type.dto';
+
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
 export class WarehouseDto{
 	@IsOptional()
@@ -77,6 +79,10 @@ export class WarehouseDto{
 	@ValidateNested({each: true})
 	@Type(()=>WarehouseAddressDto)
 	warehouseAddresses: WarehouseAddressDto[];
+
+	@IsOptional()
+	@IsObject()
+	warehouseType: WarehouseTypeDto;
 
 	@IsOptional()
 	@IsObject()

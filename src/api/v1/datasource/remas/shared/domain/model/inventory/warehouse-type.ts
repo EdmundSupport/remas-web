@@ -9,7 +9,9 @@ import {
   Index,
   Sequelize,
   ForeignKey,
+  HasMany,
 } from 'sequelize-typescript';
+import { Warehouse } from './warehouse';
 
 @Table({ schema: 'inventory',  tableName: 'warehouse_type', timestamps: false })
 export class WarehouseType extends Model {
@@ -50,4 +52,7 @@ export class WarehouseType extends Model {
     defaultValue: Sequelize.literal('now()'),
   })
   updatedAt?: Date;
+
+  @HasMany(() => Warehouse, { sourceKey: 'uuid' })
+  warehouses?: Warehouse[];
 }

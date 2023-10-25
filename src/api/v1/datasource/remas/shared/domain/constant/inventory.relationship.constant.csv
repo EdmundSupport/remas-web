@@ -33,3 +33,4 @@ N:N, warehouse_uuid, address_uuid, warehouse, contact_em.address, warehouse_addr
 1:N, uuid, event_uuid,event,warehouse_event
 1:N, uuid, warehouse_uuid,warehouse,warehouse_address
 1:N, uuid, address_uuid,contact_em.address,warehouse_address
+1:N, uuid, warehouse_type_uuid,warehouse_type,warehouse

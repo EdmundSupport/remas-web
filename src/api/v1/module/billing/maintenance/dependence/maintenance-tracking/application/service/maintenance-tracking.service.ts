@@ -27,6 +27,7 @@ export class MaintenanceTrackingService {
 
     async confirm(uuid: string, confirmUuid?: string) {
         const status = await this.maintenanceStatusRepository.findOne({ where: { keyName: 'confirmed' } });
+        console.log("🚀 ~ file: maintenance-tracking.service.ts:30 ~ MaintenanceTrackingService ~ confirm ~ status:", status)
         if (!status) {
             throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado de confirmado.')
         }
@@ -67,11 +68,11 @@ export class MaintenanceTrackingService {
             throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la unidad de medida.');
 
         const inventoryMovement = await this.inventoryMovementRepository.create({
-            date: maintenance.dateStart,
+            date: maintenance.dateStartScheduled,
             amount: 1,
             warehouseOriginUuid: warehouseOrigin.uuid,
             originUuid: warehouseOrigin.uuid,
-            warehouseDestinyUuid: warehouseDestiny.uuid,
+            warehouseDetinyUuid: warehouseDestiny.uuid,
             destinyUuid: warehouseDestiny.uuid,
             productUuid: maintenance.productUuid,
             measureUnitUuid: measureUnit.uuid,
@@ -82,11 +83,11 @@ export class MaintenanceTrackingService {
 
         Promise.all(amountsRequired.map(async (amountRequired) => {
             const inventoryMovement = await this.inventoryMovementRepository.create({
-                date: maintenance.dateStart,
+                date: maintenance.dateStartScheduled,
                 amount: Number(amountRequired.amountRequired) * -1,
                 warehouseOriginUuid: warehouseOrigin.uuid,
                 originUuid: warehouseOrigin.uuid,
-                warehouseDestinyUuid: warehouseDestiny.uuid,
+                warehouseDetinyUuid: warehouseDestiny.uuid,
                 destinyUuid: warehouseDestiny.uuid,
                 productUuid: amountRequired.productUuid,
                 measureUnitUuid: amountRequired.measureUnitUuid,

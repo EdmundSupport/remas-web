@@ -11,6 +11,7 @@ import {
   ForeignKey,
   BelongsToMany,
   HasMany,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Vehicle } from './vehicle';
 import { WarehouseVehicle } from './warehouse-vehicle';
@@ -18,6 +19,7 @@ import { Event } from './event';
 import { WarehouseEvent } from './warehouse-event';
 import { Address } from './../contact/address';
 import { WarehouseAddress } from './warehouse-address';
+import { WarehouseType } from './warehouse-type';
 
 @Table({ schema: 'inventory',  tableName: 'warehouse', timestamps: false })
 export class Warehouse extends Model {
@@ -37,6 +39,7 @@ export class Warehouse extends Model {
   @Index({ name: 'warehouse_address_uuid_idx', using: 'btree', unique: false })
   addressUuid?: string;
 
+  @ForeignKey(() => WarehouseType)
   @Column({
     field: 'warehouse_type_uuid',
     allowNull: true,
@@ -89,4 +92,7 @@ export class Warehouse extends Model {
 
   @HasMany(() => WarehouseAddress, { sourceKey: 'uuid' })
   warehouseAddresses?: WarehouseAddress[];
+
+  @BelongsTo(() => WarehouseType)
+  warehouseType?: WarehouseType;
 }
