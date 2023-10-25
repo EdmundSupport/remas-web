@@ -172,6 +172,8 @@ export class MaintenanceFormComponent {
             return this.matSnackBar.open('Debes completar todos los pasos para poder continuar.', 'Ok') && this.onStopSaveLoading();
 
         if (!(maintenance && maintenance.uuid && maintenance.uuid != '' && SerializeHelper.isUUID(maintenance.uuid))) {
+            delete maintenance.dateEnd;
+            delete maintenance.dateStart;
             this.maintenanceService.onCreate({...maintenance, product: undefined} as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
                 .subscribe((result: any) => {
