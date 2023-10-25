@@ -95,6 +95,7 @@ export class MaintenanceService {
                 }
             ],
         }))) as Maintenance;
+        console.log("🚀 ~ file: maintenance.service.ts:103 ~ MaintenanceService ~ maintenance.maintenanceSteps=maintenance.maintenanceSteps.map ~ maintenance.maintenanceSteps:", maintenance.maintenanceSteps)
         maintenance.maintenanceSteps = maintenance.maintenanceSteps.map((maintenanceStep) => {
             maintenanceStep.maintenanceStepDetails = maintenanceStep['msd'];
             delete maintenanceStep['msd'];

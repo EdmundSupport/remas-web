@@ -5,6 +5,7 @@ import { InventoryMovement, MeasureUnit, ProductMaintenanceStep, ProductMaintena
 import { MaintenanceService } from "../../../../application/service/maintenance.service";
 import { InventoryMovementHelper } from "src/api/v1/module/inventory/inventory-movement/application/helper/inventory-movement.helper";
 import { StructureHashTable } from "shared/structure/application/hash/structure.hash_table";
+import { ProductService } from "src/api/v1/module/inventory/product/application/service/product.service";
 
 @Injectable()
 export class MaintenanceTrackingService {
@@ -23,6 +24,7 @@ export class MaintenanceTrackingService {
         private warehouseRepository: typeof Warehouse,
         @Inject('MeasureUnitRepository')
         private measureUnitRepository: typeof MeasureUnit,
+        private productService: ProductService,
     ) { }
 
     async confirm(uuid: string, confirmUuid?: string) {
@@ -33,19 +35,17 @@ export class MaintenanceTrackingService {
         }
 
         const maintenance = await this.maintenanceService.findOne(uuid);
-        const productMaintenanceStepsUuid = maintenance.maintenanceSteps.map((maintenanceStep) => maintenanceStep.productMaintenanceStepUuid);
-        const productMaintenaceStepDetails = await this.productMaintenanceStepDetailRepository.findAll({
-            where: { productMaintenanceStepUuid: productMaintenanceStepsUuid }
-        });
-
-        const amountsRequired = productMaintenaceStepDetails.map((productMaintenaceStepDetail) => {
-            return {
-                productUuid: productMaintenaceStepDetail.productUuid,
-                amountRequired: Number(productMaintenaceStepDetail.amount),
-                measureUnitUuid: Number(productMaintenaceStepDetail.measureUnitUuid),
-                uuid: productMaintenaceStepDetail.uuid,
-            }
-        })
+        const product = await this.productService.findOne(maintenance.productUuid);
+        const amountsRequired = product.productMaintenanceSteps.map((productMaintenanceStep) => {
+            return productMaintenanceStep.productMaintenanceStepDetails.map((stepDetail) => {
+                return {
+                    productUuid: stepDetail.productUuid,
+                    amountRequired: Number(stepDetail.amount),
+                    measureUnitUuid: stepDetail.measureUnitUuid,
+                    uuid: stepDetail.uuid,
+                }
+            });
+        }).flat();
 
         if (!maintenance) await this.inventoryMovementHelper.stocksExceeded(amountsRequired);
 
@@ -80,7 +80,6 @@ export class MaintenanceTrackingService {
             referenceTable: 'maintenance',
             referenceUuid: maintenance.uuid,
         });
-
         Promise.all(amountsRequired.map(async (amountRequired) => {
             const inventoryMovement = await this.inventoryMovementRepository.create({
                 date: maintenance.dateStartScheduled,

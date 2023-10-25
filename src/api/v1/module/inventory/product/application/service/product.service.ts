@@ -140,7 +140,7 @@ export class ProductService {
                     model: ProductMaintenanceStepDetail
                 }]
             }]
-        }))));
+        })))) as Product;
         if (!product)
             throw FilterResponseHelper.httpException('BAD_REQUEST', 'El producto no existe.');
         console.log("🚀 ~ file: product.service.ts:138 ~ ProductService ~ product.productMaintenanceSteps=product.productMaintenanceSteps.map ~ product.productMaintenanceSteps:", JSON.stringify(product.productMaintenanceSteps))
