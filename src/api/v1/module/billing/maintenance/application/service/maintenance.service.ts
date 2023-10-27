@@ -24,6 +24,7 @@ export class MaintenanceService {
     ) { }
 
     async create(data: CreateMaintenanceDto) {
+        console.log("🚀 ~ file: maintenance.service.ts:27 ~ MaintenanceService ~ create ~ data:", data)
         data = JSON.parse(JSON.stringify(data));
         const maintenanceSteps = StructureHelper.searchProperty(data, 'maintenanceSteps')[0];
 
