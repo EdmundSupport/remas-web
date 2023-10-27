@@ -78,7 +78,11 @@ export class ProductPackageComponent {
 
         this.productTimer = setTimeout(() => {
             if (textProduct) {
-                this.onLoadProduct({ name: textProduct });
+                this.onLoadProduct({ name: textProduct }).add(()=>{
+                    console.log("🚀 ~ file: product-package.component.ts:83 ~ ProductPackageComponent ~ this.onLoadProduct ~ this.products:", this.products)
+                    console.log("🚀 ~ file: product-package.component.ts:83 ~ ProductPackageComponent ~ this.onLoadProduct ~ this.detail:", this.detail)
+                    this.products = this.products.filter((product)=>product.uuid != this.detail.parentUuid);
+                });
             }
         }, 400);
     }

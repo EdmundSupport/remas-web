@@ -92,8 +92,12 @@ export class ProductFormComponent {
     }
 
     onAddPackage() {
-        if (this.product.productPackages) this.product.productPackages.push({} as any);
-        else this.product.productPackages = [{} as any]
+        const add: Partial<ProductPackageInterface> = {
+            parentUuid: SerializeHelper.isUUID(this.product.uuid!) ? this.product.uuid : undefined,
+        }
+
+        if (this.product.productPackages) this.product.productPackages.push(add as any);
+        else this.product.productPackages = [add as any]
     }
 
     onDeletePackage(index: number, detail: ProductPackageInterface) {
@@ -102,7 +106,7 @@ export class ProductFormComponent {
 
     onAddPrice() {
         const add: Partial<ProductPriceInterface> = {
-            productUuid: this.product.uuid
+            productUuid: SerializeHelper.isUUID(this.product.uuid!) ? this.product.uuid : undefined,
         }
         if (this.product.productPrices) this.product.productPrices.push(add as any);
         else this.product.productPrices = [add as any]
