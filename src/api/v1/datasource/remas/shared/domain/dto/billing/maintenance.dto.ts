@@ -2,6 +2,8 @@ import { IsBoolean, IsDate, IsObject, IsOptional, IsString, IsArray, ValidateNes
 import { Type } from 'class-transformer';
 import { UserDto } from './../aaa/user.dto';
 
+import { ProductDto } from './../inventory/product.dto';
+
 import { MaintenanceStatusDto } from './maintenance-status.dto';
 
 import { MaintenanceStepDto } from './maintenance-step.dto';
@@ -61,6 +63,10 @@ export class MaintenanceDto{
 	@IsOptional()
 	@IsObject()
 	user: UserDto;
+
+	@IsOptional()
+	@IsObject()
+	product: ProductDto;
 
 	@IsOptional()
 	@IsObject()

@@ -1,5 +1,7 @@
 import { UserInterface } from './../aaa/user.interface';
 
+import { ProductInterface } from './../inventory/product.interface';
+
 import { MaintenanceStatusInterface } from './maintenance-status.interface';
 
 import { MaintenanceStepInterface } from './maintenance-step.interface';
@@ -33,6 +35,8 @@ export interface MaintenanceInterface{
 	updatedAt: Date;
 
 	user: UserInterface;
+
+	product: ProductInterface;
 
 	maintenanceStatus: MaintenanceStatusInterface;
 

@@ -3,6 +3,7 @@
 1:N, uuid, quotation_uuid, quotation, quotation_detail
 1:N, uuid, tribute_uuid, identity_em.tribute, client
 1:N, uuid, user_uuid, aaa_em.user, maintenance
+1:N, uuid, product_uuid, inventory_em.product, maintenance
 1:N, uuid, maintenance_status_uuid, maintenance_status, maintenance
 1:N, uuid, maintenance_uuid, maintenance, maintenance_step
 1:N, uuid, product_uuid, inventory_em.product, maintenance_step_detail

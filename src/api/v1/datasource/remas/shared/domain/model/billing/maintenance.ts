@@ -14,6 +14,7 @@ import {
   HasOne,
 } from 'sequelize-typescript';
 import { User } from './../aaa/user';
+import { Product } from './../inventory/product';
 import { MaintenanceStatus } from './maintenance-status';
 import { MaintenanceStep } from './maintenance-step';
 import { QuotationMaintenance } from './quotation-maintenance';
@@ -59,6 +60,7 @@ export class Maintenance extends Model {
   @Index({ name: 'maintenance_user_uuid_idx', using: 'btree', unique: false })
   userUuid?: string;
 
+  @ForeignKey(() => Product)
   @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({
     name: 'maintenance_product_uuid_idx',
@@ -105,6 +107,9 @@ export class Maintenance extends Model {
 
   @BelongsTo(() => User)
   user?: User;
+
+  @BelongsTo(() => Product)
+  product?: Product;
 
   @BelongsTo(() => MaintenanceStatus)
   maintenanceStatus?: MaintenanceStatus;
