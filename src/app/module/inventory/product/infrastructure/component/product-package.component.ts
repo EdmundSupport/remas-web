@@ -74,7 +74,6 @@ export class ProductPackageComponent {
 
     // region Autocomplete Product
     onChangeProduct(textProduct: string) {
-        console.log("🚀 ~ file: product-package.component.ts:77 ~ ProductPackageComponent ~ onChangeProduct ~ textProduct:", textProduct)
         if (this.productTimer) clearTimeout(this.productTimer);
 
         this.productTimer = setTimeout(() => {
@@ -120,14 +119,13 @@ export class ProductPackageComponent {
     }
 
     onSelectPriceCategory(priceCategory: PriceCategoryInterface) {
+        console.log("🚀 ~ file: product-package.component.ts:123 ~ ProductPackageComponent ~ onSelectPriceCategory ~ priceCategory:", priceCategory)
         this.priceCategory = priceCategory;
-        const productPrice = this.detail.priceCategory.productPrices[0];
-        if(!productPrice){
-            this.matSnackBar.open(`No se pudo encontrar el precio selecionado`, `OK`);
-            return;
-        }
-        this.detail.price = productPrice.amount;
         this.detail.priceCategoryUuid = this.priceCategory.uuid;
+        const price = Number(priceCategory!.productPrices![0]!.amount!);
+        if(`${price}` != 'NaN'){
+            this.detail.price = `${price}`;
+        }
     }
 
     onLoadPriceCategory(filter: Partial<PriceCategoryInterface>) {
@@ -143,6 +141,10 @@ export class ProductPackageComponent {
 
     onShowPriceCategory(priceCategory: PriceCategoryInterface) {
         return priceCategory?.name ?? '';
+    }
+
+    onShowPriceCategorySelected(priceCategory: PriceCategoryInterface){
+        return (priceCategory?.productPrices && priceCategory.productPrices[0]?.amount) ?? priceCategory?.name ?? '';
     }
     // endregion Autocomplete PriceCategory
 }

@@ -17,7 +17,6 @@ export class QuotationTrackingService {
     onConfirm(quotationUuid: string) {
         return this.httpService.patch(this.url + '/v1/quotation/tracking/confirm/' + quotationUuid, undefined).pipe(
             catchError((result) => new Observable(observer => {
-                console.log("🚀 ~ file: quotation-tracking.service.ts:20 ~ QuotationTrackingService ~ catchError ~ result:", result)
                 observer.next(result?.error);
                 observer.complete();
             })),

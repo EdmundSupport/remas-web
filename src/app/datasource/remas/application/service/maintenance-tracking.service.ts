@@ -17,7 +17,6 @@ export class MaintenanceTrackingService {
     onConfirm(quotationUuid: string) {
         return this.httpService.patch(this.url + '/v1/maintenance/tracking/confirm/' + quotationUuid, undefined).pipe(
             catchError((result) => new Observable(observer => {
-                console.log("🚀 ~ file: maintenance-tracking.service.ts:20 ~ QuotationTrackingService ~ catchError ~ result:", result)
                 observer.next(result?.error);
                 observer.complete();
             })),
@@ -33,7 +32,6 @@ export class MaintenanceTrackingService {
     onFinalized(quotationUuid: string) {
         return this.httpService.patch(this.url + '/v1/maintenance/tracking/finalized/' + quotationUuid, undefined).pipe(
             catchError((result) => new Observable(observer => {
-                console.log("🚀 ~ file: maintenance-tracking.service.ts:36 ~ MaintenanceTrackingService ~ catchError ~ result:", result)
                 observer.next(result?.error);
                 observer.complete();
             })),

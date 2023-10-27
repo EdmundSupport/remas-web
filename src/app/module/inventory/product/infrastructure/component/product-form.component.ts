@@ -64,14 +64,12 @@ export class ProductFormComponent {
         if (SerializeHelper.isUUID(this.product.uuid!)) {
             this.productService.onFindOne(this?.product?.uuid!)
                 .subscribe((result) => {
-                    console.log("🚀 ~ file: product-form.component.ts:67 ~ ProductFormComponent ~ .subscribe ~ result:", result)
                     if (result?.statusCode && result?.statusCode != 200) {
                         this.matSnackBar.open('Ocurrio un error al obtener el producto.');
                         return;
                     }
 
                     this.product = {...this.product, ...result};
-                    console.log("🚀 ~ file: product-form.component.ts:73 ~ ProductFormComponent ~ .subscribe ~ this.product :", this.product )
 
                     if (this.product.measureUuid) this.onLoadMeasure({ uuid: this.product.measureUuid })
                         .add(() => {
@@ -130,7 +128,6 @@ export class ProductFormComponent {
             if(priceUsedIndex != -1) return {price, index};
             return;
         });
-        console.log("🚀 ~ file: product-form.component.ts:116 ~ ProductFormComponent ~ pricesUsed ~ pricesUsed:", pricesUsed);
     }
 
     onStopSaveLoading() {
@@ -273,7 +270,6 @@ export class ProductFormComponent {
         //     }
         // }
 
-        console.log("🚀 ~ file: product-form.component.ts:237 ~ ProductFormComponent ~ onSave ~ this.product:", this.product)
         if (!(this.product && this.product.uuid && this.product.uuid != '' && SerializeHelper.isUUID(this.product.uuid))) {
             this.productService.onCreate(this.product as any).pipe(
                 finalize(() => this.onStopSaveLoading()))

@@ -34,7 +34,7 @@
             <mat-label>Categoria de Precio</mat-label>
             <input type="text" placeholder="Categoria de Precio" matInput [(ngModel)]="priceCategory!"
                 (ngModelChange)="onChangePriceCategory($event)" [matAutocomplete]="priceCategoryA" />
-            <mat-autocomplete #priceCategoryA="matAutocomplete" [displayWith]="onShowPriceCategory">
+            <mat-autocomplete #priceCategoryA="matAutocomplete" [displayWith]="onShowPriceCategorySelected">
                 <mat-option *ngFor="let item of priceCategories" [value]="onShowPriceCategory(item)" (click)="onSelectPriceCategory(item)">
                     {{ onShowPriceCategory(item) }}
                 </mat-option>
