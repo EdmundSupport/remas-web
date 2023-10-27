@@ -22,6 +22,8 @@ export class ProductService {
         private productMantenanceStepDetailService: typeof ProductMaintenanceStepDetail,
         @Inject('ProductPriceRepository')
         private productPriceRepository: typeof ProductPrice,
+        @Inject('ProductPackageRepository')
+        private productPackageRepository: typeof ProductPackage,
     ) { }
 
     create(data: CreateProductDto) {
@@ -162,7 +164,7 @@ export class ProductService {
                     model: ProductPrice,
                 },
                 {
-                    as: 'productPackage',
+                    as: 'productPackages',
                     model: ProductPackage,
                 },
                 {
@@ -241,6 +243,16 @@ export class ProductService {
             } else {
                 const productPriceCreated = await this.productPriceRepository.create(productPrice as any);
                 productPrice.uuid = productPriceCreated.uuid;
+            }
+        }));
+
+        const productPackages = StructureHelper.searchProperty(data, 'productPackages', true)[0] as ProductPrice[];
+        await Promise.all(productPackages.map(async (productPackage) => {
+            if (productPackage.uuid) {
+                await this.productPackageRepository.update(productPackage, { where: { uuid: productPackage.uuid } });
+            } else {
+                const productPackageCreated = await this.productPackageRepository.create(productPackage as any);
+                productPackage.uuid = productPackageCreated.uuid;
             }
         }));
         await this.productService.update(data as any, { where: { uuid } });
