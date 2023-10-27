@@ -24,7 +24,6 @@ export class MaintenanceService {
     ) { }
 
     async create(data: CreateMaintenanceDto) {
-        console.log("🚀 ~ file: maintenance.service.ts:27 ~ MaintenanceService ~ create ~ data:", data)
         data = JSON.parse(JSON.stringify(data));
         const maintenanceSteps = StructureHelper.searchProperty(data, 'maintenanceSteps')[0];
 
@@ -109,7 +108,6 @@ export class MaintenanceService {
     async update(uuid: string, data: CreateMaintenanceDto) {
         data = JSON.parse(JSON.stringify(data));
         const maintenanceSteps = StructureHelper.searchProperty(data, 'maintenanceSteps', true)[0] as MaintenanceStep[];
-        console.log("🚀 ~ file: maintenance.service.ts:112 ~ MaintenanceService ~ update ~ maintenanceSteps:", maintenanceSteps)
         // maintenanceSteps['maintenanceUuid'] = uuid;
 
         const maintenance = await this.findOne(uuid);

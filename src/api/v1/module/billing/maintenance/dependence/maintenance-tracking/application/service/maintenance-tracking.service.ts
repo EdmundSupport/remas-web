@@ -24,7 +24,6 @@ export class MaintenanceTrackingService {
     ) { }
 
     async confirm(uuid: string, confirmUuid?: string) {
-        console.log("🚀 ~ file: maintenance-tracking.service.ts:31 ~ MaintenanceTrackingService ~ confirm ~ confirmUuid:", confirmUuid)
         const status = await this.maintenanceStatusRepository.findOne({ where: { keyName: 'confirmed' } });
         if (!status) {
             throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado de confirmado.')
@@ -111,7 +110,7 @@ export class MaintenanceTrackingService {
         if (confirmUuid) {
             this.inventoryMovementHelper.verifyConfirm(confirmUuid);
         }
-        
+
         maintenance.dateEnd = new Date();
         await this.maintenanceService.update(maintenance.uuid, { dateEnd: maintenance.dateEnd } as any)
         const warehouseWorkshop = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'workshop' } }] });
