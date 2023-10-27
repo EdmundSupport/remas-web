@@ -22,7 +22,15 @@ export class CreateMaintenanceStepDetailDto extends PartialType(OmitType(Mainten
     measureUnitUuid: string;
 }
 
-export class CreateMaintenanceStepDto extends PartialType(OmitType(MaintenanceStepDto, ['maintenanceStepDetails'])){
+export class CreateMaintenanceStepDto extends PartialType(OmitType(MaintenanceStepDto, ['maintenanceStepDetails', 'description', 'order'])){
+
+    @IsNotEmpty()
+    @IsString()
+    order: string;
+
+    @IsNotEmpty()
+    @IsString()
+    description: string;
 
     @IsNotEmpty()
     @IsArray()

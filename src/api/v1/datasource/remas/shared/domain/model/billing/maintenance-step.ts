@@ -37,6 +37,18 @@ export class MaintenanceStep extends Model {
 
   @Column({
     allowNull: true,
+    type: DataType.DECIMAL,
+  })
+  order?: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.TEXT,
+  })
+  description?: string;
+
+  @Column({
+    allowNull: true,
     type: DataType.BOOLEAN,
     defaultValue: Sequelize.literal('true'),
   })

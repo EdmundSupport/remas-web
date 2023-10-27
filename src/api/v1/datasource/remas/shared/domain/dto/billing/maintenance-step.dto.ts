@@ -13,6 +13,14 @@ export class MaintenanceStepDto{
 	@IsOptional()
 	@IsString()
 	maintenanceUuid: string;
+	
+	@IsOptional()
+	@IsString()
+	order: string;
+
+	@IsOptional()
+	@IsString()
+	description: string;
 
 	@IsOptional()
 	@IsBoolean()

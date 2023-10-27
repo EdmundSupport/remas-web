@@ -8,6 +8,10 @@ export interface MaintenanceStepInterface{
 
 	maintenanceUuid: string;
 
+	order: string;
+
+	description: string;
+
 	condition: boolean;
 
 	createdAt: Date;
