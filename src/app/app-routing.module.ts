@@ -28,11 +28,11 @@ const routes: Routes = [
     loadChildren: () => import('./module/inventory/product/product.module').then((m) => m.ProductModule),
     canActivate: [AuthGuard]
   },
-  // {
-  //   path: 'app/maintenance',
-  //   loadChildren: () => import('./module/billing/maintenance/maintenance.module').then((m) => m.MaintenanceModule),
-  //   canActivate: [AuthGuard]
-  // },
+  {
+    path: 'app/maintenance',
+    loadChildren: () => import('./module/billing/maintenance/maintenance.module').then((m) => m.MaintenanceModule),
+    canActivate: [AuthGuard]
+  },
   {
     path: 'app/quotation',
     loadChildren: () => import('./module/billing/quotation/quotation.module').then((m) => m.QuotationModule),

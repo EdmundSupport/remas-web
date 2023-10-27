@@ -5,9 +5,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgModule } from "@angular/core";
 import { MaintenanceComponent } from "./infrastructure/component/maintenance.component";
 import { MaintenanceFormComponent } from "./infrastructure/component/maintenance-form.component";
-import { MaintenanceStepComponent } from "./infrastructure/component/maintenance-step.component";
-import { MaintenanceStepDetailComponent } from "./infrastructure/component/maintenance-step-detail.component";
-import { MaintenanceStepDetailMultipleComponent } from "./infrastructure/component/maintenance-step-detail-multiple.component";
+// import { MaintenanceStepComponent } from "./infrastructure/component/maintenance-step.component";
+// import { MaintenanceStepDetailComponent } from "./infrastructure/component/maintenance-step-detail.component";
+// import { MaintenanceStepDetailMultipleComponent } from "./infrastructure/component/maintenance-step-detail-multiple.component";
 import { MaintenanceRoutingModule } from "./maintenance-routing.module";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -31,7 +31,7 @@ import { NgxMatNativeDateModule, NgxMatDatetimePickerModule, NgxMatTimepickerMod
 @NgModule({ 
     declarations: [
         MaintenanceComponent,
-        // MaintenanceFormComponent,
+        MaintenanceFormComponent,
         // MaintenanceStepComponent,
         // MaintenanceStepDetailComponent,
         // MaintenanceStepDetailMultipleComponent,

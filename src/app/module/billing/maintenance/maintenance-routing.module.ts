@@ -6,7 +6,7 @@ import { MaintenanceFormComponent } from "./infrastructure/component/maintenance
 
 const routes: Routes = [
     { path: '', component: MaintenanceComponent, canActivate: [AuthGuard] },
-    // { path: ':uuid', component: MaintenanceFormComponent, canActivate: [AuthGuard] },
+    { path: ':uuid', component: MaintenanceFormComponent, canActivate: [AuthGuard] },
     { path: '**', redirectTo: '' },
 ];
 @NgModule({

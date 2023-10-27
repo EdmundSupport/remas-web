@@ -63,22 +63,22 @@ export class MaintenanceFormComponent {
 
     ngOnInit() {
         if (SerializeHelper.isUUID(this.maintenance.uuid!)) {
-            this.maintenanceService.onFindOne(this?.maintenance?.uuid!)
-                .subscribe((result) => {
-                    if (result?.statusCode && result?.statusCode != 200) {
-                        this.matSnackBar.open('Ocurrio un error al obtener el maintenanceo.');
-                        return;
-                    }
+            // this.maintenanceService.onFindOne(this?.maintenance?.uuid!)
+            //     .subscribe((result) => {
+            //         if (result?.statusCode && result?.statusCode != 200) {
+            //             this.matSnackBar.open('Ocurrio un error al obtener el maintenanceo.');
+            //             return;
+            //         }
 
-                    this.maintenance = result;
-                    if (this.maintenance?.productUuid) {
-                        this.onLoadProductInit(this.maintenance.productUuid);
-                    };
+            //         this.maintenance = result;
+            //         if (this.maintenance?.productUuid) {
+            //             this.onLoadProductInit(this.maintenance.productUuid);
+            //         };
 
 
-                    // this.total = this.onTotal();
-                    this.onStopSaveLoading();
-                });
+            //         // this.total = this.onTotal();
+            //         this.onStopSaveLoading();
+            //     });
         }
     }
 
@@ -92,12 +92,12 @@ export class MaintenanceFormComponent {
                 }
                 const product: ProductInterface = result;
                 if (product) {
-                    product.productMaintenanceSteps.map((step)=>{
+                    product.productMaintenanceSteps.map((step) => {
                         const newStep: Partial<MaintenanceStepInterface> = {
                             condition: false,
                             maintenanceStepDetails: [],
                         }
-                        newStep.maintenanceStepDetails = step.productMaintenanceStepDetails.map((detail)=>{
+                        newStep.maintenanceStepDetails = step.productMaintenanceStepDetails.map((detail) => {
                             const newDetail: Partial<MaintenanceStepDetailInterface> = {
                                 amount: detail.amount,
                                 price: detail.price,
@@ -116,7 +116,7 @@ export class MaintenanceFormComponent {
             });
     }
 
-    ngOnChanges(){        
+    ngOnChanges() {
     }
 
     onChangeDetail(index: number, detail: ProductMaintenanceStepInterface) {
@@ -140,7 +140,7 @@ export class MaintenanceFormComponent {
             this.onSaveLoading$.next(false);
         }, timeMs);
         const maintenance = { ...this.maintenance };
-        
+
         // maintenance.maintenanceSteps = maintenance.product?.productMaintenanceSteps.map((productMaintenanceStep) => {
         //     const maintenanceStep: any = {};
         //     maintenanceStep['productMaintenanceStepUuid'] = productMaintenanceStep.uuid;
@@ -187,7 +187,7 @@ export class MaintenanceFormComponent {
         if (!(maintenance && maintenance.uuid && maintenance.uuid != '' && SerializeHelper.isUUID(maintenance.uuid))) {
             delete maintenance.dateEnd;
             delete maintenance.dateStart;
-            this.maintenanceService.onCreate({...maintenance, product: undefined} as any).pipe(
+            this.maintenanceService.onCreate({ ...maintenance, product: undefined } as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
                 .subscribe((result: any) => {
                     if (result?.statusCode && result?.statusCode != 201) {
@@ -202,7 +202,7 @@ export class MaintenanceFormComponent {
         }
 
         if ((maintenance && maintenance.uuid && maintenance.uuid != '' && SerializeHelper.isUUID(maintenance.uuid))) {
-            this.maintenanceService.onUpdate(maintenance.uuid, {...maintenance, product: undefined} as any).pipe(
+            this.maintenanceService.onUpdate(maintenance.uuid, { ...maintenance, product: undefined } as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
                 .subscribe((result: any) => {
                     if (result.statusCode != 200) {
@@ -224,7 +224,7 @@ export class MaintenanceFormComponent {
                     this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar los productos.');
                     return;
                 }
-                if(result?.productMaintenanceSteps?.length <= 0){
+                if (result?.productMaintenanceSteps?.length <= 0) {
                     this.matSnackBar.open('Este producto no tiene mantenimiento.');
                     this.product = undefined;
                     return;
@@ -241,60 +241,86 @@ export class MaintenanceFormComponent {
 
         this.productTimer = setTimeout(() => {
             if (textProduct) {
-                this.onLoadProduct({ name: textProduct });
+                this.onLoadProduct({ name: textProduct }).add(() => {
+                    // this.products = this.products.filter((product) => product.uuid != this.detail.parentUuid);
+                });
             }
         }, 400);
     }
 
     onSelectProduct(product: ProductInterface) {
-        this.product = product;
-        this.maintenance.productUuid = this.product.uuid;
-        this.onLoadProductSteps(this.product.uuid);
-        this.ngOnChanges();
+        if(!product.uuid){
+            this.matSnackBar.open(`No se encontro el producto.`, `OK`);
+        }
+
+        this.productService.onFindOne(product.uuid).subscribe((result)=>{
+            this.product = result;
+            if (!(this.product?.productMaintenanceSteps && this.product?.productMaintenanceSteps.length > 0)) {
+                this.matSnackBar.open(`Este producto no tiene mantenimiento.`, `OK`);
+                return;
+            }
+
+            this.maintenance.maintenanceSteps = this.product.productMaintenanceSteps.map((step) => {
+                const stepNew: Partial<MaintenanceStepInterface> = {
+                    condition: false,
+                    description: '',
+                    maintenanceStepDetails: [],
+                };
+                stepNew.maintenanceStepDetails = step.productMaintenanceStepDetails.map((detail) => {
+                    const detailNew: Partial<MaintenanceStepDetailInterface> = {
+                        amount: detail.amount,
+                        price: detail.price,
+                        productUuid: detail.productUuid,
+                        measureUnitUuid: detail.measureUnitUuid,
+                        condition: false,
+                    };
+                }) as any;
+                return stepNew;
+            }) as any;
+        })
+
     }
 
     onLoadProduct(filter: Partial<ProductInterface>) {
         const payload = { pagination: { offset: 0, limit: 5 } };
         Object.assign(payload, filter);
-        return this.productService.onFind(payload)
-            .subscribe((result) => {
-                if (result?.statusCode && result?.statusCode != 200) {
-                    this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar los productos.');
-                    return;
-                }
-                this.products = result;
-            });
+        return this.productService.onFind(payload as any)
+            .subscribe((data) => this.products = data);
     }
 
     onShowProduct(product: ProductInterface) {
         return product?.name ?? '';
     }
+
+    onShowProductSelected = (product: ProductInterface) => {
+        return product?.name ?? '';
+    }
     // endregion Autocomplete Product
 
-    onConfirm(){
-        this.maintenanceTrackingService.onConfirm(this.maintenance.uuid!).subscribe((result)=>{
-            if(result?.statusCode && result?.statusCode != 200){
+    onConfirm() {
+        this.maintenanceTrackingService.onConfirm(this.maintenance.uuid!).subscribe((result) => {
+            if (result?.statusCode && result?.statusCode != 200) {
                 this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'Ok');
                 return;
             }
-            
+
             this.matSnackBar.open('Cotizacion confirmada, se generaron las ordenes de mantenimiento.');
         });
     }
 
-    onFinalized(){
-        this.maintenanceTrackingService.onFinalized(this.maintenance.uuid!).subscribe((result)=>{
-            if(result?.statusCode && result?.statusCode != 200){
+    onFinalized() {
+        this.maintenanceTrackingService.onFinalized(this.maintenance.uuid!).subscribe((result) => {
+            if (result?.statusCode && result?.statusCode != 200) {
                 this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'Ok');
                 return;
             }
-            
+
             this.matSnackBar.open('Mantenimiento finalizado.');
         });
     }
 
-    onSend(){
-        this.maintenanceTrackingService.onSend(this.maintenance.uuid!)    
+    onSend() {
+        this.maintenanceTrackingService.onSend(this.maintenance.uuid!)
         this.matSnackBar.open('Cotizacion enviada.');
     }
 }
