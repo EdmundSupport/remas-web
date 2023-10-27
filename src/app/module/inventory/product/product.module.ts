@@ -20,12 +20,16 @@ import { SuperpositionLoadingComponent } from "src/app/shared/component/superpos
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ProductMaintenanceStepDetailComponent } from "./infrastructure/component/product-maintenance-step-detail.component";
 import { ButtonFloatComponent } from "src/app/shared/component/button-float/infrastructure/component/button-float.component";
+import { ProductPackageComponent } from "./infrastructure/component/product-package.component";
+import { ProductPriceComponent } from "./infrastructure/component/product-price.component";
 @NgModule({
     declarations: [
         ProductComponent,
         ProductFormComponent,
         ProductMaintenanceStepComponent,
         ProductMaintenanceStepDetailComponent,
+        ProductPackageComponent,
+        ProductPriceComponent,
     ],
     imports: [
         CommonModule,

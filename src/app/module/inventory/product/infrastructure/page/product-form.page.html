@@ -51,7 +51,34 @@
         </mat-form-field>
 
     </div>
-    <div class="maintenance-step">
+    <div class="product-packages" *ngIf="product.uuid != 'new'">
+        <div class="title">
+            <h1>Produtos Empaquetados</h1>
+            <div class="control">
+                <button (click)="onAddPackage()" mat-icon-button color="warn">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+        <ng-container *ngFor="let item of product.productPackages; let i = index">
+            <app-product-package [detail]="item" (onDelete)="onDeletePackage(i, $event)"></app-product-package>
+        </ng-container>
+    </div>
+    <div class="product-prices" *ngIf="product.uuid != 'new'">
+        <div class="title">
+            <h1>Productos Precios</h1>
+            <div class="control">
+                <button (click)="onAddPrice()" mat-icon-button color="warn">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+        <ng-container *ngFor="let item of product.productPrices; let i = index">
+            <app-product-price [detail]="item" [used]="product.productPrices" (onDelete)="onDeletePrice(i, $event)" (onChange)="onChangePrice(i, $event)"></app-product-price>
+        </ng-container>
+    </div>
+    <div class="maintenance-step" *ngIf="product.uuid != 'new'">
+        <h1>Mantenimientos</h1>
         <ng-container *ngFor="let item of product.productMaintenanceSteps; let i = index">
             <app-product-maintenance-step [detail]="item" (onChange)="onChangeDetail(i, item)" (onDelete)="onDeleteDetail(i, item)"></app-product-maintenance-step>
         </ng-container>

@@ -1,0 +1,37 @@
+<div class="product-package">
+    <div class="amount">
+        <mat-form-field appearance="fill">
+            <mat-label>Monto</mat-label>
+            <input type="number" [(ngModel)]="detail.amount!" matInput placeholder="Monto">
+        </mat-form-field>
+    </div>
+    <div class="measureUnit">
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Unidad de Medida</mat-label>
+            <input type="text" placeholder="Unidad de Medida" matInput [(ngModel)]="measureUnit!"
+                (ngModelChange)="onChangeMeasureUnit($event)" [matAutocomplete]="measureUnitA" />
+            <mat-autocomplete #measureUnitA="matAutocomplete" [displayWith]="onShowMeasureUnit">
+                <mat-option *ngFor="let item of measureUnits" [value]="onShowMeasureUnit(item)" (click)="onSelectMeasureUnit(item)">
+                    {{ onShowMeasureUnit(item) }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="priceCategory">
+        <mat-form-field [subscriptSizing]="'dynamic'">
+            <mat-label>Categoria de Precio</mat-label>
+            <input type="text" placeholder="Categoria de Precio" matInput [(ngModel)]="priceCategory!"
+                (ngModelChange)="onChangePriceCategory($event)" [matAutocomplete]="priceCategoryA" />
+            <mat-autocomplete #priceCategoryA="matAutocomplete" [displayWith]="onShowPriceCategory">
+                <mat-option *ngFor="let item of priceCategories" [value]="onShowPriceCategory(item)" (click)="onSelectPriceCategory(item)">
+                    {{ onShowPriceCategory(item) }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="control">
+        <button (click)="delete()" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+</div>

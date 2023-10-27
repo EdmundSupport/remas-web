@@ -12,6 +12,8 @@ import { ProductTypeService } from 'src/app/datasource/remas/application/service
 import { SerializeHelper } from 'src/app/shared/serialize/application/helper/serialize.helper';
 import { ProductService } from 'src/app/datasource/remas/application/service/product.service';
 import { ProductMaintenanceStepInterface } from 'src/app/datasource/remas/domain/interface/product-maintenance-step.interface';
+import { ProductPackageInterface } from 'src/app/datasource/remas/domain/interface/product-package.interface';
+import { ProductPriceInterface } from 'src/app/datasource/remas/domain/interface/product-price.interface';
 
 @Component({
     selector: 'app-product-form',
@@ -27,6 +29,7 @@ export class ProductFormComponent {
         // parentUuid: '', // TODO corregir porque no es funcional este campo
         measureUuid: '',
         productTypeUuid: '',
+        productPackages: [],
         productPrices: [],
         productMaintenanceSteps: [],
     };
@@ -57,15 +60,18 @@ export class ProductFormComponent {
     }
 
     ngOnInit() {
+        
         if (SerializeHelper.isUUID(this.product.uuid!)) {
             this.productService.onFindOne(this?.product?.uuid!)
                 .subscribe((result) => {
+                    console.log("🚀 ~ file: product-form.component.ts:67 ~ ProductFormComponent ~ .subscribe ~ result:", result)
                     if (result?.statusCode && result?.statusCode != 200) {
                         this.matSnackBar.open('Ocurrio un error al obtener el producto.');
                         return;
                     }
 
-                    this.product = result;
+                    this.product = {...this.product, ...result};
+                    console.log("🚀 ~ file: product-form.component.ts:73 ~ ProductFormComponent ~ .subscribe ~ this.product :", this.product )
 
                     if (this.product.measureUuid) this.onLoadMeasure({ uuid: this.product.measureUuid })
                         .add(() => {
@@ -81,6 +87,50 @@ export class ProductFormComponent {
                     this.onStopSaveLoading();
                 });
         }
+    }
+
+    ngOnChanges(){
+        this.onPriceUsed();
+    }
+
+    onAddPackage() {
+        if (this.product.productPackages) this.product.productPackages.push({} as any);
+        else this.product.productPackages = [{} as any]
+    }
+
+    onDeletePackage(index: number, detail: ProductPackageInterface) {
+        this.product.productPackages?.splice(index, 1);
+    }
+
+    onAddPrice() {
+        const add: Partial<ProductPriceInterface> = {
+            productUuid: this.product.uuid
+        }
+        if (this.product.productPrices) this.product.productPrices.push(add as any);
+        else this.product.productPrices = [add as any]
+    }
+
+    onDeletePrice(index: number, detail: Partial<ProductPriceInterface>) {
+        this.product.productPrices?.splice(index, 1);
+    }
+
+    onChangePrice(index: number, detail: Partial<ProductPriceInterface>){
+        if(detail.priceCategoryUuid){
+            const priceUsed = this.product.productPrices?.filter((price)=>price.priceCategoryUuid == detail.priceCategoryUuid);
+            if(priceUsed?.length! >= 2){
+                this.product.productPrices![index] = undefined!;
+                this.matSnackBar.open(`La categoria seleccionada fue seleccionada.`,`OK`)
+            }
+        }
+    }
+
+    onPriceUsed(){
+        const pricesUsed = this.product.productPrices?.map((price, index, array)=>{
+            const priceUsedIndex = array.slice(index).findIndex((priceUsed)=>priceUsed.priceCategoryUuid == price.priceCategoryUuid);
+            if(priceUsedIndex != -1) return {price, index};
+            return;
+        });
+        console.log("🚀 ~ file: product-form.component.ts:116 ~ ProductFormComponent ~ pricesUsed ~ pricesUsed:", pricesUsed);
     }
 
     onStopSaveLoading() {
@@ -161,10 +211,10 @@ export class ProductFormComponent {
     }
 
     onAddDetail() {
-        if(this?.product?.uuid){      
+        if (this?.product?.uuid) {
             if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any);
             else this.product.productMaintenanceSteps = [{ productUuid: this?.product?.uuid, productMaintenanceStepDetails: [] } as any];
-        }else{
+        } else {
             if (this.product && this.product.productMaintenanceSteps) this.product.productMaintenanceSteps.push({ productMaintenanceStepDetails: [] } as any);
             else this.product.productMaintenanceSteps = [{ productMaintenanceStepDetails: [] } as any];
         }
@@ -181,48 +231,49 @@ export class ProductFormComponent {
             this.onSaveLoading$.next(false);
         }, timeMs);
 
-        if (!(this.product && this.product.sku && this.product.sku != ''))
-            return this.matSnackBar.open('Debes agregar un SKU.', 'Ok') && this.onStopSaveLoading();
+        // if (!(this.product && this.product.sku && this.product.sku != ''))
+        //     return this.matSnackBar.open('Debes agregar un SKU.', 'Ok') && this.onStopSaveLoading();
 
-        if (!(this.product && this.product.name && this.product.name != ''))
-            return this.matSnackBar.open('Debes agregar un nombre.', 'Ok') && this.onStopSaveLoading();
+        // if (!(this.product && this.product.name && this.product.name != ''))
+        //     return this.matSnackBar.open('Debes agregar un nombre.', 'Ok') && this.onStopSaveLoading();
 
-        if (!(this.product && this.product.description && this.product.description != ''))
-            return this.matSnackBar.open('Debes agregar una descripción.', 'Ok') && this.onStopSaveLoading();
+        // if (!(this.product && this.product.description && this.product.description != ''))
+        //     return this.matSnackBar.open('Debes agregar una descripción.', 'Ok') && this.onStopSaveLoading();
 
-        if (!(this.product && this.product.measureUuid && this.product.measureUuid != ''))
-            return this.matSnackBar.open('Debes seleccionar un tipo de medida.', 'Ok') && this.onStopSaveLoading();
+        // if (!(this.product && this.product.measureUuid && this.product.measureUuid != ''))
+        //     return this.matSnackBar.open('Debes seleccionar un tipo de medida.', 'Ok') && this.onStopSaveLoading();
 
-        if (!(this.product && this.product.productTypeUuid && this.product.productTypeUuid != ''))
-            return this.matSnackBar.open('Debes seleccionar un tipo de producto.', 'Ok') && this.onStopSaveLoading();
+        // if (!(this.product && this.product.productTypeUuid && this.product.productTypeUuid != ''))
+        //     return this.matSnackBar.open('Debes seleccionar un tipo de producto.', 'Ok') && this.onStopSaveLoading();
 
-        if ((this.product && this.product.productMaintenanceSteps && this.product.productMaintenanceSteps.length > 0)) {
-            for (let index = 0; index < this.product.productMaintenanceSteps.length; index++) {
-                const maintenanceStep = this.product.productMaintenanceSteps[index];
+        // if ((this.product && this.product.productMaintenanceSteps && this.product.productMaintenanceSteps.length > 0)) {
+        //     for (let index = 0; index < this.product.productMaintenanceSteps.length; index++) {
+        //         const maintenanceStep = this.product.productMaintenanceSteps[index];
 
-                if (!(maintenanceStep && maintenanceStep.order && maintenanceStep.order != ''))
-                    return this.matSnackBar.open('Debes escribir el orden de los pasos.', 'Ok') && this.onStopSaveLoading();
+        //         if (!(maintenanceStep && maintenanceStep.order && maintenanceStep.order != ''))
+        //             return this.matSnackBar.open('Debes escribir el orden de los pasos.', 'Ok') && this.onStopSaveLoading();
 
-                if (!(maintenanceStep && maintenanceStep.description && maintenanceStep.description != ''))
-                    return this.matSnackBar.open('Debes escribir una descripción.', 'Ok') && this.onStopSaveLoading();
+        //         if (!(maintenanceStep && maintenanceStep.description && maintenanceStep.description != ''))
+        //             return this.matSnackBar.open('Debes escribir una descripción.', 'Ok') && this.onStopSaveLoading();
 
-                if ((maintenanceStep && maintenanceStep.productMaintenanceStepDetails && maintenanceStep.productMaintenanceStepDetails.length > 0)) {
-                    for (let index = 0; index < maintenanceStep.productMaintenanceStepDetails.length; index++) {
-                        const maintenanceStepDetail = maintenanceStep.productMaintenanceStepDetails[index];
+        //         if ((maintenanceStep && maintenanceStep.productMaintenanceStepDetails && maintenanceStep.productMaintenanceStepDetails.length > 0)) {
+        //             for (let index = 0; index < maintenanceStep.productMaintenanceStepDetails.length; index++) {
+        //                 const maintenanceStepDetail = maintenanceStep.productMaintenanceStepDetails[index];
 
-                        if (!(maintenanceStepDetail && maintenanceStepDetail.amount && maintenanceStepDetail.amount != ''))
-                            return this.matSnackBar.open('Debes escribir un monto.', 'Ok') && this.onStopSaveLoading();
+        //                 if (!(maintenanceStepDetail && maintenanceStepDetail.amount && maintenanceStepDetail.amount != ''))
+        //                     return this.matSnackBar.open('Debes escribir un monto.', 'Ok') && this.onStopSaveLoading();
 
-                        if (!(maintenanceStepDetail && maintenanceStepDetail.price && maintenanceStepDetail.price != ''))
-                            return this.matSnackBar.open('Debes escribir un precio.', 'Ok') && this.onStopSaveLoading();
+        //                 if (!(maintenanceStepDetail && maintenanceStepDetail.price && maintenanceStepDetail.price != ''))
+        //                     return this.matSnackBar.open('Debes escribir un precio.', 'Ok') && this.onStopSaveLoading();
 
-                        if (!(maintenanceStepDetail && maintenanceStepDetail.measureUnitUuid && maintenanceStepDetail.measureUnitUuid != ''))
-                            return this.matSnackBar.open('Debes seleccionar una unidad de medida.', 'Ok') && this.onStopSaveLoading();
-                    }
-                }
-            }
-        }
+        //                 if (!(maintenanceStepDetail && maintenanceStepDetail.measureUnitUuid && maintenanceStepDetail.measureUnitUuid != ''))
+        //                     return this.matSnackBar.open('Debes seleccionar una unidad de medida.', 'Ok') && this.onStopSaveLoading();
+        //             }
+        //         }
+        //     }
+        // }
 
+        console.log("🚀 ~ file: product-form.component.ts:237 ~ ProductFormComponent ~ onSave ~ this.product:", this.product)
         if (!(this.product && this.product.uuid && this.product.uuid != '' && SerializeHelper.isUUID(this.product.uuid))) {
             this.productService.onCreate(this.product as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
