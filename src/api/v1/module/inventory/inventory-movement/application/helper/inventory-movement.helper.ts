@@ -25,8 +25,10 @@ export class InventoryMovementHelper {
     }
 
     async stocksExceeded(amountsRequired: { productUuid: string, amountRequired: number }[]) {
-        const stocksExceeded = await Promise.all(amountsRequired.map(async (item, index, array) => {
-            const stockExceeded = await this.stockExceeded(item.productUuid, item.amountRequired).catch((error) => true);
+        const stocksExceeded = (await Promise.all(amountsRequired.map(async (item, index, array) => {
+            console.log("🚀 ~ file: inventory-movement.helper.ts:29 ~ InventoryMovementHelper ~ stocksExceeded ~ item:", item)
+            const stockExceeded = await this.stockExceeded(item.productUuid, item.amountRequired).catch((error) => false);
+            console.log("🚀 ~ file: inventory-movement.helper.ts:31 ~ InventoryMovementHelper ~ stocksExceeded ~ stockExceeded:", stockExceeded)
             if (stockExceeded) {
                 array.splice(index, 1);
                 return;
@@ -36,7 +38,8 @@ export class InventoryMovementHelper {
                 productUuid: item.productUuid,
                 stock: stockExceeded,
             }
-        }));
+        }))).filter((item)=>!!item);
+        console.log("🚀 ~ file: inventory-movement.helper.ts:40 ~ InventoryMovementHelper ~ stocksExceeded ~ stocksExceeded:", stocksExceeded)
 
         if (stocksExceeded?.length > 0) {
             const confirmUuidSend = uuidV4();
@@ -46,5 +49,11 @@ export class InventoryMovementHelper {
         }
 
         return true;
+    }
+
+    async verifyConfirm(confirmUuid: string){
+        const confirmUuidReceived = this.inventoryConfirmHashTable.get(confirmUuid);
+        if (!confirmUuidReceived)
+                throw FilterResponseHelper.httpException('BAD_REQUEST', 'No se pudo confirmar la operación.');
     }
 }

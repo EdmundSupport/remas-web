@@ -109,7 +109,8 @@ export class MaintenanceService {
     async update(uuid: string, data: CreateMaintenanceDto) {
         data = JSON.parse(JSON.stringify(data));
         const maintenanceSteps = StructureHelper.searchProperty(data, 'maintenanceSteps', true)[0] as MaintenanceStep[];
-        maintenanceSteps['uuid'] = uuid;
+        console.log("🚀 ~ file: maintenance.service.ts:112 ~ MaintenanceService ~ update ~ maintenanceSteps:", maintenanceSteps)
+        // maintenanceSteps['maintenanceUuid'] = uuid;
 
         const maintenance = await this.findOne(uuid);
         if (!(maintenance?.maintenanceStatus?.keyName == 'confirmed')) {
@@ -120,7 +121,7 @@ export class MaintenanceService {
             Object.assign(data, { maintenanceStatusUuid: maintenanceStatus.uuid });
         }
 
-        for (let index = 0; index < maintenanceSteps.length; index++) {
+        for (let index = 0; index < maintenanceSteps?.length; index++) {
             const maintenanceStep = maintenanceSteps[index];
             const maintenanceStepDetails = StructureHelper.searchProperty(maintenanceStep, 'maintenanceStepDetails', true)[0];
 

@@ -12,10 +12,6 @@ import { StructureHashTable } from 'shared/structure';
     ],
     providers: [
         MaintenanceTrackingService,
-        {
-            provide: 'INVENTORY_CONFIRM_HASH_TABLE',
-            useClass: StructureHashTable,
-        }
     ],
     controllers: [
         MaintenanceTrackingController,

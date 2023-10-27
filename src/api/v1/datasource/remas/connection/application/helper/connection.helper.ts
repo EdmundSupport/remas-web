@@ -23,7 +23,7 @@ export class ConnectionHelper {
             models: [],
             autoLoadModels: true,
             synchronize: false, // never use TRUE in production!
-            logging: true,
+            logging: false,
         };
     }
 }

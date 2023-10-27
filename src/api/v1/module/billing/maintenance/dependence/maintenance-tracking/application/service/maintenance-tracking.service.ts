@@ -16,10 +16,6 @@ export class MaintenanceTrackingService {
         @Inject('MaintenanceStatusRepository')
         private maintenanceStatusRepository: typeof MaintenanceStatus,
         private maintenanceService: MaintenanceService,
-        @Inject('INVENTORY_CONFIRM_HASH_TABLE')
-        private inventoryConfirmHashTable: StructureHashTable,
-        @Inject('ProductMaintenanceStepDetailRepository')
-        private productMaintenanceStepDetailRepository: typeof ProductMaintenanceStepDetail,
         @Inject('WarehouseRepository')
         private warehouseRepository: typeof Warehouse,
         @Inject('MeasureUnitRepository')
@@ -28,39 +24,35 @@ export class MaintenanceTrackingService {
     ) { }
 
     async confirm(uuid: string, confirmUuid?: string) {
+        console.log("🚀 ~ file: maintenance-tracking.service.ts:31 ~ MaintenanceTrackingService ~ confirm ~ confirmUuid:", confirmUuid)
         const status = await this.maintenanceStatusRepository.findOne({ where: { keyName: 'confirmed' } });
-        console.log("🚀 ~ file: maintenance-tracking.service.ts:30 ~ MaintenanceTrackingService ~ confirm ~ status:", status)
         if (!status) {
             throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar el estado de confirmado.')
         }
 
         const maintenance = await this.maintenanceService.findOne(uuid);
-        const product = await this.productService.findOne(maintenance.productUuid);
-        const amountsRequired = product.productMaintenanceSteps.map((productMaintenanceStep) => {
-            return productMaintenanceStep.productMaintenanceStepDetails.map((stepDetail) => {
+        const amountsRequired = maintenance.maintenanceSteps.map((step) => {
+            return step.maintenanceStepDetails.map((detail) => {
                 return {
-                    productUuid: stepDetail.productUuid,
-                    amountRequired: Number(stepDetail.amount),
-                    measureUnitUuid: stepDetail.measureUnitUuid,
-                    uuid: stepDetail.uuid,
+                    productUuid: detail.productUuid,
+                    amountRequired: Number(detail.amount),
+                    measureUnitUuid: detail.measureUnitUuid,
+                    uuid: detail.uuid,
                 }
             });
         }).flat();
-
-        if (!maintenance) await this.inventoryMovementHelper.stocksExceeded(amountsRequired);
+        if (!confirmUuid) await this.inventoryMovementHelper.stocksExceeded(amountsRequired);
 
         if (confirmUuid) {
-            const confirmUuidReceived = this.inventoryConfirmHashTable.get(confirmUuid);
-            if (!confirmUuidReceived)
-                throw FilterResponseHelper.httpException('BAD_REQUEST', 'No se pudo confirmar la operación.');
+            this.inventoryMovementHelper.verifyConfirm(confirmUuid);
         }
 
-        const warehouseOrigin = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'warehouse' } }] });
-        if (!warehouseOrigin)
+        const warehouseWarehouse = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'warehouse' } }] });
+        if (!warehouseWarehouse)
             throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de origen.');
 
-        const warehouseDestiny = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'workshop' } }] });
-        if (!warehouseDestiny)
+        const warehouseWorkshop = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'workshop' } }] });
+        if (!warehouseWorkshop)
             throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de destino.');
 
         const measureUnit = await this.measureUnitRepository.findOne({ where: { condition: true } });
@@ -70,10 +62,10 @@ export class MaintenanceTrackingService {
         const inventoryMovement = await this.inventoryMovementRepository.create({
             date: maintenance.dateStartScheduled,
             amount: 1,
-            warehouseOriginUuid: warehouseOrigin.uuid,
-            originUuid: warehouseOrigin.uuid,
-            warehouseDetinyUuid: warehouseDestiny.uuid,
-            destinyUuid: warehouseDestiny.uuid,
+            warehouseOriginUuid: warehouseWarehouse.uuid,
+            originUuid: warehouseWarehouse.uuid,
+            warehouseDetinyUuid: warehouseWorkshop.uuid,
+            destinyUuid: warehouseWorkshop.uuid,
             productUuid: maintenance.productUuid,
             measureUnitUuid: measureUnit.uuid,
             referenceSchema: 'billing',
@@ -83,94 +75,102 @@ export class MaintenanceTrackingService {
         Promise.all(amountsRequired.map(async (amountRequired) => {
             const inventoryMovement = await this.inventoryMovementRepository.create({
                 date: maintenance.dateStartScheduled,
-                amount: Number(amountRequired.amountRequired) * -1,
-                warehouseOriginUuid: warehouseOrigin.uuid,
-                originUuid: warehouseOrigin.uuid,
-                warehouseDetinyUuid: warehouseDestiny.uuid,
-                destinyUuid: warehouseDestiny.uuid,
+                amount: Number(amountRequired.amountRequired),
+                warehouseOriginUuid: warehouseWarehouse.uuid,
+                originUuid: warehouseWarehouse.uuid,
+                warehouseDetinyUuid: warehouseWorkshop.uuid,
+                destinyUuid: warehouseWorkshop.uuid,
                 productUuid: amountRequired.productUuid,
                 measureUnitUuid: amountRequired.measureUnitUuid,
                 referenceSchema: 'billing',
-                referenceTable: 'maintenance',
-                referenceUuid: maintenance.uuid,
+                referenceTable: 'maintenance_step_detail',
+                referenceUuid: amountRequired.uuid,
             });
         }));
     }
 
-    // async finalized(uuid: string) {
-    //     const status = await this.maintenanceStatusRepository.findOne({where: {keyName: 'finalized'}});
-    //     if(!status){
-    //         throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo obtener el estado.');
-    //     }
+    async finalized(uuid: string, confirmUuid?: string) {
+        const status = await this.maintenanceStatusRepository.findOne({ where: { keyName: 'finalized' } });
+        if (!status) {
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo obtener el estado.');
+        }
 
-    //     const maintenance = await this.maintenanceService.findOne(uuid);
-    //     const inventoryMovements = await this.inventoryMovementRepository.findAll({ where: { referenceSchema: 'billing', referenceTable: 'maintenance', referenceUuid: maintenance.uuid } })
+        const maintenance = await this.maintenanceService.findOne(uuid);
+        const amountsRequired = maintenance.maintenanceSteps.map((step) => {
+            return step.maintenanceStepDetails.map((detail) => {
+                return {
+                    productUuid: detail.productUuid,
+                    amountRequired: Number(detail.amount),
+                    measureUnitUuid: detail.measureUnitUuid,
+                    uuid: detail.uuid,
+                }
+            });
+        }).flat();
+        if (!confirmUuid) await this.inventoryMovementHelper.stocksExceeded(amountsRequired);
 
-    //     const productsUsed = (await Promise.all(maintenance.maintenanceSteps.map(async (step) => {
-    //         return await Promise.all(step.maintenanceStepDetails.map(async (detail) => {
-    //             const productDetail = await this.productMaintenanceStepDetailRepository.findOne({ where: { uuid: detail.productMaintenanceStepDetailUuid } })
-    //             return {
-    //                 productUuid: productDetail.uuid,
-    //                 amount: detail.amount
-    //             }
-    //         }));
-    //     }))).flat();
+        if (confirmUuid) {
+            this.inventoryMovementHelper.verifyConfirm(confirmUuid);
+        }
+        
+        maintenance.dateEnd = new Date();
+        await this.maintenanceService.update(maintenance.uuid, { dateEnd: maintenance.dateEnd } as any)
+        const warehouseWorkshop = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'workshop' } }] });
+        if (!warehouseWorkshop)
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de origen.');
 
-    //     const warehouseWorkshop = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'workshop' } }] });
-    //     if (!warehouseWorkshop)
-    //         throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de origen.');
+        const warehouseWarehouse = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'warehouse' } }] });
+        if (!warehouseWarehouse)
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de destino.');
 
-    //     const warehouseWarehouse = await this.warehouseRepository.findOne({ include: [{ model: WarehouseType, where: { key: 'warehouse' } }] });
-    //     if (!warehouseWarehouse)
-    //         throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la bodega de destino.');
+        const measureUnit = await this.measureUnitRepository.findOne({ where: { condition: true } });
+        if (!measureUnit)
+            throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la unidad de medida.');
 
-    //     const measureUnit = await this.measureUnitRepository.findOne({ where: { condition: true } });
-    //     if (!measureUnit)
-    //         throw FilterResponseHelper.httpException('FAILED_DEPENDENCY', 'No se pudo determinar la unidad de medida.');
+        const movement = await this.inventoryMovementRepository.findOne({
+            where: {
+                warehouseOriginUuid: warehouseWorkshop.uuid,
+                warehouseDetinyUuid: warehouseWarehouse.uuid,
+                referenceSchema: 'billing',
+                referenceTable: 'maintenance',
+                referenceUuid: maintenance.uuid,
+            }
+        })
+        if(!movement){
+            this.inventoryMovementRepository.create({
+                date: maintenance.dateEnd,
+                amount: 1,
+                warehouseOriginUuid: warehouseWorkshop.uuid,
+                originUuid: warehouseWorkshop.uuid,
+                warehouseDetinyUuid: warehouseWarehouse.uuid,
+                destinyUuid: warehouseWarehouse.uuid,
+                productUuid: maintenance.productUuid,
+                measureUnitUuid: measureUnit.uuid,
+                referenceSchema: 'billing',
+                referenceTable: 'maintenance',
+                referenceUuid: maintenance.uuid,
+            }).catch((error) => console.log(error));
+        }
 
-    //     const movement = inventoryMovements.find((movement) => { movement.productUuid == maintenance.productUuid });
-    //     this.inventoryMovementRepository.create({
-    //         date: maintenance.dateStartScheduled,
-    //         amount: 1,
-    //         warehouseOriginUuid: warehouseWorkshop.uuid,
-    //         originUuid: warehouseWorkshop.uuid,
-    //         warehouseDetinyUuid: warehouseWarehouse.uuid,
-    //         destinyUuid: warehouseWarehouse.uuid,
-    //         productUuid: maintenance.productUuid,
-    //         measureUnitUuid: measureUnit.uuid,
-    //         referenceSchema: 'billing',
-    //         referenceTable: 'maintenance',
-    //         referenceUuid: maintenance.uuid,
-    //     })
+        const details = maintenance.maintenanceSteps.map((step) => {
+            return step.maintenanceStepDetails.map((detail) => {
+                return {
+                    productUuid: detail.productUuid,
+                    amount: Number(detail.amount),
+                    measureUnitUuid: detail.measureUnitUuid,
+                    uuid: detail.uuid,
+                }
+            });
+        }).flat();
 
-    //     Promise.all(productsUsed.map(async (used) => {
-    //         const movement = inventoryMovements.find((movement) => movement.productUuid == used.productUuid);
-    //         if (movement) {
-    //             await this.inventoryMovementRepository.update({ amount: used.amount }, {
-    //                 where:
-    //                 {
-    //                     productUuid: used.productUuid,
-    //                     referenceSchema: 'billing',
-    //                     referenceTable: 'maintenance',
-    //                     referenceUuid: maintenance.uuid
-    //                 }
-    //             });
-    //         } else {
-    //             await this.inventoryMovementRepository.create({
-    //                 date: maintenance.dateStartScheduled,
-    //                 amount: used.amount,
-    //                 warehouseOriginUuid: warehouseWarehouse.uuid,
-    //                 originUuid: warehouseWarehouse.uuid,
-    //                 warehouseDetinyUuid: warehouseWorkshop.uuid,
-    //                 destinyUuid: warehouseWorkshop.uuid,
-    //                 productUuid: maintenance.productUuid,
-    //                 measureUnitUuid: measureUnit.uuid,
-    //                 referenceSchema: 'billing',
-    //                 referenceTable: 'maintenance',
-    //                 referenceUuid: maintenance.uuid,
-    //             });
-    //         }
-    //     }));
-    //     return true;
-    // }
+        Promise.all(details.map(async (detail) => {
+            await this.inventoryMovementRepository.update({ amount: detail.amount }, {
+                where: {
+                    referenceSchema: 'billing',
+                    referenceTable: 'maintenance_step_detail',
+                    referenceUuid: detail.uuid,
+                }
+            }).catch((error) => console.log(error));
+        }));
+        return true;
+    }
 }
