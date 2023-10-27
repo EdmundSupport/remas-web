@@ -11,16 +11,16 @@ import {
   ForeignKey,
   BelongsTo,
   HasMany,
-  BelongsToMany,
+  HasOne,
 } from 'sequelize-typescript';
 import { Measure } from './measure';
 import { ProductType } from './product-type';
 import { ProductPrice } from './product-price';
-import { PriceCategory } from './price-category';
 import { ProductMaintenanceStep } from './product-maintenance-step';
 import { ProductMaintenanceStepDetail } from './product-maintenance-step-detail';
 import { ChargeDetailScheduled } from './charge-detail-scheduled';
 import { DischargeDetailScheduled } from './discharge-detail-scheduled';
+import { ProductPackage } from './product-package';
 
 @Table({ schema: 'inventory',  tableName: 'product', timestamps: false })
 export class Product extends Model {
@@ -112,9 +112,6 @@ export class Product extends Model {
   @HasMany(() => ProductPrice, { sourceKey: 'uuid' })
   productPrices?: ProductPrice[];
 
-  @BelongsToMany(() => PriceCategory, () => ProductPrice)
-  priceCategories?: PriceCategory[];
-
   @HasMany(() => ProductMaintenanceStep, { sourceKey: 'uuid' })
   productMaintenanceSteps?: ProductMaintenanceStep[];
 
@@ -126,4 +123,10 @@ export class Product extends Model {
 
   @HasMany(() => DischargeDetailScheduled, { sourceKey: 'uuid' })
   dischargeDetailScheduleds?: DischargeDetailScheduled[];
+
+  @HasOne(() => ProductPackage, { sourceKey: 'uuid', as: 'productPackage' })
+  productPackage?: ProductPackage;
+
+  @HasMany(() => ProductPackage, { sourceKey: 'uuid', as: 'productPackages' })
+  productPackages?: ProductPackage[];
 }

@@ -2,7 +2,7 @@ import { IsBoolean, IsDate, IsObject, IsOptional, IsString, IsArray, ValidateNes
 import { Type } from 'class-transformer';
 import { ProductPriceDto } from './product-price.dto';
 
-import { ProductDto } from './product.dto';
+import { ProductPackageDto } from './product-package.dto';
 
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
 export class PriceCategoryDto{
@@ -39,8 +39,8 @@ export class PriceCategoryDto{
 	@IsOptional()
 	@IsArray()
 	@ValidateNested({each: true})
-	@Type(()=>ProductDto)
-	products: ProductDto[];
+	@Type(()=>ProductPackageDto)
+	productPackages: ProductPackageDto[];
 
 	@IsOptional()
 	@IsObject()

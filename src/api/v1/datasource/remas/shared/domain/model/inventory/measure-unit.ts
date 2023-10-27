@@ -19,6 +19,7 @@ import { ChargeDetailScheduled } from './charge-detail-scheduled';
 import { ChargeDetail } from './charge-detail';
 import { DischargeDetailScheduled } from './discharge-detail-scheduled';
 import { DischargeDetail } from './discharge-detail';
+import { ProductPackage } from './product-package';
 
 @Table({ schema: 'inventory',  tableName: 'measure_unit', timestamps: false })
 export class MeasureUnit extends Model {
@@ -109,4 +110,7 @@ export class MeasureUnit extends Model {
 
   @HasMany(() => DischargeDetail, { sourceKey: 'uuid' })
   dischargeDetails?: DischargeDetail[];
+
+  @HasMany(() => ProductPackage, { sourceKey: 'uuid' })
+  productPackages?: ProductPackage[];
 }

@@ -4,6 +4,7 @@ import { IsArray, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-v
 import { Uuid } from "shared/validation/infrastructure/decoration/uuid.decoration";
 import { ProductMaintenanceStepDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/product-maintenance-step-detail.dto";
 import { ProductMaintenanceStepDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/product-maintenance-step.dto";
+import { ProductPackageDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/product-package.dto";
 import { ProductDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/product.dto";
 
 export class CreateProductMaintenanceStepDetailsDto extends PartialType(OmitType(ProductMaintenanceStepDetailDto, ['amount', 'productUuid', 'measureUnitUuid'])) {
@@ -32,11 +33,37 @@ export class CreateProductMaintenanceStepDto extends PartialType(OmitType(Produc
     @IsNotEmpty()
     @ValidateNested({ each: true })
     @IsArray()
-    @Type(()=>CreateProductMaintenanceStepDetailsDto)
+    @Type(() => CreateProductMaintenanceStepDetailsDto)
     productMaintenanceStepDetails: CreateProductMaintenanceStepDetailsDto[];
 }
 
-export class CreateProductDto extends PartialType(OmitType(ProductDto, ['sku', 'name', 'description', 'productMaintenanceSteps'])) {
+export class CreateProductPackageDto extends PartialType(OmitType(ProductPackageDto, ['description', 'amount', 'price', 'productUuid', 'measureUnitUuid', 'priceCategoryUuid'])) {
+    @IsNotEmpty()
+    @IsString()
+    description: string;
+
+    @IsNotEmpty()
+    @IsString()
+    amount: string;
+
+    @IsNotEmpty()
+    @IsString()
+    price: string;
+
+    @IsNotEmpty()
+    @IsString()
+    productUuid: string;
+
+    @IsNotEmpty()
+    @IsString()
+    measureUnitUuid: string;
+
+    @IsNotEmpty()
+    @IsString()
+    priceCategoryUuid: string;
+}
+
+export class CreateProductDto extends PartialType(OmitType(ProductDto, ['sku', 'name', 'description', 'productMaintenanceSteps', 'productPackages'])) {
     @IsNotEmpty()
     @IsString()
     sku: string;
@@ -54,4 +81,10 @@ export class CreateProductDto extends PartialType(OmitType(ProductDto, ['sku', '
     @IsArray()
     @Type(() => CreateProductMaintenanceStepDto)
     productMaintenanceSteps: CreateProductMaintenanceStepDto[];
+
+    @IsNotEmpty()
+    @ValidateNested({ each: true })
+    @IsArray()
+    @Type(() => CreateProductPackageDto)
+    productPackages: CreateProductPackageDto[];
 }

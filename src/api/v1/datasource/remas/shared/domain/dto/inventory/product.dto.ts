@@ -6,8 +6,6 @@ import { ProductTypeDto } from './product-type.dto';
 
 import { ProductPriceDto } from './product-price.dto';
 
-import { PriceCategoryDto } from './price-category.dto';
-
 import { ProductMaintenanceStepDto } from './product-maintenance-step.dto';
 
 import { ProductMaintenanceStepDetailDto } from './product-maintenance-step-detail.dto';
@@ -15,6 +13,8 @@ import { ProductMaintenanceStepDetailDto } from './product-maintenance-step-deta
 import { ChargeDetailScheduledDto } from './charge-detail-scheduled.dto';
 
 import { DischargeDetailScheduledDto } from './discharge-detail-scheduled.dto';
+
+import { ProductPackageDto } from './product-package.dto';
 
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
 export class ProductDto{
@@ -79,12 +79,6 @@ export class ProductDto{
 	@IsOptional()
 	@IsArray()
 	@ValidateNested({each: true})
-	@Type(()=>PriceCategoryDto)
-	priceCategories: PriceCategoryDto[];
-
-	@IsOptional()
-	@IsArray()
-	@ValidateNested({each: true})
 	@Type(()=>ProductMaintenanceStepDto)
 	productMaintenanceSteps: ProductMaintenanceStepDto[];
 
@@ -105,6 +99,16 @@ export class ProductDto{
 	@ValidateNested({each: true})
 	@Type(()=>DischargeDetailScheduledDto)
 	dischargeDetailScheduleds: DischargeDetailScheduledDto[];
+
+	@IsOptional()
+	@IsObject()
+	productPackage: ProductPackageDto;
+
+	@IsOptional()
+	@IsArray()
+	@ValidateNested({each: true})
+	@Type(()=>ProductPackageDto)
+	productPackages: ProductPackageDto[];
 
 	@IsOptional()
 	@IsObject()

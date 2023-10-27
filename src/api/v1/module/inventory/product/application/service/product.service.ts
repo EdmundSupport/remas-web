@@ -2,7 +2,7 @@ import { Injectable, Inject } from "@nestjs/common";
 // import { ProductCreateInterface as CreateInterface } from "../../domain/interface/product-create.interface";
 // import { ProductInterface as FindInterface } from "src/api/v1/datasource/remas/shared/domain/interface/product.interface";
 import { StructureHelper } from "shared/structure/application/helper/structure.helper";
-import { Measure, Product, ProductMaintenanceStep, ProductMaintenanceStepDetail, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
+import { Measure, Product, ProductMaintenanceStep, ProductMaintenanceStepDetail, ProductPackage, ProductPrice, ProductType } from "src/api/v1/datasource/remas/shared/domain/model/inventory";
 import { ProductDto } from "src/api/v1/datasource/remas/shared/domain/dto/inventory/product.dto";
 import { Op, WhereOptions } from "sequelize";
 import { CreateProductDto } from "../../domain/dto/create-product.dto";
@@ -20,11 +20,15 @@ export class ProductService {
         private productMantenanceStepService: typeof ProductMaintenanceStep,
         @Inject('ProductMaintenanceStepDetailRepository')
         private productMantenanceStepDetailService: typeof ProductMaintenanceStepDetail,
+        @Inject('ProductPriceRepository')
+        private productPriceRepository: typeof ProductPrice,
     ) { }
 
     create(data: CreateProductDto) {
         data = JSON.parse(JSON.stringify(data));
         const productMaintenanceSteps = StructureHelper.searchProperty(data, 'productMaintenanceSteps')[0];
+        const productPackages = StructureHelper.searchProperty(data, 'productPackages')[0];
+        const productPrices = StructureHelper.searchProperty(data, 'productPrices')[0];
 
         const include = [];
         if (productMaintenanceSteps && productMaintenanceSteps[0]) {
@@ -57,6 +61,20 @@ export class ProductService {
             delete productMaintenanceStep.productMaintenanceStepDetails;
             return productMaintenanceStep;
         })
+
+        if (productPackages && productPackages[0]) {
+            include.push({
+                model: ProductPackage,
+                require: true,
+            });
+        }
+
+        if (productPrices && productPrices[0]) {
+            include.push({
+                model: ProductPrice,
+                require: true,
+            })
+        }
 
         if (!ValidationHelper.isUUID(data?.uuid)) delete data.uuid;
         return this.productService.create(data as any, {
@@ -102,13 +120,13 @@ export class ProductService {
         }
         if (productChild) include.push({
             model: Product,
-            as: 'productChild',
+            as: 'productPackages',
             where: productChild,
         });
 
         if (productParent) include.push({
             model: Product,
-            as: 'productParent',
+            as: 'productPackage',
             where: productParent,
         });
 
@@ -119,6 +137,12 @@ export class ProductService {
 
         if (productType) include.push({
             model: ProductType,
+        });
+
+        const productPackages = StructureHelper.searchProperty(data, 'productPackages', true)[0];
+        if (productPackages && productPackages[0]) include.push({
+            as: 'product',
+            model: ProductPackage,
         });
 
         return this.productService.findAll({
@@ -133,17 +157,25 @@ export class ProductService {
         // const product = JSON.parse(JSON.stringify(
         const product = JSON.parse(JSON.stringify((await this.productService.findOne({
             where: { uuid },
-            include: [{
-                model: ProductMaintenanceStep,
-                include: [{
-                    as: 'pmsd',
-                    model: ProductMaintenanceStepDetail
+            include: [
+                {
+                    model: ProductPrice,
+                },
+                {
+                    as: 'productPackage',
+                    model: ProductPackage,
+                },
+                {
+                    model: ProductMaintenanceStep,
+                    include: [{
+                        as: 'pmsd',
+                        model: ProductMaintenanceStepDetail
+                    }]
                 }]
-            }]
         })))) as Product;
         if (!product)
             throw FilterResponseHelper.httpException('BAD_REQUEST', 'El producto no existe.');
-        console.log("🚀 ~ file: product.service.ts:138 ~ ProductService ~ product.productMaintenanceSteps=product.productMaintenanceSteps.map ~ product.productMaintenanceSteps:", JSON.stringify(product.productMaintenanceSteps))
+        console.log("🚀 ~ file: product.service.ts:138 ~ ProductService:", JSON.stringify(product))
         product.productMaintenanceSteps = product.productMaintenanceSteps.map((productMaintenanceStep) => {
             productMaintenanceStep.productMaintenanceStepDetails = productMaintenanceStep['pmsd'];
             delete productMaintenanceStep['pmsd'];
@@ -202,6 +234,15 @@ export class ProductService {
 
         }
 
+        const productPrices = StructureHelper.searchProperty(data, 'productPrices', true)[0] as ProductPrice[];
+        await Promise.all(productPrices.map(async (productPrice) => {
+            if (productPrice.uuid) {
+                await this.productPriceRepository.update(productPrice, { where: { uuid: productPrice.uuid } });
+            } else {
+                const productPriceCreated = await this.productPriceRepository.create(productPrice as any);
+                productPrice.uuid = productPriceCreated.uuid;
+            }
+        }));
         await this.productService.update(data as any, { where: { uuid } });
         return true;
     }

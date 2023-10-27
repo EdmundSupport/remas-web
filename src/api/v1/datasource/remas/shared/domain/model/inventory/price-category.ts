@@ -10,10 +10,9 @@ import {
   Sequelize,
   ForeignKey,
   HasMany,
-  BelongsToMany,
 } from 'sequelize-typescript';
 import { ProductPrice } from './product-price';
-import { Product } from './product';
+import { ProductPackage } from './product-package';
 
 @Table({ schema: 'inventory',  tableName: 'price_category', timestamps: false })
 export class PriceCategory extends Model {
@@ -63,6 +62,6 @@ export class PriceCategory extends Model {
   @HasMany(() => ProductPrice, { sourceKey: 'uuid' })
   productPrices?: ProductPrice[];
 
-  @BelongsToMany(() => Product, () => ProductPrice)
-  products?: Product[];
+  @HasMany(() => ProductPackage, { sourceKey: 'uuid' })
+  productPackages?: ProductPackage[];
 }

@@ -32,15 +32,15 @@ import { ProductDto } from './product.dto';
 
 import { ProductMaintenanceStepDto } from './product-maintenance-step.dto';
 
+import { ProductMaintenanceStepDetailDto } from './product-maintenance-step-detail.dto';
+
+import { ProductPriceDto } from './product-price.dto';
+
 import { ProductTypeDto } from './product-type.dto';
 
 import { VehicleDto } from './vehicle.dto';
 
 import { WarehouseDto } from './warehouse.dto';
-
-import { ProductMaintenanceStepDetailDto } from './product-maintenance-step-detail.dto';
-
-import { ProductPriceDto } from './product-price.dto';
 
 import { WarehouseAddressDto } from './warehouse-address.dto';
 
@@ -49,6 +49,8 @@ import { WarehouseEventDto } from './warehouse-event.dto';
 import { WarehouseTypeDto } from './warehouse-type.dto';
 
 import { WarehouseVehicleDto } from './warehouse-vehicle.dto';
+
+import { ProductPackageDto } from './product-package.dto';
 
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
 export class IndexDto{

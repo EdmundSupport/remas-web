@@ -17,7 +17,6 @@ import { PriceCategory } from './price-category';
 
 @Table({ schema: 'inventory',  tableName: 'product_price', timestamps: false })
 export class ProductPrice extends Model {
-  @ForeignKey(() => Product)
   @Column({
     primaryKey: true,
     type: DataType.UUID,

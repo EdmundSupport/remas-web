@@ -30,15 +30,15 @@ import { ProductInterface } from './product.interface';
 
 import { ProductMaintenanceStepInterface } from './product-maintenance-step.interface';
 
+import { ProductMaintenanceStepDetailInterface } from './product-maintenance-step-detail.interface';
+
+import { ProductPriceInterface } from './product-price.interface';
+
 import { ProductTypeInterface } from './product-type.interface';
 
 import { VehicleInterface } from './vehicle.interface';
 
 import { WarehouseInterface } from './warehouse.interface';
-
-import { ProductMaintenanceStepDetailInterface } from './product-maintenance-step-detail.interface';
-
-import { ProductPriceInterface } from './product-price.interface';
 
 import { WarehouseAddressInterface } from './warehouse-address.interface';
 
@@ -47,6 +47,8 @@ import { WarehouseEventInterface } from './warehouse-event.interface';
 import { WarehouseTypeInterface } from './warehouse-type.interface';
 
 import { WarehouseVehicleInterface } from './warehouse-vehicle.interface';
+
+import { ProductPackageInterface } from './product-package.interface';
 
 import { PaginationInterface } from 'src/api/v1/shared/global/domain/interface/pagination.interface';
 export interface IndexInterface{

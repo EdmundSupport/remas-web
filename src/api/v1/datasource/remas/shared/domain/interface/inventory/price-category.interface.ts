@@ -1,6 +1,6 @@
 import { ProductPriceInterface } from './product-price.interface';
 
-import { ProductInterface } from './product.interface';
+import { ProductPackageInterface } from './product-package.interface';
 
 import { PaginationInterface } from 'src/api/v1/shared/global/domain/interface/pagination.interface';
 export interface PriceCategoryInterface{
@@ -18,7 +18,7 @@ export interface PriceCategoryInterface{
 
 	productPrices: ProductPriceInterface[];
 
-	products: ProductInterface[];
+	productPackages: ProductPackageInterface[];
 
 	pagination: PaginationInterface;
 }

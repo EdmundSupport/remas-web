@@ -14,6 +14,8 @@ import { DischargeDetailScheduledDto } from './discharge-detail-scheduled.dto';
 
 import { DischargeDetailDto } from './discharge-detail.dto';
 
+import { ProductPackageDto } from './product-package.dto';
+
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
 export class MeasureUnitDto{
 	@IsOptional()
@@ -91,6 +93,12 @@ export class MeasureUnitDto{
 	@ValidateNested({each: true})
 	@Type(()=>DischargeDetailDto)
 	dischargeDetails: DischargeDetailDto[];
+
+	@IsOptional()
+	@IsArray()
+	@ValidateNested({each: true})
+	@Type(()=>ProductPackageDto)
+	productPackages: ProductPackageDto[];
 
 	@IsOptional()
 	@IsObject()

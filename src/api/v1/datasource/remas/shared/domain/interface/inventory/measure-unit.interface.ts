@@ -12,6 +12,8 @@ import { DischargeDetailScheduledInterface } from './discharge-detail-scheduled.
 
 import { DischargeDetailInterface } from './discharge-detail.interface';
 
+import { ProductPackageInterface } from './product-package.interface';
+
 import { PaginationInterface } from 'src/api/v1/shared/global/domain/interface/pagination.interface';
 export interface MeasureUnitInterface{
 	uuid: string;
@@ -45,6 +47,8 @@ export interface MeasureUnitInterface{
 	dischargeDetailScheduleds: DischargeDetailScheduledInterface[];
 
 	dischargeDetails: DischargeDetailInterface[];
+
+	productPackages: ProductPackageInterface[];
 
 	pagination: PaginationInterface;
 }

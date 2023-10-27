@@ -4,8 +4,6 @@ import { ProductTypeInterface } from './product-type.interface';
 
 import { ProductPriceInterface } from './product-price.interface';
 
-import { PriceCategoryInterface } from './price-category.interface';
-
 import { ProductMaintenanceStepInterface } from './product-maintenance-step.interface';
 
 import { ProductMaintenanceStepDetailInterface } from './product-maintenance-step-detail.interface';
@@ -13,6 +11,8 @@ import { ProductMaintenanceStepDetailInterface } from './product-maintenance-ste
 import { ChargeDetailScheduledInterface } from './charge-detail-scheduled.interface';
 
 import { DischargeDetailScheduledInterface } from './discharge-detail-scheduled.interface';
+
+import { ProductPackageInterface } from './product-package.interface';
 
 import { PaginationInterface } from 'src/api/v1/shared/global/domain/interface/pagination.interface';
 export interface ProductInterface{
@@ -44,8 +44,6 @@ export interface ProductInterface{
 
 	productPrices: ProductPriceInterface[];
 
-	priceCategories: PriceCategoryInterface[];
-
 	productMaintenanceSteps: ProductMaintenanceStepInterface[];
 
 	productMaintenanceStepDetails: ProductMaintenanceStepDetailInterface[];
@@ -53,6 +51,10 @@ export interface ProductInterface{
 	chargeDetailScheduleds: ChargeDetailScheduledInterface[];
 
 	dischargeDetailScheduleds: DischargeDetailScheduledInterface[];
+
+	productPackage: ProductPackageInterface;
+
+	productPackages: ProductPackageInterface[];
 
 	pagination: PaginationInterface;
 }
