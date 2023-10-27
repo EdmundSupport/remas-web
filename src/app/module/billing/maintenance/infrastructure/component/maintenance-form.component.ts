@@ -62,7 +62,18 @@ export class MaintenanceFormComponent {
     }
 
     ngOnInit() {
+        console.log("🚀 ~ file: maintenance-form.component.ts:66 ~ MaintenanceFormComponent ~ ngOnInit ~ this.maintenance:", this.maintenance)
         if (SerializeHelper.isUUID(this.maintenance.uuid!)) {
+            this.maintenanceService.onFindOne(this.maintenance.uuid!).subscribe((result)=>{
+                this.maintenance = result;
+
+                if(this.maintenance.productUuid){
+                    this.onLoadProduct({uuid:this.maintenance.productUuid}).add(()=>{
+                        const product = this.products.find((product)=>product.uuid == this.maintenance.productUuid);
+                        this.product = product;
+                    });
+                }
+            });
         }
     }
 
@@ -72,7 +83,7 @@ export class MaintenanceFormComponent {
     }
 
     onSave(): any {
-        this.onSaveLoading$.next(true);
+        // this.onSaveLoading$.next(true);
         const timeMin = 5;
         const timeMs = 1000 * 60 * timeMin;
         this.timeSaveLoading = setTimeout(() => {
@@ -152,6 +163,7 @@ export class MaintenanceFormComponent {
 
         this.productService.onFindOne(product.uuid).subscribe((result)=>{
             this.product = result;
+            this.maintenance.productUuid = result.uuid;
             if (!(this.product?.productMaintenanceSteps && this.product?.productMaintenanceSteps.length > 0)) {
                 this.matSnackBar.open(`Este producto no tiene mantenimiento.`, `OK`);
                 return;
@@ -176,7 +188,6 @@ export class MaintenanceFormComponent {
                 }) as any;
                 return stepNew;
             }) as any;
-            console.log("🚀 ~ file: maintenance-form.component.ts:177 ~ MaintenanceFormComponent ~ this.maintenance.maintenanceSteps=this.product.productMaintenanceSteps.map ~ this.maintenance.maintenanceSteps :", this.maintenance.maintenanceSteps )
         })
 
     }
