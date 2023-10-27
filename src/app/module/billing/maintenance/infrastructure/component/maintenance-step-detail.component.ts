@@ -2,14 +2,11 @@ import {
     Component, ElementRef, EventEmitter, Input, Output, Renderer2,
 } from '@angular/core';
 import { MaintenanceStepDetailInterface } from 'src/app/datasource/remas/domain/interface/maintenance-step-detail.interface';
-import { MaintenanceService } from '../../../../../datasource/remas/application/service/maintenance.service';
-import { MaintenanceInterface } from 'src/app/datasource/remas/domain/interface/maintenance.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MeasureUnitInterface } from 'src/app/datasource/remas/domain/interface/measure-unit.interface';
 import { MeasureUnitService } from 'src/app/datasource/remas/application/service/measure-unit.service';
 import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 import { ProductService } from 'src/app/datasource/remas/application/service/product.service';
-import { ProductMaintenanceStepDetailInterface } from 'src/app/datasource/remas/domain/interface/product-maintenance-step-detail.interface';
 
 @Component({
     selector: 'app-maintenance-step-detail',
@@ -17,28 +14,22 @@ import { ProductMaintenanceStepDetailInterface } from 'src/app/datasource/remas/
     styleUrls: ['../style/maintenance-step-detail.style.scss'],
 })
 export class MaintenanceStepDetailComponent {
-    @Output('onDelete') onDelete = new EventEmitter();
-    @Output('onChange') onChange = new EventEmitter();
-    @Output('onLoad') onLoad = new EventEmitter();
-    @Input('maintenanceStepUuid') maintenanceStepUuid: string | undefined;
-    @Input('detail') detail: Partial<ProductMaintenanceStepDetailInterface> = {
-        uuid: '',
+    @Input('detail') detail: Partial<MaintenanceStepDetailInterface> = {
         amount: '',
         price: '',
-        productMaintenanceStepUuid: '',
         productUuid: '',
         measureUnitUuid: '',
-        maintenanceStepDetails: [],
-        product: undefined,
-        measureUnit: undefined,
     };
+
+    amount!: string;
+    price!: string
 
     product!: ProductInterface;
     products: ProductInterface[] = [];
     productTimer: any;
 
     measureUnit!: MeasureUnitInterface;
-    measuresUnit: MeasureUnitInterface[] = [];
+    measureUnits: MeasureUnitInterface[] = [];
     measureUnitTimer: any;
 
     constructor(
@@ -52,80 +43,19 @@ export class MaintenanceStepDetailComponent {
     }
 
     ngOnInit() {
-        if (this.detail) {
-            if(!this.detail.maintenanceStepDetails || this.detail.maintenanceStepDetails.length == 0){
-                this.onAddDetail();
-            }
-            if (this.detail.productUuid)
-                this.productService.onFindOne(this.detail.productUuid)
-                    .subscribe((result) => {
-                        if (result?.statusCode && result?.statusCode != 200) {
-                            this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar el producto para el label.');
-                            return;
-                        }
-                        if (this.detail) this.detail['product'] = result;
-                    });
-
-            if (this.detail.measureUnitUuid)
-                this.measureUnitService.onFindOne(this.detail.measureUnitUuid)
-                    .subscribe((result) => {
-                        if (result?.statusCode && result?.statusCode != 200) {
-                            this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar la unidad de medida para el label.');
-                            return;
-                        }
-                        if (this.detail) this.detail['measureUnit'] = result;
-                    });
-
-            // if (this.detail.measureUnit)
-            //     if (this.detail.maintenanceUuid) this.onLoadMaintenance({ uuid: this.detail.maintenanceUuid })
-            //         .add(() => {
-            //             this.maintenance = this.maintenances.find((maintenance) => maintenance.uuid == this.detail.maintenanceUuid)!;
-            //         });
-
-            //     if (this.detail.measureUnitUuid) this.onLoadMeasureUnit({ uuid: this.detail.measureUnitUuid })
-            //         .add(() => {
-            //             this.measureUnit = this.measuresUnit.find((measureUnit) => measureUnit.uuid == this.detail.measureUnitUuid)!;
-
-            //         });
+        this.amount = this.detail.amount!;
+        this.price = this.detail.price!;
+        if(this.detail.measureUnitUuid){
+            this.onLoadMeasureUnit({uuid: this.detail.measureUnitUuid}).add(()=>{
+                const measureUnit = this.measureUnits.find((measureUnit)=>measureUnit.uuid == this.detail.measureUnitUuid);
+                this.measureUnit = measureUnit!;
+            });
+            this.onLoadProduct({uuid: this.detail.productUuid}).add(()=>{
+                const product = this.products.find((product)=>product.uuid == this.detail.productUuid);
+                this.product = product!;
+            });
         }
-    }
-
-    delete() {
-        if (this.onDelete) this.onDelete.emit(this.detail);
-    }
-
-    onAddDetail() {
-        const detail = {
-            maintenanceStepUuid: this.maintenanceStepUuid,
-            productMaintenanceStepDetailUuid: this.detail?.uuid,
-            amount: this.detail?.amount,
-            price: this.detail?.price,
-        }
-        if (this.detail && this.detail.maintenanceStepDetails) this.detail.maintenanceStepDetails.push(detail as any);
-        else this.detail.maintenanceStepDetails = [detail as any];
-
-        // this.total = this.onTotal();
-    }
-    onImporteSum() {
-        const price = Number(this.detail?.price);
-        const amount = Number(this.detail?.amount);
-        const sum = (`${price}` == 'NaN' ? 0 : price) * (`${amount}` == 'NaN' ? 0 : amount)
-        return sum;
-    }
-
-    ngAfterViewInit() {
-        this.onLoad.emit();
-    }
-
-    ngOnChanges() {
-        this.onChange.emit(this.detail);
-    }
-
-    onChangeDetail(index: number, detail: MaintenanceStepDetailInterface) {
-        if (this.detail && this.detail.maintenanceStepDetails && this.detail.maintenanceStepDetails[index]) {
-            this.detail.maintenanceStepDetails[index] = detail;
-        }
-        this.ngOnChanges();
+        console.log("🚀 ~ file: maintenance-step-detail.component.ts:44 ~ MaintenanceStepDetailComponent ~ ngOnInit ~ this.detail:", this.detail)
     }
 
     // region Autocomplete Product
@@ -187,7 +117,7 @@ export class MaintenanceStepDetailComponent {
                     this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar los measureUnitos.');
                     return;
                 }
-                this.measuresUnit = result;
+                this.measureUnits = result;
             });
     }
 

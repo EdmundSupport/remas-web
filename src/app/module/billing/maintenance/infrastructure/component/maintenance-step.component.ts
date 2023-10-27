@@ -4,9 +4,6 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from 'src/app/datasource/remas/application/service/product.service';
 import { MaintenanceStepInterface } from 'src/app/datasource/remas/domain/interface/maintenance-step.interface';
-import { ProductMaintenanceStepDetailInterface } from 'src/app/datasource/remas/domain/interface/product-maintenance-step-detail.interface';
-import { ProductMaintenanceStepInterface } from 'src/app/datasource/remas/domain/interface/product-maintenance-step.interface';
-import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 
 @Component({
     selector: 'app-maintenance-step',
@@ -15,24 +12,16 @@ import { ProductInterface } from 'src/app/datasource/remas/domain/interface/prod
 })
 export class MaintenanceStepComponent {
     @Output('onDelete') onDelete = new EventEmitter();
-    @Output('onChange') onChange = new EventEmitter();
     @Output('onLoad') onLoad = new EventEmitter();
 
-    @Input('detail') detail: Partial<ProductMaintenanceStepInterface> = {
-        uuid: '',
+    @Input('detail') detail: Partial<MaintenanceStepInterface> = {
         order: '',
         description: '',
-        productUuid: '',
-        productMaintenanceStepDetails: [],
-        maintenanceSteps: []
+        maintenanceStepDetails: []
     };
 
-    maintenanceStepUuid!: string;
-    panelOpenState = false;
-
-    // product!: ProductInterface;
-    // products: ProductInterface[] = [];
-    // productTimer: any;
+    order!: string;
+    description!: string;
 
     constructor(
         private elementRef: ElementRef,
@@ -44,69 +33,8 @@ export class MaintenanceStepComponent {
     }
 
     ngOnInit() {
-        if (this.detail?.maintenanceSteps) {
-            const maintenanceStep = this.detail.maintenanceSteps.find((maintenanceStep) => maintenanceStep.productMaintenanceStepUuid == this.detail.uuid);
-            if (maintenanceStep)
-                this.maintenanceStepUuid = maintenanceStep.uuid;
-        }
-
-        if (this.detail.productMaintenanceStepDetails
-            && this.detail.productMaintenanceStepDetails?.length > 0) {
-            if (this.detail.maintenanceSteps && this.detail.maintenanceSteps.length > 0) {
-                this.detail.condition = true;
-            } else this.detail.condition = undefined;
-        }else{
-            if (!(this.detail.maintenanceSteps && this.detail.maintenanceSteps.length > 0)) {
-                this.detail.condition = undefined;
-            }
-        }
-    }
-
-    ngOnChanges() {
-        this.onChange.emit(this.detail);
-    }
-
-    onProgress() {
-        const detailBaseCount = this.detail?.productMaintenanceStepDetails?.length ?? 0;
-        const stepComplete = this.detail.maintenanceSteps?.find((maintenanceStep) => maintenanceStep.productMaintenanceStepUuid == this.detail.uuid);
-        const detailUsedCount = stepComplete?.maintenanceStepDetails?.length ?? 0;
-        const percentage = (detailUsedCount * 100) / detailBaseCount;
-
-        if (this.detail.condition == true) return 100;
-        return percentage;
-    }
-
-    onComplete(event: any) {
-        this.detail.condition = event.checked;
-        this.ngOnChanges();
-    }
-
-    onChangeDetail(index: number, detail: ProductMaintenanceStepDetailInterface) {
-        if (this.detail && this.detail.productMaintenanceStepDetails && this.detail.productMaintenanceStepDetails[index]) {
-            this.detail.productMaintenanceStepDetails[index] = detail;
-            // if (this.total || this.total == 0 || `${this.total}` == 'NaN') {
-            //     this.total = this.onTotal();
-            // }
-        }
-        this.ngOnChanges();
-    }
-
-    onDeleteDetail(index: number, detail: ProductMaintenanceStepDetailInterface) {
-        if (this.detail && this.detail.productMaintenanceStepDetails) {
-            this.detail.productMaintenanceStepDetails.splice(index, 1);
-            // if (this.total || this.total == 0 || `${this.total}` == 'NaN') this.total = this.onTotal();
-        }
-    }
-
-    // onAddDetail() {
-    //     if (this.detail && this.detail.productMaintenanceStepDetails) this.detail.productMaintenanceStepDetails.push({ maintenanceMaintenanceStepUuid: this?.detail?.uuid } as any);
-    //     else this.detail.productMaintenanceStepDetails = [{ maintenanceMaintenanceStepUuid: this?.detail?.uuid } as any];
-
-    //     // this.total = this.onTotal();
-    // }
-
-    onAdd(event: any) {
-        this.panelOpenState = true;
-
+        this.order = this.detail.order!;
+        this.description = this.detail.description!;
+        console.log("🚀 ~ file: maintenance-step.component.ts:34 ~ MaintenanceStepComponent ~ ngOnInit ~ this.detail:", this.detail)
     }
 }

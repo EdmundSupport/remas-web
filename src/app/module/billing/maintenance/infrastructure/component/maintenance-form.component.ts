@@ -37,7 +37,7 @@ export class MaintenanceFormComponent {
         product: undefined,
         maintenanceStatusUuid: '',
         maintenanceStatus: undefined,
-        maintenanceSteps: []
+        maintenanceSteps: [],
     };
 
     total!: number;
@@ -63,67 +63,7 @@ export class MaintenanceFormComponent {
 
     ngOnInit() {
         if (SerializeHelper.isUUID(this.maintenance.uuid!)) {
-            // this.maintenanceService.onFindOne(this?.maintenance?.uuid!)
-            //     .subscribe((result) => {
-            //         if (result?.statusCode && result?.statusCode != 200) {
-            //             this.matSnackBar.open('Ocurrio un error al obtener el maintenanceo.');
-            //             return;
-            //         }
-
-            //         this.maintenance = result;
-            //         if (this.maintenance?.productUuid) {
-            //             this.onLoadProductInit(this.maintenance.productUuid);
-            //         };
-
-
-            //         // this.total = this.onTotal();
-            //         this.onStopSaveLoading();
-            //     });
         }
-    }
-
-
-    onLoadProductInit(productUuid: string) {
-        this.productService.onFindOne(productUuid)
-            .subscribe((result) => {
-                if (result?.statusCode && result?.statusCode != 200) {
-                    this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar los productos.');
-                    return;
-                }
-                const product: ProductInterface = result;
-                if (product) {
-                    product.productMaintenanceSteps.map((step) => {
-                        const newStep: Partial<MaintenanceStepInterface> = {
-                            condition: false,
-                            maintenanceStepDetails: [],
-                        }
-                        newStep.maintenanceStepDetails = step.productMaintenanceStepDetails.map((detail) => {
-                            const newDetail: Partial<MaintenanceStepDetailInterface> = {
-                                amount: detail.amount,
-                                price: detail.price,
-                                productUuid: detail.productUuid,
-                                measureUnitUuid: detail.measureUnitUuid,
-                            }
-                            return newDetail;
-                        }) as any;
-                    });
-                }
-                // delete result['productMaintenanceSteps'];
-                this.products = [product];
-                this.product = product;
-                // this.product.condition = false;
-                this.maintenance.product = product;
-            });
-    }
-
-    ngOnChanges() {
-    }
-
-    onChangeDetail(index: number, detail: ProductMaintenanceStepInterface) {
-        if (this.maintenance && this.maintenance.product && this.maintenance.product.productMaintenanceSteps && this.maintenance.product.productMaintenanceSteps[index]) {
-            this.maintenance.product.productMaintenanceSteps[index] = detail;
-        }
-        this.ngOnChanges();
     }
 
     onStopSaveLoading() {
@@ -159,30 +99,6 @@ export class MaintenanceFormComponent {
         //     return maintenanceStep;
         // });
 
-        maintenance.maintenanceSteps = maintenance.maintenanceSteps?.filter((maintenanceStep) => {
-            const details = maintenanceStep.maintenanceStepDetails.filter((maintenanceStepDetail) => (maintenanceStepDetail?.amount && maintenanceStepDetail?.amount != '' && maintenanceStepDetail?.price && maintenanceStepDetail?.price != ''))
-            return details.length >= 1 || maintenanceStep.condition == true;
-        });
-        // delete maintenance['product'];
-
-        if (!(maintenance))
-            return this.matSnackBar.open('Debes completar la informacion del mantenimiento.', 'Ok') && this.onStopSaveLoading();
-
-        if (!(maintenance.number && maintenance.number != ''))
-            return this.matSnackBar.open('Debes agregar un numero de mantenimiento.', 'Ok') && this.onStopSaveLoading();
-
-        if (!(maintenance.dateStartScheduled))
-            return this.matSnackBar.open('Debes seleccionar una fecha inicial programada.', 'Ok') && this.onStopSaveLoading();
-
-        if (!(maintenance.dateEndScheduled))
-            return this.matSnackBar.open('Debes seleccionar una fecha final programada.', 'Ok') && this.onStopSaveLoading();
-
-        if (!(maintenance.productUuid && maintenance.productUuid != ''))
-            return this.matSnackBar.open('Debes seleccionar un producto.', 'Ok') && this.onStopSaveLoading();
-
-        if (!(maintenance.maintenanceSteps && maintenance.uuid))
-            return this.matSnackBar.open('Debes completar todos los pasos para poder continuar.', 'Ok') && this.onStopSaveLoading();
-
 
         if (!(maintenance && maintenance.uuid && maintenance.uuid != '' && SerializeHelper.isUUID(maintenance.uuid))) {
             delete maintenance.dateEnd;
@@ -216,25 +132,6 @@ export class MaintenanceFormComponent {
         }
     }
 
-    // region product steps
-    onLoadProductSteps(productUuid: string) {
-        return this.productService.onFindOne(productUuid)
-            .subscribe((result) => {
-                if (result?.statusCode && result?.statusCode != 200) {
-                    this.matSnackBar.open(result?.message ?? 'Ocurrio un error al cargar los productos.');
-                    return;
-                }
-                if (result?.productMaintenanceSteps?.length <= 0) {
-                    this.matSnackBar.open('Este producto no tiene mantenimiento.');
-                    this.product = undefined;
-                    return;
-                }
-
-                this.maintenance.product = result;
-            });
-    }
-    // endregion product steps
-
     // region Autocomplete Product
     onChangeProduct(textProduct: string) {
         if (this.productTimer) clearTimeout(this.productTimer);
@@ -263,7 +160,8 @@ export class MaintenanceFormComponent {
             this.maintenance.maintenanceSteps = this.product.productMaintenanceSteps.map((step) => {
                 const stepNew: Partial<MaintenanceStepInterface> = {
                     condition: false,
-                    description: '',
+                    order: step.order,
+                    description: step.description,
                     maintenanceStepDetails: [],
                 };
                 stepNew.maintenanceStepDetails = step.productMaintenanceStepDetails.map((detail) => {
@@ -274,9 +172,11 @@ export class MaintenanceFormComponent {
                         measureUnitUuid: detail.measureUnitUuid,
                         condition: false,
                     };
+                    return detailNew;
                 }) as any;
                 return stepNew;
             }) as any;
+            console.log("🚀 ~ file: maintenance-form.component.ts:177 ~ MaintenanceFormComponent ~ this.maintenance.maintenanceSteps=this.product.productMaintenanceSteps.map ~ this.maintenance.maintenanceSteps :", this.maintenance.maintenanceSteps )
         })
 
     }
