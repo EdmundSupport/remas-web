@@ -26,8 +26,6 @@ export interface ProductInterface{
 
 	priceCost: string;
 
-	parentUuid: string;
-
 	measureUuid: string;
 
 	productTypeUuid: string;

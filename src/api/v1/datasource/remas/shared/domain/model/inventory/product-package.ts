@@ -99,10 +99,10 @@ export class ProductPackage extends Model {
   updatedAt?: Date;
 
   @BelongsTo(() => Product)
-  productPackage?: Product;
+  product?: Product;
 
   @BelongsTo(() => Product)
-  productPackages?: Product;
+  product?: Product;
 
   @BelongsTo(() => MeasureUnit)
   measureUnit?: MeasureUnit;

@@ -1,4 +1,4 @@
-import { ProductMaintenanceStepDetailInterface } from './../inventory/product-maintenance-step-detail.interface';
+import { ProductInterface } from './../inventory/product.interface';
 
 import { MaintenanceStepInterface } from './maintenance-step.interface';
 
@@ -14,7 +14,7 @@ export interface MaintenanceStepDetailInterface{
 
 	maintenanceStepUuid: string;
 
-	productMaintenanceStepDetailUuid: string;
+	productUuid: string;
 
 	measureUnitUuid: string;
 
@@ -24,7 +24,7 @@ export interface MaintenanceStepDetailInterface{
 
 	updatedAt: Date;
 
-	productMaintenanceStepDetail: ProductMaintenanceStepDetailInterface;
+	product: ProductInterface;
 
 	maintenanceStep: MaintenanceStepInterface;
 

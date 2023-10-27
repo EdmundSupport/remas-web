@@ -36,10 +36,6 @@ export class MeasureUnitDto{
 
 	@IsOptional()
 	@IsString()
-	parentUuid: string;
-
-	@IsOptional()
-	@IsString()
 	measureUuid: string;
 
 	@IsOptional()

@@ -13,7 +13,6 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { Maintenance } from './maintenance';
-import { ProductMaintenanceStep } from './../inventory/product-maintenance-step';
 import { MaintenanceStepDetail } from './maintenance-step-detail';
 
 @Table({ schema: 'billing',  tableName: 'maintenance_step', timestamps: false })
@@ -35,14 +34,6 @@ export class MaintenanceStep extends Model {
     unique: false,
   })
   maintenanceUuid?: string;
-
-  @ForeignKey(() => ProductMaintenanceStep)
-  @Column({
-    field: 'product_maintenance_step_uuid',
-    allowNull: true,
-    type: DataType.UUID,
-  })
-  productMaintenanceStepUuid?: string;
 
   @Column({
     allowNull: true,
@@ -69,9 +60,6 @@ export class MaintenanceStep extends Model {
 
   @BelongsTo(() => Maintenance)
   maintenance?: Maintenance;
-
-  @BelongsTo(() => ProductMaintenanceStep)
-  productMaintenanceStep?: ProductMaintenanceStep;
 
   @HasMany(() => MaintenanceStepDetail, { sourceKey: 'uuid', as: 'msd' })
   maintenanceStepDetails?: MaintenanceStepDetail[];

@@ -11,7 +11,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { ProductMaintenanceStepDetail } from './../inventory/product-maintenance-step-detail';
+import { Product } from './../inventory/product';
 import { MaintenanceStep } from './maintenance-step';
 import { MeasureUnit } from './../inventory/measure-unit';
 
@@ -53,18 +53,14 @@ export class MaintenanceStepDetail extends Model {
   })
   maintenanceStepUuid?: string;
 
-  @ForeignKey(() => ProductMaintenanceStepDetail)
-  @Column({
-    field: 'product_maintenance_step_detail_uuid',
-    allowNull: true,
-    type: DataType.UUID,
-  })
+  @ForeignKey(() => Product)
+  @Column({ field: 'product_uuid', allowNull: true, type: DataType.UUID })
   @Index({
-    name: 'maintenance_step_detail_product_maintenance_step_detail_uuid_id',
+    name: 'maintenance_step_detail_product_uuid_idx',
     using: 'btree',
     unique: false,
   })
-  productMaintenanceStepDetailUuid?: string;
+  productUuid?: string;
 
   @ForeignKey(() => MeasureUnit)
   @Column({ field: 'measure_unit_uuid', allowNull: true, type: DataType.UUID })
@@ -98,8 +94,8 @@ export class MaintenanceStepDetail extends Model {
   })
   updatedAt?: Date;
 
-  @BelongsTo(() => ProductMaintenanceStepDetail)
-  productMaintenanceStepDetail?: ProductMaintenanceStepDetail;
+  @BelongsTo(() => Product)
+  product?: Product;
 
   @BelongsTo(() => MaintenanceStep)
   maintenanceStep?: MaintenanceStep;

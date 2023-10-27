@@ -43,6 +43,10 @@ export class QuotationDetailDto{
 	inventoryMovementUuid: string;
 
 	@IsOptional()
+	@IsString()
+	parentUuid: string;
+
+	@IsOptional()
 	@IsBoolean()
 	condition: boolean;
 

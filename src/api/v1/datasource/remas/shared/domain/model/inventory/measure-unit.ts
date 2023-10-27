@@ -50,14 +50,6 @@ export class MeasureUnit extends Model {
   })
   factorConversion?: string;
 
-  @Column({ field: 'parent_uuid', allowNull: true, type: DataType.UUID })
-  @Index({
-    name: 'measure_unit_parent_uuid_idx',
-    using: 'btree',
-    unique: false,
-  })
-  parentUuid?: string;
-
   @ForeignKey(() => Measure)
   @Column({ field: 'measure_uuid', allowNull: true, type: DataType.UUID })
   @Index({

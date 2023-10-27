@@ -40,10 +40,6 @@ export class ProductDto{
 
 	@IsOptional()
 	@IsString()
-	parentUuid: string;
-
-	@IsOptional()
-	@IsString()
 	measureUuid: string;
 
 	@IsOptional()

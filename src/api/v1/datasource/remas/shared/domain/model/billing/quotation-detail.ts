@@ -79,6 +79,9 @@ export class QuotationDetail extends Model {
   })
   inventoryMovementUuid?: string;
 
+  @Column({ field: 'parent_uuid', allowNull: true, type: DataType.UUID })
+  parentUuid?: string;
+
   @Column({
     allowNull: true,
     type: DataType.BOOLEAN,

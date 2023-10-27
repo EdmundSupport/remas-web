@@ -2,8 +2,6 @@ import { IsBoolean, IsDate, IsObject, IsOptional, IsString, IsArray, ValidateNes
 import { Type } from 'class-transformer';
 import { MaintenanceDto } from './maintenance.dto';
 
-import { ProductMaintenanceStepDto } from './../inventory/product-maintenance-step.dto';
-
 import { MaintenanceStepDetailDto } from './maintenance-step-detail.dto';
 
 import { PaginationDto } from 'src/api/v1/shared/global/domain/dto/pagination.dto';
@@ -15,10 +13,6 @@ export class MaintenanceStepDto{
 	@IsOptional()
 	@IsString()
 	maintenanceUuid: string;
-
-	@IsOptional()
-	@IsString()
-	productMaintenanceStepUuid: string;
 
 	@IsOptional()
 	@IsBoolean()
@@ -35,10 +29,6 @@ export class MaintenanceStepDto{
 	@IsOptional()
 	@IsObject()
 	maintenance: MaintenanceDto;
-
-	@IsOptional()
-	@IsObject()
-	productMaintenanceStep: ProductMaintenanceStepDto;
 
 	@IsOptional()
 	@IsArray()

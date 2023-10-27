@@ -62,10 +62,6 @@ export class Product extends Model {
   })
   priceCost?: string;
 
-  @Column({ field: 'parent_uuid', allowNull: true, type: DataType.UUID })
-  @Index({ name: 'product_parent_uuid_idx', using: 'btree', unique: false })
-  parentUuid?: string;
-
   @ForeignKey(() => Measure)
   @Column({ field: 'measure_uuid', allowNull: true, type: DataType.UUID })
   @Index({ name: 'product_measure_uuid_idx', using: 'btree', unique: false })

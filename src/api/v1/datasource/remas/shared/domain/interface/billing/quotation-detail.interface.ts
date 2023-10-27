@@ -22,6 +22,8 @@ export interface QuotationDetailInterface{
 
 	inventoryMovementUuid: string;
 
+	parentUuid: string;
+
 	condition: boolean;
 
 	createdAt: Date;
