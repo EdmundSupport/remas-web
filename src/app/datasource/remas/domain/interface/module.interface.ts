@@ -1,24 +1,24 @@
-import { PaginationInterface } from "./pagination.interface";
-import { PermissionInterface } from "./permission.interface";
-import { PrivilegeInterface } from "./privilege.interface";
+import { PrivilegeInterface } from './privilege.interface';
 
+import { PermissionInterface } from './permission.interface';
+
+import { PaginationInterface } from './pagination.interface';
 export interface ModuleInterface{
+	uuid: string;
 
-            uuid: string;
+	keyName: string;
 
-            keyName: string;
+	name: string;
 
-            name: string;
+	condition: boolean;
 
-            condition: boolean;
+	createdAt: Date;
 
-            createdAt: Date;
+	updatedAt: Date;
 
-            updatedAt: Date;
+	privileges: PrivilegeInterface[];
 
-                    privileges: PrivilegeInterface[];
+	permissions: PermissionInterface[];
 
-                    permissions: PermissionInterface[];
-
-            pagination: PaginationInterface;
+	pagination: PaginationInterface;
 }

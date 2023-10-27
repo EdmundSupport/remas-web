@@ -1,27 +1,28 @@
-import { UserInterface } from "./user.interface";
-import { PermissionInterface } from "./permission.interface";
-import { RolePermissionInterface } from "./role-permission.interface";
-import { PaginationInterface } from "./pagination.interface";
+import { UserInterface } from './user.interface';
 
+import { PermissionInterface } from './permission.interface';
+
+import { RolePermissionInterface } from './role-permission.interface';
+
+import { PaginationInterface } from './pagination.interface';
 export interface RoleInterface{
+	uuid: string;
 
-            uuid: string;
+	keyName: string;
 
-            keyName: string;
+	name: string;
 
-            name: string;
+	condition: boolean;
 
-            condition: boolean;
+	createdAt: Date;
 
-            createdAt: Date;
+	updatedAt: Date;
 
-            updatedAt: Date;
+	users: UserInterface[];
 
-                    users: UserInterface[];
+	permissions: PermissionInterface[];
 
-                    permissions: PermissionInterface[];
+	rolePermissions: RolePermissionInterface[];
 
-                    rolePermissions: RolePermissionInterface[];
-
-            pagination: PaginationInterface;
+	pagination: PaginationInterface;
 }

@@ -24,8 +24,6 @@ export interface MeasureUnitInterface{
 
 	factorConversion: string;
 
-	parentUuid: string;
-
 	measureUuid: string;
 
 	condition: boolean;

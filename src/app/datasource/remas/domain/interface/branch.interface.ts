@@ -1,12 +1,12 @@
-import { ChargeInterface } from './charge.interface';
+import { CompanyInterface } from './company.interface';
 
 import { PaginationInterface } from './pagination.interface';
-export interface ChargeStatusInterface{
+export interface BranchInterface{
 	uuid: string;
 
-	keyName: string;
-
 	name: string;
+
+	companyUuid: string;
 
 	condition: boolean;
 
@@ -14,7 +14,7 @@ export interface ChargeStatusInterface{
 
 	updatedAt: Date;
 
-	charges: ChargeInterface[];
+	company: CompanyInterface;
 
 	pagination: PaginationInterface;
 }

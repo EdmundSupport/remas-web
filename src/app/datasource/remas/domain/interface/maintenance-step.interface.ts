@@ -1,16 +1,22 @@
-import { ProductInterface } from "./product.interface";
-import { MaintenanceInterface } from "./maintenance.interface";
-import { ProductMaintenanceStepInterface } from "./product-maintenance-step.interface";
-import { MaintenanceStepDetailInterface } from "./maintenance-step-detail.interface";
+import { MaintenanceInterface } from './maintenance.interface';
 
+import { MaintenanceStepDetailInterface } from './maintenance-step-detail.interface';
+
+import { PaginationInterface } from './pagination.interface';
 export interface MaintenanceStepInterface{
-    uuid: string;
-    maintenanceUuid: string;
-    productMaintenanceStepUuid: string;
-    condition: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    maintenance: MaintenanceInterface;
-    productMaintenanceStep: ProductMaintenanceStepInterface;
-    maintenanceStepDetails: MaintenanceStepDetailInterface[];
+	uuid: string;
+
+	maintenanceUuid: string;
+
+	condition: boolean;
+
+	createdAt: Date;
+
+	updatedAt: Date;
+
+	maintenance: MaintenanceInterface;
+
+	maintenanceStepDetails: MaintenanceStepDetailInterface[];
+
+	pagination: PaginationInterface;
 }

@@ -1,20 +1,14 @@
-import { ChargeInterface } from './charge.interface';
-
 import { PaginationInterface } from './pagination.interface';
-export interface ChargeStatusInterface{
+export interface SupplierInterface{
 	uuid: string;
 
-	keyName: string;
-
-	name: string;
+	tributeUuid: string;
 
 	condition: boolean;
 
 	createdAt: Date;
 
 	updatedAt: Date;
-
-	charges: ChargeInterface[];
 
 	pagination: PaginationInterface;
 }

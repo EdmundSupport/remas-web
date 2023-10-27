@@ -1,12 +1,14 @@
-import { ChargeInterface } from './charge.interface';
+import { SessionInterface } from './session.interface';
 
 import { PaginationInterface } from './pagination.interface';
-export interface ChargeStatusInterface{
+export interface SessionTypeInterface{
 	uuid: string;
 
 	keyName: string;
 
 	name: string;
+
+	time: string;
 
 	condition: boolean;
 
@@ -14,7 +16,7 @@ export interface ChargeStatusInterface{
 
 	updatedAt: Date;
 
-	charges: ChargeInterface[];
+	sessions: SessionInterface[];
 
 	pagination: PaginationInterface;
 }

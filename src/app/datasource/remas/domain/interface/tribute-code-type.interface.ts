@@ -1,7 +1,7 @@
-import { ChargeInterface } from './charge.interface';
+import { TributeInterface } from './tribute.interface';
 
 import { PaginationInterface } from './pagination.interface';
-export interface ChargeStatusInterface{
+export interface TributeCodeTypeInterface{
 	uuid: string;
 
 	keyName: string;
@@ -14,7 +14,7 @@ export interface ChargeStatusInterface{
 
 	updatedAt: Date;
 
-	charges: ChargeInterface[];
+	tributes: TributeInterface[];
 
 	pagination: PaginationInterface;
 }

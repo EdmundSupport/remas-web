@@ -1,20 +1,34 @@
-import { ChargeInterface } from "./charge.interface";
-import { DischargeInterface } from "./discharge.interface";
-import { PaginationInterface } from "./pagination.interface";
-import { PersonInterface } from "./person.interface";
-import { RoleInterface } from "./role.interface";
+import { SessionInterface } from './session.interface';
 
-export interface UserInterface {
-    uuid: string;
-    name: string;
-    password: string;
-    condition: boolean;
-    roleUuid: string;
-    createdAt: Date;
-    updatedAt: Date;
-    persons: PersonInterface[];
-    charges: ChargeInterface[];
-    discharges: DischargeInterface[];
-    role: RoleInterface;
-    pagination: PaginationInterface;
+import { RoleInterface } from './role.interface';
+
+import { PersonInterface } from './person.interface';
+
+import { UserPersonInterface } from './user-person.interface';
+
+import { PaginationInterface } from './pagination.interface';
+export interface UserInterface{
+	uuid: string;
+
+	name: string;
+
+	password: string;
+
+	condition: boolean;
+
+	roleUuid: string;
+
+	createdAt: Date;
+
+	updatedAt: Date;
+
+	sessions: SessionInterface[];
+
+	role: RoleInterface;
+
+	people: PersonInterface[];
+
+	userPeople: UserPersonInterface[];
+
+	pagination: PaginationInterface;
 }

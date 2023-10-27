@@ -2,6 +2,7 @@ import { MaintenanceInterface } from './maintenance.interface';
 
 import { QuotationInterface } from './quotation.interface';
 
+import { PaginationInterface } from './pagination.interface';
 export interface QuotationMaintenanceInterface{
 	uuid: string;
 
@@ -19,4 +20,5 @@ export interface QuotationMaintenanceInterface{
 
 	quotation: QuotationInterface;
 
+	pagination: PaginationInterface;
 }

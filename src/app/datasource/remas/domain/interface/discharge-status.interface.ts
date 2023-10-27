@@ -1,21 +1,20 @@
-import { DischargeInterface } from "./discharge.interface";
-import { PaginationInterface } from "./pagination.interface";
+import { DischargeInterface } from './discharge.interface';
 
-export interface DischargeStatusInterface {
+import { PaginationInterface } from './pagination.interface';
+export interface DischargeStatusInterface{
+	uuid: string;
 
-        uuid: string;
+	keyName: string;
 
-        keyName: string;
+	name: string;
 
-        name: string;
+	condition: boolean;
 
-        condition: boolean;
+	createdAt: Date;
 
-        createdAt: Date;
+	updatedAt: Date;
 
-        updatedAt: Date;
+	discharges: DischargeInterface[];
 
-        discharges: DischargeInterface[];
-
-        pagination: PaginationInterface;
+	pagination: PaginationInterface;
 }

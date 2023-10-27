@@ -1,37 +1,38 @@
-import { UserInterface } from "./user.interface";
-import { DischargeStatusInterface } from "./discharge-status.interface";
-import { DischargeDetailScheduledInterface } from "./discharge-detail-scheduled.interface";
-import { PaginationInterface } from "./pagination.interface";
+import { DischargeStatusInterface } from './discharge-status.interface';
 
-export interface DischargeInterface {
+import { UserInterface } from './user.interface';
 
-        uuid: string;
+import { DischargeDetailScheduledInterface } from './discharge-detail-scheduled.interface';
 
-        number: string;
+import { PaginationInterface } from './pagination.interface';
+export interface DischargeInterface{
+	uuid: string;
 
-        dateStartScheduled: Date;
+	number: string;
 
-        dateEndScheduled: Date;
+	dateStartScheduled: Date;
 
-        dateStart: Date;
+	dateEndScheduled: Date;
 
-        dateEnd: Date;
+	dateStart: Date;
 
-        userUuid: string;
+	dateEnd: Date;
 
-        dischargeStatusUuid: string;
+	userUuid: string;
 
-        condition: boolean;
+	dischargeStatusUuid: string;
 
-        createdAt: Date;
+	condition: boolean;
 
-        updatedAt: Date;
+	createdAt: Date;
 
-        dischargeStatus: DischargeStatusInterface;
+	updatedAt: Date;
 
-        user: UserInterface;
+	dischargeStatus: DischargeStatusInterface;
 
-        dischargeDetailScheduleds: DischargeDetailScheduledInterface[];
+	user: UserInterface;
 
-        pagination: PaginationInterface;
+	dischargeDetailScheduleds: DischargeDetailScheduledInterface[];
+
+	pagination: PaginationInterface;
 }

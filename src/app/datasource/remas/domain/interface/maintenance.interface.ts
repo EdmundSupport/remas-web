@@ -1,12 +1,14 @@
 import { UserInterface } from './user.interface';
 
+import { ProductInterface } from './product.interface';
+
 import { MaintenanceStatusInterface } from './maintenance-status.interface';
 
 import { MaintenanceStepInterface } from './maintenance-step.interface';
 
 import { QuotationMaintenanceInterface } from './quotation-maintenance.interface';
-import { ProductInterface } from './product.interface';
 
+import { PaginationInterface } from './pagination.interface';
 export interface MaintenanceInterface{
 	uuid: string;
 
@@ -33,6 +35,7 @@ export interface MaintenanceInterface{
 	updatedAt: Date;
 
 	user: UserInterface;
+
 	product: ProductInterface;
 
 	maintenanceStatus: MaintenanceStatusInterface;
@@ -41,4 +44,5 @@ export interface MaintenanceInterface{
 
 	quotationMaintenance: QuotationMaintenanceInterface;
 
+	pagination: PaginationInterface;
 }

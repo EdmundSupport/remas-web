@@ -1,5 +1,6 @@
 import { QuotationInterface } from './quotation.interface';
 
+import { PaginationInterface } from './pagination.interface';
 export interface QuotationChargeInterface{
 	uuid: string;
 
@@ -15,4 +16,5 @@ export interface QuotationChargeInterface{
 
 	quotation: QuotationInterface;
 
+	pagination: PaginationInterface;
 }

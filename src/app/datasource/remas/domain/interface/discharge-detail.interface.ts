@@ -1,31 +1,26 @@
-import { DischargeInterface } from "./discharge.interface";
-import { ProductInterface } from "./product.interface";
-import { MeasureUnitInterface } from "./measure-unit.interface";
-import { DischargeDetailScheduledInterface } from "./discharge-detail-scheduled.interface";
-import { PaginationInterface } from "./pagination.interface";
+import { DischargeDetailScheduledInterface } from './discharge-detail-scheduled.interface';
 
-export interface DischargeDetailInterface {
+import { MeasureUnitInterface } from './measure-unit.interface';
 
-    uuid: string;
+import { PaginationInterface } from './pagination.interface';
+export interface DischargeDetailInterface{
+	uuid: string;
 
-    dischargeDetailScheduledUuid: string;
+	dischargeDetailScheduledUuid: string;
 
-    amount: string;
+	amount: string;
 
+	measureUnitUuid: string;
 
-    measureUnitUuid: string;
+	condition: boolean;
 
-    condition: boolean;
+	createdAt: Date;
 
-    createdAt: Date;
+	updatedAt: Date;
 
-    updatedAt: Date;
+	dischargeDetailScheduled: DischargeDetailScheduledInterface;
 
-    discharge: DischargeInterface;
+	measureUnit: MeasureUnitInterface;
 
-    measureUnit: MeasureUnitInterface;
-
-    dischargeDetailScheduled: DischargeDetailScheduledInterface;
-
-    pagination: PaginationInterface;
+	pagination: PaginationInterface;
 }

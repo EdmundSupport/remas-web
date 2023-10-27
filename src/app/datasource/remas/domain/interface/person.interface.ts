@@ -1,14 +1,28 @@
+import { PaginationInterface } from './pagination.interface';
 export interface PersonInterface{
-    uuid: string;
-    number: string;
-    nameFirst: string;
-    nameSecond: string;
-    nameOther: string;
-    surnameFirst: string;
-    surnameSecond: string;
-    surnameOther: string;
-    birthday: Date;
-    condition: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+	uuid: string;
+
+	number: string;
+
+	nameFirst: string;
+
+	nameSecond: string;
+
+	nameOther: string;
+
+	surnameFirst: string;
+
+	surnameSecond: string;
+
+	surnameOther: string;
+
+	birthday: Date;
+
+	condition: boolean;
+
+	createdAt: Date;
+
+	updatedAt: Date;
+
+	pagination: PaginationInterface;
 }

@@ -1,12 +1,12 @@
-import { ChargeInterface } from './charge.interface';
+import { CityInterface } from './city.interface';
 
 import { PaginationInterface } from './pagination.interface';
-export interface ChargeStatusInterface{
+export interface AddressInterface{
 	uuid: string;
 
-	keyName: string;
+	description: string;
 
-	name: string;
+	cityUuid: string;
 
 	condition: boolean;
 
@@ -14,7 +14,7 @@ export interface ChargeStatusInterface{
 
 	updatedAt: Date;
 
-	charges: ChargeInterface[];
+	city: CityInterface;
 
 	pagination: PaginationInterface;
 }

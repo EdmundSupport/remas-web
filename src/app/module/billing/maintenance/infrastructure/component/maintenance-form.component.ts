@@ -15,6 +15,8 @@ import { ProductInterface } from 'src/app/datasource/remas/domain/interface/prod
 import { ProductService } from 'src/app/datasource/remas/application/service/product.service';
 import { ProductMaintenanceStepInterface } from 'src/app/datasource/remas/domain/interface/product-maintenance-step.interface';
 import { MaintenanceTrackingService } from 'src/app/datasource/remas/application/service/maintenance-tracking.service';
+import { MaintenanceStepInterface } from 'src/app/datasource/remas/domain/interface/maintenance-step.interface';
+import { MaintenanceStepDetailInterface } from 'src/app/datasource/remas/domain/interface/maintenance-step-detail.interface';
 
 @Component({
     selector: 'app-maintenance-form',
@@ -90,16 +92,20 @@ export class MaintenanceFormComponent {
                 }
                 const product: ProductInterface = result;
                 if (product) {
-                    product.productMaintenanceSteps = product.productMaintenanceSteps.map((productMaintenanceStep) => {
-                        const maintenanceStep = this.maintenance.maintenanceSteps?.find((maintenanceStep) => maintenanceStep.productMaintenanceStepUuid == productMaintenanceStep.uuid);
-                        productMaintenanceStep.productMaintenanceStepDetails = productMaintenanceStep.productMaintenanceStepDetails.map((productMaintenanceStepDetail) => {
-                            const maintenanceStepDetail = maintenanceStep?.maintenanceStepDetails.find((maintenanceStepDetail) => maintenanceStepDetail.productMaintenanceStepDetailUuid == productMaintenanceStepDetail.uuid);
-                            productMaintenanceStepDetail.maintenanceStepDetails = maintenanceStepDetail ? [maintenanceStepDetail] : [];
-                            return productMaintenanceStepDetail;
-                        }) ?? [];
-
-                        productMaintenanceStep.maintenanceSteps = maintenanceStep ? [maintenanceStep] : [];
-                        return productMaintenanceStep;
+                    product.productMaintenanceSteps.map((step)=>{
+                        const newStep: Partial<MaintenanceStepInterface> = {
+                            condition: false,
+                            maintenanceStepDetails: [],
+                        }
+                        newStep.maintenanceStepDetails = step.productMaintenanceStepDetails.map((detail)=>{
+                            const newDetail: Partial<MaintenanceStepDetailInterface> = {
+                                amount: detail.amount,
+                                price: detail.price,
+                                productUuid: detail.productUuid,
+                                measureUnitUuid: detail.measureUnitUuid,
+                            }
+                            return newDetail;
+                        }) as any;
                     });
                 }
                 // delete result['productMaintenanceSteps'];
@@ -135,23 +141,23 @@ export class MaintenanceFormComponent {
         }, timeMs);
         const maintenance = { ...this.maintenance };
         
-        maintenance.maintenanceSteps = maintenance.product?.productMaintenanceSteps.map((productMaintenanceStep) => {
-            const maintenanceStep: any = {};
-            maintenanceStep['productMaintenanceStepUuid'] = productMaintenanceStep.uuid;
-            maintenanceStep['maintenanceUuid'] = this.maintenance.uuid;
-            if (!(productMaintenanceStep && productMaintenanceStep.productMaintenanceStepDetails && productMaintenanceStep.productMaintenanceStepDetails.length > 0)){
-                maintenanceStep['condition'] = productMaintenanceStep.condition;
-            }
+        // maintenance.maintenanceSteps = maintenance.product?.productMaintenanceSteps.map((productMaintenanceStep) => {
+        //     const maintenanceStep: any = {};
+        //     maintenanceStep['productMaintenanceStepUuid'] = productMaintenanceStep.uuid;
+        //     maintenanceStep['maintenanceUuid'] = this.maintenance.uuid;
+        //     if (!(productMaintenanceStep && productMaintenanceStep.productMaintenanceStepDetails && productMaintenanceStep.productMaintenanceStepDetails.length > 0)){
+        //         maintenanceStep['condition'] = productMaintenanceStep.condition;
+        //     }
 
-            maintenanceStep['maintenanceStepDetails'] = productMaintenanceStep.productMaintenanceStepDetails.map((productMaintenanceStepDetail, index, array) => {
-                if(!productMaintenanceStepDetail.maintenanceStepDetails[0].measureUnitUuid){
-                    array.splice(index, 1);
-                    return;
-                }
-                return productMaintenanceStepDetail.maintenanceStepDetails;
-            }).flat();
-            return maintenanceStep;
-        });
+        //     maintenanceStep['maintenanceStepDetails'] = productMaintenanceStep.productMaintenanceStepDetails.map((productMaintenanceStepDetail, index, array) => {
+        //         if(!productMaintenanceStepDetail.maintenanceStepDetails[0].measureUnitUuid){
+        //             array.splice(index, 1);
+        //             return;
+        //         }
+        //         return productMaintenanceStepDetail.maintenanceStepDetails;
+        //     }).flat();
+        //     return maintenanceStep;
+        // });
 
         maintenance.maintenanceSteps = maintenance.maintenanceSteps?.filter((maintenanceStep) => {
             const details = maintenanceStep.maintenanceStepDetails.filter((maintenanceStepDetail) => (maintenanceStepDetail?.amount && maintenanceStepDetail?.amount != '' && maintenanceStepDetail?.price && maintenanceStepDetail?.price != ''))

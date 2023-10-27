@@ -1,19 +1,34 @@
-import { MaintenanceStepInterface } from "./maintenance-step.interface";
-import { ProductInterface } from "./product.interface";
-import { MeasureUnitInterface } from "./measure-unit.interface";
-import { ProductMaintenanceStepDetailInterface } from "./product-maintenance-step-detail.interface";
+import { ProductInterface } from './product.interface';
 
+import { MaintenanceStepInterface } from './maintenance-step.interface';
+
+import { MeasureUnitInterface } from './measure-unit.interface';
+
+import { PaginationInterface } from './pagination.interface';
 export interface MaintenanceStepDetailInterface{
-    uuid: string;
-    amount: string;
-    price: string;
-    maintenanceStepUuid: string;
-    measureUnitUuid: string;
-    productMaintenanceStepDetailUuid: string;
-    condition: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    maintenanceStep: MaintenanceStepInterface;
-    productMaintenanceStepDetail: ProductMaintenanceStepDetailInterface;
-    measureUnit: MeasureUnitInterface;
+	uuid: string;
+
+	amount: string;
+
+	price: string;
+
+	maintenanceStepUuid: string;
+
+	productUuid: string;
+
+	measureUnitUuid: string;
+
+	condition: boolean;
+
+	createdAt: Date;
+
+	updatedAt: Date;
+
+	product: ProductInterface;
+
+	maintenanceStep: MaintenanceStepInterface;
+
+	measureUnit: MeasureUnitInterface;
+
+	pagination: PaginationInterface; 
 }

@@ -6,6 +6,9 @@ import { QuotationDetailInterface } from './quotation-detail.interface';
 
 import { QuotationMaintenanceInterface } from './quotation-maintenance.interface';
 
+import { QuotationChargeInterface } from './quotation-charge.interface';
+
+import { PaginationInterface } from './pagination.interface';
 export interface QuotationInterface{
 	uuid: string;
 
@@ -31,4 +34,7 @@ export interface QuotationInterface{
 
 	quotationMaintenance: QuotationMaintenanceInterface;
 
+	quotationCharge: QuotationChargeInterface;
+
+	pagination: PaginationInterface;
 }

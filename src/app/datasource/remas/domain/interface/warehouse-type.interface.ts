@@ -1,10 +1,10 @@
-import { ChargeInterface } from './charge.interface';
+import { WarehouseInterface } from './warehouse.interface';
 
 import { PaginationInterface } from './pagination.interface';
-export interface ChargeStatusInterface{
+export interface WarehouseTypeInterface{
 	uuid: string;
 
-	keyName: string;
+	key: string;
 
 	name: string;
 
@@ -14,7 +14,7 @@ export interface ChargeStatusInterface{
 
 	updatedAt: Date;
 
-	charges: ChargeInterface[];
+	warehouses: WarehouseInterface[];
 
 	pagination: PaginationInterface;
 }

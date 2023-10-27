@@ -1,4 +1,4 @@
-<app-superposition-loading *ngIf="onSaveLoading$ | async">
+<!-- <app-superposition-loading *ngIf="onSaveLoading$ | async">
     <mat-spinner></mat-spinner>
 </app-superposition-loading>
 <div>
@@ -15,7 +15,7 @@
         </mat-form-field>
     </div>
     <div class="modules">
-        <ng-container *ngFor="let module of modules; let i = index"> <!-- desplegar modulos-->
+        <ng-container *ngFor="let module of modules; let i = index"> 
             <mat-accordion>
                 <mat-expansion-panel hideToggle>
                     <mat-expansion-panel-header>
@@ -36,5 +36,5 @@
         </ng-container>
     </div>
 </div>
-<!-- <app-button-float [iconName]="'add'" (onClick)="onAddDetail()" /> -->
-<app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" />
+<app-button-float [iconName]="'add'" (onClick)="onAddDetail()" />
+<app-button-float [position]="2" [iconName]="'save'" (onClick)="onSave()" /> -->

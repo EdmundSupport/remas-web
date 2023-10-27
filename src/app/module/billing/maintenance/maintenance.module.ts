@@ -28,13 +28,13 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { NgxMatNativeDateModule, NgxMatDatetimePickerModule, NgxMatTimepickerModule } from "@angular-material-components/datetime-picker";
 
-@NgModule({
+@NgModule({ 
     declarations: [
         MaintenanceComponent,
-        MaintenanceFormComponent,
-        MaintenanceStepComponent,
-        MaintenanceStepDetailComponent,
-        MaintenanceStepDetailMultipleComponent,
+        // MaintenanceFormComponent,
+        // MaintenanceStepComponent,
+        // MaintenanceStepDetailComponent,
+        // MaintenanceStepDetailMultipleComponent,
     ],  
     imports: [
         CommonModule,

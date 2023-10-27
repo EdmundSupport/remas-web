@@ -1,37 +1,38 @@
-import { UserInterface } from "./user.interface";
-import { ChargeStatusInterface } from "./charge-status.interface";
-import { ChargeDetailScheduledInterface } from "./charge-detail-scheduled.interface";
-import { PaginationInterface } from "./pagination.interface";
+import { ChargeStatusInterface } from './charge-status.interface';
 
-export interface ChargeInterface {
+import { UserInterface } from './user.interface';
 
-        uuid: string;
+import { ChargeDetailScheduledInterface } from './charge-detail-scheduled.interface';
 
-        number: string;
+import { PaginationInterface } from './pagination.interface';
+export interface ChargeInterface{
+	uuid: string;
 
-        dateStartScheduled: Date;
+	number: string;
 
-        dateEndScheduled: Date;
+	dateStartScheduled: Date;
 
-        dateStart: Date;
+	dateEndScheduled: Date;
 
-        dateEnd: Date;
+	dateStart: Date;
 
-        userUuid: string;
+	dateEnd: Date;
 
-        chargeStatusUuid: string;
+	userUuid: string;
 
-        condition: boolean;
+	chargeStatusUuid: string;
 
-        createdAt: Date;
+	condition: boolean;
 
-        updatedAt: Date;
+	createdAt: Date;
 
-        chargeStatus: ChargeStatusInterface;
+	updatedAt: Date;
 
-        user: UserInterface;
+	chargeStatus: ChargeStatusInterface;
 
-        chargeDetailScheduleds: ChargeDetailScheduledInterface[];
+	user: UserInterface;
 
-        pagination: PaginationInterface;
+	chargeDetailScheduleds: ChargeDetailScheduledInterface[];
+
+	pagination: PaginationInterface;
 }

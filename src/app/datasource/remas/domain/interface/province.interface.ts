@@ -1,12 +1,14 @@
-import { CompanyInterface } from './company.interface';
+import { CountryInterface } from './country.interface';
 
-import { ClientInterface } from './client.interface';
+import { CityInterface } from './city.interface';
 
 import { PaginationInterface } from './pagination.interface';
-export interface TributeInterface{
+export interface ProvinceInterface{
 	uuid: string;
 
 	code: string;
+
+	name: string;
 
 	countryUuid: string;
 
@@ -16,9 +18,9 @@ export interface TributeInterface{
 
 	updatedAt: Date;
 
-	companies: CompanyInterface[];
+	country: CountryInterface;
 
-	clients: ClientInterface[];
+	cities: CityInterface[];
 
 	pagination: PaginationInterface;
 }

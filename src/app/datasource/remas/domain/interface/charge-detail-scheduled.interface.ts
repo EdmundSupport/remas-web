@@ -1,35 +1,36 @@
-import { ChargeInterface } from "./charge.interface";
-import { ProductInterface } from "./product.interface";
-import { MeasureUnitInterface } from "./measure-unit.interface";
-import { ChargeDetailInterface } from "./charge-detail.interface";
-import { PaginationInterface } from "./pagination.interface";
+import { ChargeInterface } from './charge.interface';
 
-export interface ChargeDetailScheduledInterface {
+import { ProductInterface } from './product.interface';
 
-        uuid: string;
+import { MeasureUnitInterface } from './measure-unit.interface';
 
-        chargeUuid: string;
+import { ChargeDetailInterface } from './charge-detail.interface';
 
-        amount: string;
+import { PaginationInterface } from './pagination.interface';
+export interface ChargeDetailScheduledInterface{
+	uuid: string;
 
+	chargeUuid: string;
 
-        productUuid: string;
+	amount: string;
 
-        measureUnitUuid: string;
+	productUuid: string;
 
-        condition: boolean;
+	measureUnitUuid: string;
 
-        createdAt: Date;
+	condition: boolean;
 
-        updatedAt: Date;
+	createdAt: Date;
 
-        charge: ChargeInterface;
+	updatedAt: Date;
 
-        product: ProductInterface;
+	charge: ChargeInterface;
 
-        measureUnit: MeasureUnitInterface;
+	product: ProductInterface;
 
-        chargeDetails: ChargeDetailInterface[];
+	measureUnit: MeasureUnitInterface;
 
-        pagination: PaginationInterface;
+	chargeDetails: ChargeDetailInterface[];
+
+	pagination: PaginationInterface;
 }

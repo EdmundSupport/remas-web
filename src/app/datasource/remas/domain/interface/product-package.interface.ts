@@ -28,9 +28,9 @@ export interface ProductPackageInterface{
 
 	updatedAt: Date;
 
-	productPackages: ProductInterface;
-
 	productPackage: ProductInterface;
+
+	productPackages: ProductInterface;
 
 	measureUnit: MeasureUnitInterface;
 

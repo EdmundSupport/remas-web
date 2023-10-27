@@ -4,8 +4,6 @@ import { ProductTypeInterface } from './product-type.interface';
 
 import { ProductPriceInterface } from './product-price.interface';
 
-import { PriceCategoryInterface } from './price-category.interface';
-
 import { ProductMaintenanceStepInterface } from './product-maintenance-step.interface';
 
 import { ProductMaintenanceStepDetailInterface } from './product-maintenance-step-detail.interface';
@@ -28,8 +26,6 @@ export interface ProductInterface{
 
 	priceCost: string;
 
-	parentUuid: string;
-
 	measureUuid: string;
 
 	productTypeUuid: string;
@@ -45,8 +41,6 @@ export interface ProductInterface{
 	productType: ProductTypeInterface;
 
 	productPrices: ProductPriceInterface[];
-
-	priceCategories: PriceCategoryInterface[];
 
 	productMaintenanceSteps: ProductMaintenanceStepInterface[];
 

@@ -1,10 +1,10 @@
-import { ChargeInterface } from './charge.interface';
+import { ProvinceInterface } from './province.interface';
 
 import { PaginationInterface } from './pagination.interface';
-export interface ChargeStatusInterface{
+export interface CountryInterface{
 	uuid: string;
 
-	keyName: string;
+	code: string;
 
 	name: string;
 
@@ -14,7 +14,7 @@ export interface ChargeStatusInterface{
 
 	updatedAt: Date;
 
-	charges: ChargeInterface[];
+	provinces: ProvinceInterface[];
 
 	pagination: PaginationInterface;
 }
