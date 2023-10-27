@@ -4,7 +4,7 @@ import { IsNotEmpty, IsArray, IsString, IsDate, ValidateNested, IsNumber } from 
 import { MaintenanceStepDetailDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance-step-detail.dto";
 import { MaintenanceStepDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance-step.dto";
 import { MaintenanceDto } from "src/api/v1/datasource/remas/shared/domain/dto/billing/maintenance.dto";
-export class CreateMaintenanceStepDetailDto extends PartialType(OmitType(MaintenanceStepDetailDto, ['amount','price','productMaintenanceStepDetailUuid','measureUnitUuid'])){
+export class CreateMaintenanceStepDetailDto extends PartialType(OmitType(MaintenanceStepDetailDto, ['amount','price','productUuid','measureUnitUuid'])){
     @IsNotEmpty()
     @IsNumber()
     amount: number;
@@ -15,17 +15,14 @@ export class CreateMaintenanceStepDetailDto extends PartialType(OmitType(Mainten
 
     @IsNotEmpty()
     @IsString()
-    productMaintenanceStepDetailUuid: string;
+    productUuid: string;
 
     @IsNotEmpty()
     @IsString()
     measureUnitUuid: string;
 }
 
-export class CreateMaintenanceStepDto extends PartialType(OmitType(MaintenanceStepDto, ['productMaintenanceStepUuid','maintenanceStepDetails'])){
-    @IsNotEmpty()
-    @IsString()
-    productMaintenanceStepUuid: string
+export class CreateMaintenanceStepDto extends PartialType(OmitType(MaintenanceStepDto, ['maintenanceStepDetails'])){
 
     @IsNotEmpty()
     @IsArray()

@@ -19,8 +19,8 @@ export class MaintenanceTrackingController {
         return this.maintenanceTrackingService.confirm(uuid, confirmUuid);
     }
 
-    @Patch('finalized/:uuid')
-    finalized(@Param('uuid', NewOrUUIDValidationPipe) uuid: string) {
-        return this.maintenanceTrackingService.finalized(uuid);
-    }
+    // @Patch('finalized/:uuid')
+    // finalized(@Param('uuid', NewOrUUIDValidationPipe) uuid: string) {
+    //     return this.maintenanceTrackingService.finalized(uuid);
+    // }
 }
