@@ -10,7 +10,7 @@
             <mat-label>Product</mat-label>
             <input type="text" placeholder="Product" matInput [(ngModel)]="product!"
                 (ngModelChange)="onChangeProduct($event)" [matAutocomplete]="productA" />
-            <mat-autocomplete #productA="matAutocomplete" [displayWith]="onShowProduct">
+            <mat-autocomplete #productA="matAutocomplete" [displayWith]="onShowProductSelected">
                 <mat-option *ngFor="let item of products" [value]="onShowProduct(item)" (click)="onSelectProduct(item)">
                     {{ onShowProduct(item) }}
                 </mat-option>

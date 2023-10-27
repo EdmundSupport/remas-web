@@ -14,7 +14,12 @@ import { ProductInterface } from "src/app/datasource/remas/domain/interface/prod
     // styleUrls: ['../style/product-package.style.scss'],
 })
 export class ProductPackageComponent {
-    @Input('detail') detail!: ProductPackageInterface;
+    @Input('detail') detail: Partial<ProductPackageInterface> = {
+        uuid: "",
+        amount: "",
+        price: "",
+        description: ""
+    };
     @Output('onDelete') onDelete = new EventEmitter();
 
     measureUnit!: MeasureUnitInterface;
@@ -36,7 +41,32 @@ export class ProductPackageComponent {
         private priceCategoryService: PriceCategoryService,
     ) { }
 
-    delete(){
+    ngOnInit() {
+        if (this.detail.productUuid) {
+            this.onLoadProduct({ uuid: this.detail.productUuid })?.add(() => {
+                const product = this.products.find((product) => product.uuid == this.detail.productUuid);
+                this.product = product!;
+
+                if (this.detail.priceCategoryUuid) {
+                    this.onLoadPriceCategory({ uuid: this.detail.priceCategoryUuid })?.add(() => {
+                        const priceCategory = this.priceCategories.find((priceCategory) => priceCategory.uuid == this.detail.priceCategoryUuid);
+                        this.priceCategory = priceCategory!;
+                    })
+                }
+
+                if (this.detail.measureUnitUuid) {
+                    this.onLoadMeasureUnit({ uuid: this.detail.measureUnitUuid })?.add(() => {
+                        const measureUnit = this.measureUnits.find((measureUnit) => measureUnit.uuid == this.detail.measureUnitUuid);
+                        this.measureUnit = measureUnit!;
+                    })
+                }
+            })
+        }
+
+
+    }
+
+    delete() {
         this.onDelete.emit();
     }
 
@@ -57,7 +87,7 @@ export class ProductPackageComponent {
     }
 
     onLoadMeasureUnit(filter: Partial<MeasureUnitInterface>) {
-        if(!this.product?.uuid){
+        if (!this.product?.uuid) {
             this.matSnackBar.open(`Debes seleccionar un producto para poder elegir la unidad de medida.`, `OK`);
             return;
         }
@@ -74,14 +104,13 @@ export class ProductPackageComponent {
 
     // region Autocomplete Product
     onChangeProduct(textProduct: string) {
+        this.detail.description = textProduct;
         if (this.productTimer) clearTimeout(this.productTimer);
 
         this.productTimer = setTimeout(() => {
             if (textProduct) {
-                this.onLoadProduct({ name: textProduct }).add(()=>{
-                    console.log("🚀 ~ file: product-package.component.ts:83 ~ ProductPackageComponent ~ this.onLoadProduct ~ this.products:", this.products)
-                    console.log("🚀 ~ file: product-package.component.ts:83 ~ ProductPackageComponent ~ this.onLoadProduct ~ this.detail:", this.detail)
-                    this.products = this.products.filter((product)=>product.uuid != this.detail.parentUuid);
+                this.onLoadProduct({ name: textProduct }).add(() => {
+                    this.products = this.products.filter((product) => product.uuid != this.detail.parentUuid);
                 });
             }
         }, 400);
@@ -89,6 +118,7 @@ export class ProductPackageComponent {
 
     onSelectProduct(product: ProductInterface) {
         this.product = product;
+        this.detail.description = this.product.name;
         this.detail.productUuid = this.product.uuid;
         this.detail.measureUnitUuid = undefined!;
         this.detail.priceCategoryUuid = undefined!;
@@ -104,12 +134,16 @@ export class ProductPackageComponent {
     onShowProduct(product: ProductInterface) {
         return product?.name ?? '';
     }
+
+    onShowProductSelected = (product: ProductInterface) => {
+        return this.detail?.description ?? product?.name ?? '';
+    }
     // endregion Autocomplete Product
 
     // region Autocomplete PriceCategory
     onChangePriceCategory(textPriceCategory: string) {
         const price = Number(textPriceCategory);
-        if(`${price}` != 'NaN'){
+        if (`${price}` != 'NaN') {
             this.detail.price = `${price}`;
         }
 
@@ -123,21 +157,20 @@ export class ProductPackageComponent {
     }
 
     onSelectPriceCategory(priceCategory: PriceCategoryInterface) {
-        console.log("🚀 ~ file: product-package.component.ts:123 ~ ProductPackageComponent ~ onSelectPriceCategory ~ priceCategory:", priceCategory)
         this.priceCategory = priceCategory;
         this.detail.priceCategoryUuid = this.priceCategory.uuid;
         const price = Number(priceCategory!.productPrices![0]!.amount!);
-        if(`${price}` != 'NaN'){
+        if (`${price}` != 'NaN') {
             this.detail.price = `${price}`;
         }
     }
 
     onLoadPriceCategory(filter: Partial<PriceCategoryInterface>) {
-        if(!this.product?.uuid){
+        if (!this.product?.uuid) {
             this.matSnackBar.open(`Debes seleccionar un producto para poder elegir el precio.`, `OK`);
             return;
         }
-        const payload = { pagination: { offset: 0, limit: 5 }, productPrices: [{productUuid: this.product.uuid, condition: true }] as any };
+        const payload = { pagination: { offset: 0, limit: 5 }, productPrices: [{ productUuid: this.product.uuid, condition: true }] as any };
         Object.assign(payload, filter);
         return this.priceCategoryService.onFind(payload)
             .subscribe((data) => this.priceCategories = data);
@@ -147,8 +180,8 @@ export class ProductPackageComponent {
         return priceCategory?.name ?? '';
     }
 
-    onShowPriceCategorySelected(priceCategory: PriceCategoryInterface){
-        return (priceCategory?.productPrices && priceCategory.productPrices[0]?.amount) ?? priceCategory?.name ?? '';
+    onShowPriceCategorySelected = (priceCategory: PriceCategoryInterface) => {
+        return this.detail?.price ?? (priceCategory?.productPrices && priceCategory.productPrices[0]?.amount) ?? '';
     }
     // endregion Autocomplete PriceCategory
 }
