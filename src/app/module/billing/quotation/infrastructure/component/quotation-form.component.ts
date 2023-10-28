@@ -11,6 +11,8 @@ import { BehaviorSubject, finalize } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SerializeHelper } from 'src/app/shared/serialize/application/helper/serialize.helper';
 import { QuotationTrackingService } from 'src/app/datasource/remas/application/service/quotation-tracking.service';
+import { ProductPackageInterface } from 'src/app/datasource/remas/domain/interface/product-package.interface';
+import { MatAutocomplete } from '@angular/material/autocomplete';
 
 @Component({
     selector: 'app-quotation-form',
@@ -28,6 +30,9 @@ export class QuotationFormComponent {
         clientUuid: '',
         quotationDetails: [],
     };
+
+    quotationDetailInput: {priceInput: ElementRef}[] = [];
+    quotationDetailColor: [] = []
 
     total!: number;
 
@@ -71,28 +76,30 @@ export class QuotationFormComponent {
         if (this.onSaveLoading$.getValue()) this.total = this.onTotal();
     }
 
-    onConfirm(){
-        this.quotationTrackingService.onConfirm(this.quotation.uuid!).subscribe((result)=>{
-            if(result?.statusCode && result?.statusCode != 200){
+    onConfirm() {
+        this.quotationTrackingService.onConfirm(this.quotation.uuid!).subscribe((result) => {
+            if (result?.statusCode && result?.statusCode != 200) {
                 this.matSnackBar.open(result?.message ?? 'No se pudo recuperar el error.', 'Ok');
                 return;
             }
-            
+
             this.matSnackBar.open('Cotizacion confirmada, se generaron las ordenes de mantenimiento.');
         });
     }
 
-    onSend(){
-        this.quotationTrackingService.onSend(this.quotation.uuid!)    
+    onSend() {
+        this.quotationTrackingService.onSend(this.quotation.uuid!)
         this.matSnackBar.open('Cotizacion enviada.');
     }
 
-    onLoad(index: number) {
+    onLoad(index: number, detail: { priceInput: ElementRef }) {
         const targetDiv = this.elementRef.nativeElement.querySelector('#detail' + index);
 
         if (targetDiv) {
             targetDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+
+        this.quotationDetailInput[index] = detail;
     }
 
     ngOnChanges(data: any) {
@@ -112,37 +119,7 @@ export class QuotationFormComponent {
             this.onSaveLoading$.next(false);
         }, timeMs);
 
-        if (!(this.quotation && this.quotation.clientUuid && this.quotation.clientUuid != ''))
-            return this.matSnackBar.open('Debes elegir a un cliente.', 'Ok') && this.onStopSaveLoading();
 
-        if (!(this.quotation && this.quotation.number))
-            return this.matSnackBar.open('Debes escribir un número.', 'Ok') && this.onStopSaveLoading();
-
-        if (!(this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails.length > 0))
-            return this.matSnackBar.open('Debes agregar el detalle de los productos.', 'Ok') && this.onStopSaveLoading();
-
-        for (let index = 0; index < this.quotation.quotationDetails.length; index++) {
-            const detail = this.quotation.quotationDetails[index];
-
-            if (!(detail && detail.description && detail.description != ''))
-                return this.matSnackBar.open(`Debes agregar la descripcion en un producto.`, 'Ok') && this.onStopSaveLoading();
-
-            if (!(detail && detail.amount && detail.amount != ''))
-                return this.matSnackBar.open(`Debes agregar la cantidad en el producto ${detail.description}.`, 'Ok') && this.onStopSaveLoading();
-
-            if (!(detail && detail.price && detail.price != ''))
-                return this.matSnackBar.open(`Debes agregar el precio en el producto ${detail.description}.`, 'Ok') && this.onStopSaveLoading();
-
-            if (!(detail && detail.productUuid))
-                return this.matSnackBar.open(`Hay un producto que tiene descripción, pero no se seleccionó el producto origen.`, 'Ok') && this.onStopSaveLoading();
-
-            if (!(detail && detail.measureUnitUuid))
-                return this.matSnackBar.open(`Debes elegir una unidad de medida en el producto ${detail.description}.`, 'Ok') && this.onStopSaveLoading();
-
-            if (!(detail && detail.priceCategoryUuid))
-                return this.matSnackBar.open(`El producto ${detail.description} tiene el precio agregado, pero no se seleccionó una categoria.`, 'Ok') && this.onStopSaveLoading();
-
-        }
         if (!(this.quotation && this.quotation.uuid && this.quotation.uuid != '' && SerializeHelper.isUUID(this.quotation.uuid))) {
             this.quotationService.onCreate(this.quotation as any).pipe(
                 finalize(() => this.onStopSaveLoading()))
@@ -204,13 +181,27 @@ export class QuotationFormComponent {
 
 
     onChangeDetail(index: number, detail: QuotationDetailInterface) {
-        if (this.quotation && this.quotation.quotationDetails && this.quotation.quotationDetails[index]) {
-            this.quotation.quotationDetails[index] = detail;
-            if (this.total || this.total == 0 || `${this.total}` == 'NaN') {
-                this.total = this.onTotal();
-            }
-        }
+        this.total = this.onTotal();
+        if (detail.parentUuid) {
+            const parentIndex = this.quotation?.quotationDetails?.findIndex((parent, detailIndex) => {
+                const isParent = ((parent.uuid && parent.uuid == detail.parentUuid) || `${detailIndex}` == detail.parentUuid);
+                return isParent;
+            }) ?? -1;
 
+            const parent = this.quotation?.quotationDetails && this.quotation?.quotationDetails[parentIndex];
+
+            const price = this.quotation?.quotationDetails?.reduce((price, child, childIndex) => {
+                if ((parent?.uuid && child.parentUuid == parent?.uuid) || child.parentUuid == `${parentIndex}`)
+                    return price + (Number(child.amount) * Number(child.price));
+                return price;
+            }, 0) ?? 0;
+
+            if (this.quotation.quotationDetails && this.quotation.quotationDetails[parentIndex]) {
+                this.quotation.quotationDetails[parentIndex].price = `${price}`;
+                this.quotationDetailInput[parentIndex].priceInput.nativeElement.value = `${price}`;
+            }
+            this.total = this.onTotal();
+        }
     }
 
     onDeleteDetail(index: number, detail: QuotationDetailInterface) {
@@ -227,18 +218,63 @@ export class QuotationFormComponent {
         this.total = this.onTotal();
     }
 
-    onTotal() {
-        if (this.quotation && this.quotation.quotationDetails) {
-            return this.quotation.quotationDetails.reduce((total, quotationDetail) => {
-                if (quotationDetail && quotationDetail.amount && quotationDetail.price) {
-                    const amount = Number.isNaN(quotationDetail.amount) ? 0 : Number(quotationDetail.amount);
-                    const price = Number.isNaN(quotationDetail.price) ? 0 : Number(quotationDetail.price);
-                    const op = total + (amount * price);
-                    return op;
-                } else return total + 0;
-            }, 0);
+    onLoadPackagesDetail = (index: number, packages: Partial<ProductPackageInterface>[]) => {
+        packages.forEach((productPackage) => {
+            const add: Partial<QuotationDetailInterface> = {}
+            add['parentUuid'] = `${index}`;
+            add['description'] = productPackage.description;
+            add['amount'] = productPackage.amount;
+            add['price'] = productPackage.price;
+            add['priceCategoryUuid'] = productPackage.priceCategoryUuid;
+            add['measureUnitUuid'] = productPackage.measureUnitUuid;
+
+            if (this.quotation && this.quotation.quotationDetails) this.quotation.quotationDetails.push(add as any);
+            else this.quotation.quotationDetails = [add as any];
+
+            this.total = this.onTotal();
+        });
+
+        const price = packages.reduce((price, productPackage) => price + (Number(productPackage.amount) * Number(productPackage.price)), 0);
+
+        if (this.quotation.quotationDetails) {
+            this.quotation.quotationDetails[index].price = `${price}`;
         }
-        return 0;
+    }
+
+    onLoadColorDetail(index: number, detail: QuotationDetailInterface){
+        const parentIndex = this.quotation?.quotationDetails?.findIndex((parent, detailIndex) => {
+            const isParent = ((parent.uuid && parent.uuid == detail.parentUuid) || `${detailIndex}` == detail.parentUuid);
+            return isParent;
+        }) ?? -1;
+
+        const parent = this.quotation?.quotationDetails && this.quotation?.quotationDetails[parentIndex];
+        return []
+    }
+
+    onTotal() {
+        return this.quotation?.quotationDetails?.reduce((total, quotationDetail) => {
+            if (quotationDetail?.parentUuid != null) return total;
+
+            if (quotationDetail && quotationDetail.amount && quotationDetail.price) {
+                const amount = Number.isNaN(quotationDetail.amount) ? 0 : Number(quotationDetail.amount);
+                const price = Number.isNaN(quotationDetail.price) ? 0 : Number(quotationDetail.price);
+                const op = total + (amount * price);
+                return op;
+            }
+            return total;
+        }, 0) ?? 0;
+
+        // if (this.quotation && this.quotation.quotationDetails) {
+        //     return this.quotation.quotationDetails.reduce((total, quotationDetail) => {
+        //         if (quotationDetail && quotationDetail.amount && quotationDetail.price) {
+        //             const amount = Number.isNaN(quotationDetail.amount) ? 0 : Number(quotationDetail.amount);
+        //             const price = Number.isNaN(quotationDetail.price) ? 0 : Number(quotationDetail.price);
+        //             const op = total + (amount * price);
+        //             return op;
+        //         } else return total + 0;
+        //     }, 0);
+        // }
+        // return 0;
     }
 
 

@@ -39,8 +39,8 @@
         Total: {{total}}
     </div>
     <ng-container *ngFor="let detail of quotation.quotationDetails; let i = index">
-        <app-quotation-form-detail (onLoad)="onLoad(i)" [attr.id]="'detail' + i" [detail]="detail"
-            (onDelete)="onDeleteDetail(i, $event)" (onChange)="onChangeDetail(i, $event)"></app-quotation-form-detail>
+        <app-quotation-form-detail (onLoadPackages)="onLoadPackagesDetail(i, $event)" (onChange)="onChangeDetail(i, $event)" (onLoad)="onLoad(i, $event)" [attr.id]="'detail' + i" [detail]="detail"
+            (onDelete)="onDeleteDetail(i, $event)"></app-quotation-form-detail>
     </ng-container>
 </div>
 <app-button-float [iconName]="'add'" (onClick)="onAddDetail()" />

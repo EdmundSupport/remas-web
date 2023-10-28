@@ -1,5 +1,5 @@
 import {
-    Component, ElementRef, EventEmitter, Input, Output, Renderer2,
+    Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild,
 } from '@angular/core';
 import { ProductInterface } from 'src/app/datasource/remas/domain/interface/product.interface';
 import { MeasureUnitInterface } from 'src/app/datasource/remas/domain/interface/measure-unit.interface';
@@ -11,6 +11,8 @@ import { MeasureUnitService } from 'src/app/datasource/remas/application/service
 import { ProductService } from 'src/app/datasource/remas/application/service/inventory-product.service';
 import { ClientInterface } from 'src/app/datasource/remas/domain/interface/client.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProductPackageInterface } from 'src/app/datasource/remas/domain/interface/product-package.interface';
+import { MatAutocomplete } from '@angular/material/autocomplete';
 
 @Component({
     selector: 'app-quotation-form-detail',
@@ -18,9 +20,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styleUrls: ['../style/quotation-form-detail.style.scss'],
 })
 export class QuotationFormDetailComponent {
+    @ViewChild('priceInput') priceInput!: ElementRef;
     @Output('onDelete') onDelete = new EventEmitter();
     @Output('onChange') onChange = new EventEmitter();
     @Output('onLoad') onLoad = new EventEmitter();
+    @Output('onLoadPackages') onLoadPackages = new EventEmitter<Partial<ProductPackageInterface>[]>();
     @Input('detail') detail!: QuotationDetailInterface;
 
     products: ProductInterface[] = [];
@@ -75,10 +79,14 @@ export class QuotationFormDetailComponent {
     }
 
     ngAfterViewInit() {
-        this.onLoad.emit();
+        if(this.priceInput){ 
+            this.onLoad.emit({
+                priceInput: this.priceInput
+            });
+        }
     }
 
-    ngOnChanges(data: any) {
+    ngModelChanges() {
         this.onChange.emit(this.detail);
     }
 
@@ -96,17 +104,19 @@ export class QuotationFormDetailComponent {
     }
 
     onSelectProduct(product: ProductInterface) {
-        this.product = product;
-        this.priceCategory = undefined as any;
-        this.detail.productUuid = this.product.uuid!;
-        this.onChange.emit(this.detail);
+        this.productService.onFindOne(product.uuid).subscribe((result) => {
+            this.product = result;
+            this.priceCategory = undefined as any;
+            this.detail.productUuid = this.product.uuid!;
+            this.onChange.emit(this.detail);
+        });
     }
 
     onLoadProduct(filter: Partial<ProductInterface>) {
         const payload = { pagination: { offset: 0, limit: 5 } };
         Object.assign(payload, filter);
         return this.productService.onFind(payload)
-            .subscribe((result) =>{ 
+            .subscribe((result) => {
                 if (result?.statusCode && result?.statusCode != 200) {
                     this.matSnackBar.open(result?.message ?? 'Ocurrio un error al filtrar el servidor.');
                     return;
@@ -155,7 +165,7 @@ export class QuotationFormDetailComponent {
         this.detail.price = textPriceCategory;
         this.onChange.emit(this.detail);
         if (this.priceCategoryTimer) clearTimeout(this.priceCategoryTimer);
-        
+
         this.priceCategoryTimer = setTimeout(() => {
             if (textPriceCategory && this.product && this.measureUnit) {
                 const productPrices: Partial<ProductPriceInterface>[] = [{
@@ -174,8 +184,9 @@ export class QuotationFormDetailComponent {
     onSelectPriceCategory(priceCategory: PriceCategoryInterface) {
         if (priceCategory && priceCategory.productPrices && priceCategory.productPrices[0]) {
             this.priceCategory = priceCategory;
-            this.detail.price = this.priceCategory.productPrices[0].amount;
+            this.detail.price = this.priceCategory?.productPrices && this.priceCategory.productPrices[0]?.amount;
             this.detail.priceCategoryUuid = this.priceCategory.uuid;
+            this.onLoadPackages.emit(this.product.productPackages)
             this.onChange.emit(this.detail);
         }
     }
@@ -191,10 +202,8 @@ export class QuotationFormDetailComponent {
             });
     }
 
-    onDisplayPriceCategory(priceCategory: PriceCategoryInterface) {
-        const price = (priceCategory && priceCategory.productPrices && priceCategory.productPrices[0]) ?
-            priceCategory.productPrices[0].amount : '0.00';
-        return price;
+    onDisplayPriceCategory = (priceCategory: PriceCategoryInterface) => {
+        return this.detail.price ?? (priceCategory?.productPrices && priceCategory.productPrices[0]?.amount) ?? '0';
     }
 
     onShowPriceCategory(priceCategory: PriceCategoryInterface) {

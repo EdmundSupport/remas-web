@@ -3,7 +3,7 @@
         <div class="amount">
             <mat-form-field [subscriptSizing]="'dynamic'">
                 <mat-label>Cant.</mat-label>
-                <input type="text" placeholder="Cant." [(ngModel)]="detail.amount" matInput />
+                <input type="text" placeholder="Cant." [(ngModel)]="detail.amount" (ngModelChange)="ngModelChanges()" matInput />
             </mat-form-field>
         </div>
         <div class="description">
@@ -36,8 +36,8 @@
         </div>
         <div class="price">
             <mat-form-field [subscriptSizing]="'dynamic'">
-                <mat-label>Precio</mat-label>
-                <input type="text" placeholder="Precio" matInput [(ngModel)]="priceCategory"
+                <mat-label>Precio - {{detail.price}}</mat-label>
+                <input type="text" #priceInput placeholder="Precio" matInput [(ngModel)]="priceCategory"
                     (ngModelChange)="onChangePriceCategory($event)" [matAutocomplete]="price" />
                 <mat-autocomplete #price="matAutocomplete" [displayWith]="onDisplayPriceCategory">
                     <mat-option *ngFor="let item of pricesCategory" [value]="onShowPriceCategory(item)"
